@@ -342,7 +342,7 @@ class _DetailedCuotasCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
       onPressed: () => {
-        if(estadoCuota == "EN PLANILLA")
+        if(estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO")
           Navigator.push(
             context,
             MaterialPageRoute(

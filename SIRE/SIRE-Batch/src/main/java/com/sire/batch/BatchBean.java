@@ -344,6 +344,7 @@ public class BatchBean {
                 logger.error(e);
             }
         }
+    }
 
     private static Properties getProperties() {
         if(Objects.nonNull(runtimeParameters))

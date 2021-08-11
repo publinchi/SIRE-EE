@@ -267,6 +267,7 @@ class _UsernameInput extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(maxWidth: maxWidth ?? double.infinity),
         child: TextField(
+          keyboardType: TextInputType.number,
           textInputAction: TextInputAction.next,
           controller: usernameController,
           decoration: InputDecoration(
@@ -295,6 +296,7 @@ class _PasswordInput extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(maxWidth: maxWidth ?? double.infinity),
         child: TextField(
+          keyboardType: TextInputType.number,
           controller: passwordController,
           decoration: InputDecoration(
             labelText: ('Clave de Usuario'),//GalleryLocalizations.of(context).rallyLoginPassword,

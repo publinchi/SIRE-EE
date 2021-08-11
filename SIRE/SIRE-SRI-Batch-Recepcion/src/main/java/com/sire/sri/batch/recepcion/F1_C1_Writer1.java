@@ -9,6 +9,7 @@ import com.sun.xml.messaging.saaj.soap.impl.ElementImpl;
 import ec.gob.sri.comprobantes.modelo.Lote;
 import ec.gob.sri.comprobantes.modelo.factura.Factura;
 import ec.gob.sri.comprobantes.modelo.guia.GuiaRemision;
+import ec.gob.sri.comprobantes.modelo.liquidacion.Liquidacion;
 import ec.gob.sri.comprobantes.modelo.notacredito.NotaCredito;
 import ec.gob.sri.comprobantes.modelo.notadebito.NotaDebito;
 import ec.gob.sri.comprobantes.modelo.rentencion.ComprobanteRetencion;
@@ -104,6 +105,9 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     if (((Map) item).get(Constant.COMPROBANTE) instanceof Factura) {
                         lote.setClaveAcceso(getClaveAccesoLote(Constant.CERO_UNO));
                         log.log(Level.INFO, "{}: {}", Constant.TIPO, Constant.CERO_UNO);
+                    } else if (((Map) item).get(Constant.COMPROBANTE) instanceof Liquidacion) {
+                        lote.setClaveAcceso(getClaveAccesoLote(Constant.CERO_TRES));
+                        log.log(Level.INFO, "{}: {}", Constant.TIPO, Constant.CERO_TRES);
                     } else if (((Map) item).get(Constant.COMPROBANTE) instanceof NotaCredito) {
                         lote.setClaveAcceso(getClaveAccesoLote(Constant.CERO_CUATRO));
                         log.log(Level.INFO, "{}: {}", Constant.TIPO, Constant.CERO_CUATRO);
@@ -360,6 +364,15 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
             claveAcceso = factura.getInfoTributaria().getClaveAcceso();
             nombreTablaComprobante = Constant.FAC_FACTURA_C;
             nombreSecuencial = Constant.SECUENCIAL;
+        } else if (((Map) item).get(Constant.COMPROBANTE) instanceof Liquidacion) {
+            Liquidacion liquidacion = (Liquidacion) ((Map) item).get(Constant.COMPROBANTE);
+            secuencial = new StringBuffer();
+            secuencial.append(liquidacion.getInfoTributaria().getEstab()).append(Constant.GUION)
+                    .append(liquidacion.getInfoTributaria().getPtoEmi()).append(Constant.GUION)
+                    .append(liquidacion.getInfoTributaria().getSecuencial());
+            claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
+            nombreTablaComprobante = Constant.INV_MOVIMIENTO_CAB;
+            nombreSecuencial = Constant.NUM_SECUENCIAL;
         } else if (((Map) item).get(Constant.COMPROBANTE) instanceof NotaCredito) {
             NotaCredito notaCredito = (NotaCredito) ((Map) item).get(Constant.COMPROBANTE);
             secuencial = new StringBuffer();

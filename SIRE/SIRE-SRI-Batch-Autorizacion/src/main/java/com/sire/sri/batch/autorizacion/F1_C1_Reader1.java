@@ -26,17 +26,17 @@ public class F1_C1_Reader1 extends CommonsItemReader {
 
     @Inject
     private JobContext jobCtx;
-    private List lotes;
-    private Iterator iterator;
-    static int COUNT = 0;
+    private List<LoteXml> lotes;
+    private Iterator<LoteXml> iterator;
+    static int count = 0;
 
     private static final Logger log = LogManager.getLogger(F1_C1_Reader1.class);
 
     @Override
     public Object readItem() {
         if (iterator != null && iterator.hasNext()) {
-            LoteXml lote = (LoteXml) iterator.next();
-            COUNT++;
+            LoteXml lote = iterator.next();
+            count++;
             return lote;
         }
         return null;
@@ -47,7 +47,7 @@ public class F1_C1_Reader1 extends CommonsItemReader {
         Properties runtimeParams = BatchRuntime.getJobOperator().getParameters(jobCtx.getExecutionId());
         String tipoComprobante = runtimeParams.getProperty("tipoComprobante");
         codEmpresa = runtimeParams.getProperty("codEmpresa");
-        lotes = new ArrayList();
+        lotes = new ArrayList<>();
 
         log.log(Level.INFO, "tipoComprobante -> {}, codEmpresa -> {}", tipoComprobante, codEmpresa);
 
@@ -55,7 +55,7 @@ public class F1_C1_Reader1 extends CommonsItemReader {
             AutorizacionConstant.codEmpresa = "COD_EMPRESA = '" + codEmpresa + "' AND ";
         }
 
-        StringBuffer loteSQL = new StringBuffer();
+        StringBuilder loteSQL = new StringBuilder();
 
         String databaseProductName = getDatabaseProductName();
 
@@ -100,7 +100,7 @@ public class F1_C1_Reader1 extends CommonsItemReader {
 
     private void buildComprobantes(String claveAccesoLote, String tipoComprobante) {
         String databaseProductName = getDatabaseProductName();
-        List comprobantes = new ArrayList();
+        List<Object> comprobantes = new ArrayList<>();
         LoteXml lote = new LoteXml();
         lote.setClaveAcceso(claveAccesoLote);
         String comprobanteSQL = null;
@@ -110,6 +110,9 @@ public class F1_C1_Reader1 extends CommonsItemReader {
         switch (tipoComprobante) {
             case "01":
                 comprobanteSQL = AutorizacionConstant.FACTURA_SQL;
+                break;
+            case "03":
+                comprobanteSQL = AutorizacionConstant.LIQUIDACION_COMPRA_SQL;
                 break;
             case "04":
                 if(Constant.MYSQL.equals(databaseProductName))
