@@ -71,6 +71,14 @@ public class F1_C1_Reader1 extends CommonsItemReader {
                 else if(Constant.MICROSOFT_SQL_SERVER.equals(databaseProductName))
                     comprobanteSQL = RecepcionConstant.FACTURA_SQL_MICROSOFT_SQL_SERVER;
                 break;
+            case Constant.CERO_TRES:
+                if(Constant.MYSQL.equals(databaseProductName))
+                    comprobanteSQL = RecepcionConstant.LIQUIDACION_COMPRA_SQL_MYSQL;
+                else if(Constant.ORACLE.equals(databaseProductName))
+                    comprobanteSQL = RecepcionConstant.LIQUIDACION_COMPRA_SQL_ORACLE;
+                else if(Constant.MICROSOFT_SQL_SERVER.equals(databaseProductName))
+                    comprobanteSQL = RecepcionConstant.LIQUIDACION_COMPRA_SQL_MICROSOFT_SQL_SERVER;
+                break;
             case Constant.CERO_CUATRO:
                 if(Constant.MYSQL.equals(databaseProductName))
                     comprobanteSQL = RecepcionConstant.NOTA_CREDITO_SQL_MYSQL;

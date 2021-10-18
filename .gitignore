@@ -2,53 +2,53 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-SIRE/.idea/**/workspace.xml
-SIRE/.idea/**/tasks.xml
-SIRE/.idea/dictionaries
+**/.idea/**/workspace.xml
+**/.idea/**/tasks.xml
+**/.idea/dictionaries
 
 # Sensitive or high-churn files:
-SIRE/.idea/**/dataSources/
-SIRE/.idea/**/dataSources.ids
-SIRE/.idea/**/dataSources.local.xml
-SIRE/.idea/**/sqlDataSources.xml
-SIRE/.idea/**/dataSources.xml
-SIRE/.idea/**/sqldialects.xml
-SIRE/.idea/**/dynamic.xml
-SIRE/.idea/**/uiDesigner.xml
+**/.idea/**/dataSources/
+**/.idea/**/dataSources.ids
+**/.idea/**/dataSources.local.xml
+**/.idea/**/sqlDataSources.xml
+**/.idea/**/dataSources.xml
+**/.idea/**/sqldialects.xml
+**/.idea/**/dynamic.xml
+**/.idea/**/uiDesigner.xml
 
 # Gradle:
-SIRE/.idea/**/gradle.xml
-SIRE/.idea/**/libraries
+**/.idea/**/gradle.xml
+**/.idea/**/libraries
 
 # CMake
 cmake-build-debug/
 cmake-build-release/
 
 # Mongo Explorer plugin:
-SIRE/.idea/**/mongoSettings.xml
+**/.idea/**/mongoSettings.xml
 
 ## File-based project format:
-SIRE/*.iws
+**/*.iws
 
 ## Plugin-specific files:
 
 # IntelliJ
-SIRE/out/
+**/out/
 
 # mpeltonen/sbt-idea plugin
-SIRE/.idea_modules/
+**/.idea_modules/
 
 # JIRA plugin
-SIRE/atlassian-ide-plugin.xml
+**/atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-SIRE/.idea/replstate.xml
+**/.idea/replstate.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
-SIRE/com_crashlytics_export_strings.xml
-SIRE/crashlytics.properties
-SIRE/crashlytics-build.properties
-SIRE/fabric.properties
+**/com_crashlytics_export_strings.xml
+**/crashlytics.properties
+**/crashlytics-build.properties
+**/fabric.properties
 
 SIRE/SIRE-Crypt/target/
 SIRE/SIRE-WS/target/
@@ -82,9 +82,9 @@ SIRE/SIRE-NG/node_modules/
 
 SIRE/SIRE-NG/dist/
 
-SIRE/\.idea/sonarlint/
+**/.idea/sonarlint/
 
-SIRE/.idea/artifacts/
+**/.idea/artifacts/
 
 *.iml
 
@@ -95,3 +95,13 @@ SIRE/SIRE-Rest/.idea/workspace.xml
 SIRE/SIRE-Rest/target/
 
 SIRE/SIRE-Crypt/target/
+
+SIRE/sire_frontend/gradle/
+
+SIRE/sire_frontend/local.properties
+
+SIRE/sire_frontend/pubspec.lock
+
+SIRE/sire_frontend/gradlew
+
+SIRE/sire_frontend/gradlew.bat

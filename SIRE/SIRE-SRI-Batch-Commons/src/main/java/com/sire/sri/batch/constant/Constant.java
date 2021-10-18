@@ -11,6 +11,8 @@ package com.sire.sri.batch.constant;
  */
 public class Constant {
 
+    Constant() {}
+
     public static final String EMAIL = "Email";
     public static final String MICROSOFT_SQL_SERVER = "Microsoft SQL Server";
     public static final String MYSQL = "MySQL";
@@ -19,6 +21,7 @@ public class Constant {
     public static final String COMPROBANTE = "comprobante";
     public static final String SIRE_HOME = "sire.home";
     public static final String CERO_UNO = "01";
+    public static final String CERO_TRES = "03";
     public static final String CERO_CUATRO = "04";
     public static final String CERO_CINCO = "05";
     public static final String CERO_SEIS = "06";
@@ -46,6 +49,7 @@ public class Constant {
 
     // Tablas
     public static final String FAC_FACTURA_C = "FAC_FACTURA_C";
+    public static final String INV_MOVIMIENTO_CAB = "INV_MOVIMIENTO_CAB";
     public static final String FAC_DEVOLUCION_C = "FAC_DEVOLUCION_C";
     public static final String PED_DESPACHO_C = "PED_DESPACHO_C";
     public static final String BAN_RETENCION_C = "BAN_RETENCION_C";
@@ -153,6 +157,13 @@ public class Constant {
     public static final String CODIGO_BARRAS = "CODIGO_BARRAS";
     public static final String AGENTE_RETENCION = "AGENTE_RETENCION";
     public static final String REGIMEN_MICROEMPRESAS = "REGIMEN_MICROEMPRESAS";
+    public static final String DIRECCION_PROVEEDOR = "DIRECCION_PROVEEDOR";
+    public static final String IDENTIFICACION_PROVEEDOR = "IDENTIFICACION_PROVEEDOR";
+    public static final String RAZON_SOCIAL_PROVEEDOR = "RAZON_SOCIAL_PROVEEDOR";
+    public static final String TIPO_IDENTIFICACION_PROVEEDOR = "TIPO_IDENTIFICACION_PROVEEDOR";
+    public static final String NUM_LIQUIDACION_INTERNO = "NUM_LIQUIDACION_INTERNO";
+    public static final String TELEFONO_PROVEEDOR = "TELEFONO_PROVEEDOR";
+    public static final String EMAIL_PROVEEDOR = "EMAIL_PROVEEDOR";
 
     public static final String FACTURA_C_SQL = "SELECT COD_EMPRESA, RUC_EMPRESA, RAZON_SOCIAL_EMPRESA, "
             + "NOMBRE_COMERCIAL, COD_DOCUMENTO, NUM_FACTURA_INTERNO, ESTABLECIMIENTO, "
@@ -165,6 +176,18 @@ public class Constant {
             + "VALOR, MONEDA, OBSERVACION, BASE_IMPONIBLE_SIN_IVA, CODIGO_IMPUESTO_SIN_IVA, "
             + "CODIGO_PORCENTAJE_SIN_IVA, TARIFA_IVA_SIN_IVA, VALOR_IVA_SIN_IVA, PLACA, TOTAL_SUBSIDIO, "
             + "AGENTE_RETENCION, REGIMEN_MICROEMPRESAS "
+            + "FROM ";
+
+    public static final String LIQUIDACION_COMPRA_C_SQL = "SELECT COD_EMPRESA, RUC_EMPRESA, "
+            + "NOMBRE_COMERCIAL, COD_DOCUMENTO, NUM_LIQUIDACION_INTERNO, ESTABLECIMIENTO, "
+            + "PUNTO_EMISION, SECUENCIAL, DIRECCION_MATRIZ, DIRECCION_ESTABLECIMIENTO, "
+            + "CONTRIBUYENTE_ESPECIAL, LLEVA_CONTABILIDAD, RAZON_SOCIAL_PROVEEDOR, "
+            + "FECHA_FACTURA, TIPO_IDENTIFICACION_PROVEEDOR, IDENTIFICACION_PROVEEDOR, "
+            + "DIRECCION_PROVEEDOR, TELEFONO_PROVEEDOR, EMAIL_PROVEEDOR, "
+            + "TOTAL_SIN_IMPUESTOS, TOTAL_DESCUENTOS, IMPORTE_TOTAL, "
+            + "CLAVE_ACCESO, CODIGO_IMPUESTO, CODIGO_PORCENTAJE, BASE_IMPONIBLE, "
+            + "VALOR, MONEDA, OBSERVACION, AGENTE_RETENCION, REGIMEN_MICROEMPRESAS, "
+            + "RAZON_SOCIAL_EMPRESA "
             + "FROM ";
 
     public static final String FACTURA_C_SQL_MICROSOFT_SQL_SERVER = "SELECT TOP 20 COD_EMPRESA, RUC_EMPRESA, RAZON_SOCIAL_EMPRESA, "
@@ -180,6 +203,18 @@ public class Constant {
             + "AGENTE_RETENCION, REGIMEN_MICROEMPRESAS "
             + "FROM ";
 
+    public static final String LIQUIDACION_COMPRA_C_SQL_MICROSOFT_SQL_SERVER = "SELECT TOP 20 "
+            + "COD_EMPRESA, RUC_EMPRESA, RAZON_SOCIAL_EMPRESA, "
+            + "NOMBRE_COMERCIAL, COD_DOCUMENTO, NUM_LIQUIDACION_INTERNO, ESTABLECIMIENTO, "
+            + "PUNTO_EMISION, SECUENCIAL, DIRECCION_MATRIZ, DIRECCION_ESTABLECIMIENTO, "
+            + "CONTRIBUYENTE_ESPECIAL, LLEVA_CONTABILIDAD, RAZON_SOCIAL_PROVEEDOR, "
+            + "FECHA_FACTURA, TIPO_IDENTIFICACION_PROVEEDOR, IDENTIFICACION_PROVEEDOR, "
+            + "DIRECCION_PROVEEDOR, TELEFONO_PROVEEDOR, EMAIL_PROVEEDOR, "
+            + "TOTAL_SIN_IMPUESTOS, TOTAL_DESCUENTOS, IMPORTE_TOTAL, "
+            + "CLAVE_ACCESO, CODIGO_IMPUESTO, CODIGO_PORCENTAJE, BASE_IMPONIBLE, "
+            + "VALOR, MONEDA, OBSERVACION, AGENTE_RETENCION, REGIMEN_MICROEMPRESAS "
+            + "FROM ";
+
     public static final String FACTURA_D_SQL = "SELECT COD_EMPRESA, COD_DOCUMENTO, "
             + "NUM_DOCUMENTO_INTERNO, COD_ARTICULO, NOMBRE_ARTICULO, CANTIDAD, "
             + "PRECIO_UNITARIO, DESCUENTO, CODIGO_IMPUESTO, CODIGO_PORCENTAJE, TARIFA, "
@@ -187,9 +222,21 @@ public class Constant {
             + "FROM V_FACTURA_ELECTRONICA_D "
             + "WHERE ";
 
+    public static final String LIQUIDACION_D_SQL = "SELECT COD_EMPRESA, COD_DOCUMENTO, "
+            + "NUM_LIQUIDACION_INTERNO, COD_ARTICULO, NOMBRE_ARTICULO, CANTIDAD, "
+            + "PRECIO_UNITARIO, DESCUENTO, CODIGO_IMPUESTO, CODIGO_PORCENTAJE, TARIFA, "
+            + "BASE_IMPONIBLE, VALOR, PRECIO_TOTAL_SIN_IMPUESTOS, PRECIO_SIN_SUBSIDIO, CODIGO_BARRAS "
+            + "FROM V_LIQUIDACION_COMPRA_D "
+            + "WHERE ";
+
     public static final String FACTURA_PAGO_SQL = "SELECT CODIGO, FORMA_PAGO, PLAZO, TIEMPO, "
             + "VALOR_FORMA_PAGO "
             + "FROM V_FACTURA_ELECTRONICA_PAGO "
+            + "WHERE ";
+
+    public static final String LIQUIDACION_PAGO_SQL = "SELECT CODIGO, FORMA_PAGO, PLAZO, TIEMPO, "
+            + "VALOR_FORMA_PAGO "
+            + "FROM V_FORMA_PAGO_LIQUIDACION "
             + "WHERE ";
 
     public static final String RETENCION_C_SQL_MYSQL = "SELECT COD_EMPRESA, RUC_EMPRESA, RAZON_SOCIAL_EMPRESA, "

@@ -23,7 +23,7 @@
         "@angular/platform-browser-dynamic": "6.0.4",
         "@angular/pwa": "^0.6.8",
         "@angular/router": "6.0.4",
-        "chart.js": "2.7.1",
+        "chart.js": "2.9.4",
         "core-js": "2.5.7",
         "font-awesome": "4.7.0",
         "fullcalendar": "3.5.1",

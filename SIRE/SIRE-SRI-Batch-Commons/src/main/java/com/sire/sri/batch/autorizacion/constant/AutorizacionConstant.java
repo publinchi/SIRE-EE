@@ -21,6 +21,12 @@ public class AutorizacionConstant {
             + "CLAVE_ACCESO_LOTE = ? AND (ESTADO_SRI='RECIBIDA' "
             + "OR ESTADO_SRI='EN PROCESAMIENTO') ";
 
+    public static String LIQUIDACION_COMPRA_SQL = Constant.LIQUIDACION_COMPRA_C_SQL
+            + "V_LIQUIDACION_COMPRA_C "
+            + "WHERE " + codEmpresa
+            + "CLAVE_ACCESO_LOTE = ? AND (ESTADO_SRI='RECIBIDA' "
+            + "OR ESTADO_SRI='EN PROCESAMIENTO') ";
+
     public static String RETENCION_SQL = Constant.RETENCION_C_SQL_ORACLE
             + codEmpresa + "CLAVE_ACCESO_LOTE = ? AND "
             + "(ESTADO_SRI='RECIBIDA' OR ESTADO_SRI='EN PROCESAMIENTO') ";
