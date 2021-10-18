@@ -6,6 +6,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 import com.sire.soap.util.SoapUtil;
+import ec.gob.sri.comprobantes.modelo.liquidacion.Liquidacion;
+import ec.gob.sri.comprobantes.modelo.reportes.*;
 import ec.gob.sri.ws.autorizacion.*;
 import com.sire.event.MailEvent;
 import com.sire.service.IMailService;
@@ -26,11 +28,6 @@ import ec.gob.sri.comprobantes.modelo.guia.GuiaRemision;
 import ec.gob.sri.comprobantes.modelo.notacredito.NotaCredito;
 import ec.gob.sri.comprobantes.modelo.notadebito.NotaDebito;
 import ec.gob.sri.comprobantes.modelo.rentencion.ComprobanteRetencion;
-import ec.gob.sri.comprobantes.modelo.reportes.ComprobanteRetencionReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.FacturaReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.GuiaRemisionReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.NotaCreditoReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.NotaDebitoReporte;
 import ec.gob.sri.comprobantes.util.reportes.ReporteUtil;
 import org.apache.logging.log4j.Level;
 import com.sire.logger.LogManager;
@@ -83,6 +80,12 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                         claveAcceso = factura.getInfoTributaria().getClaveAcceso();
                         nombreTablaComprobante = Constant.FAC_FACTURA_C;
                         nombreSecuencial = Constant.SECUENCIAL;
+                    }  else if (comprobante instanceof Liquidacion) {
+                        Liquidacion liquidacion = (Liquidacion) comprobante;
+                        secuencial = liquidacion.getInfoTributaria().getEstab() + "-" + liquidacion.getInfoTributaria().getPtoEmi() + "-" + liquidacion.getInfoTributaria().getSecuencial();
+                        claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
+                        nombreTablaComprobante = Constant.INV_MOVIMIENTO_CAB;
+                        nombreSecuencial = Constant.NUM_SECUENCIAL;
                     } else if (comprobante instanceof NotaCredito) {
                         NotaCredito notaCredito = (NotaCredito) comprobante;
                         secuencial = notaCredito.getInfoTributaria().getEstab() + "-" + notaCredito.getInfoTributaria().getPtoEmi() + "-" + notaCredito.getInfoTributaria().getSecuencial();
@@ -234,6 +237,21 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     razonSocialComprador = factura.getInfoFactura().getRazonSocialComprador();
                     nombreComercial = factura.getInfoTributaria().getNombreComercial();
                     ruc = factura.getInfoTributaria().getRuc();
+                } else if (key instanceof Liquidacion) {
+                    nombreComprobante = "Liquidación de Compra";
+                    Liquidacion liquidacion = (Liquidacion) key;
+                    for (Liquidacion.InfoAdicional.CampoAdicional campoAdicional : liquidacion.getInfoAdicional().getCampoAdicional()) {
+                        if (campoAdicional.getNombre().equals(Constant.EMAIL)) {
+                            recipient = campoAdicional.getValue();
+                        }
+                    }
+                    claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
+                    secuencial = liquidacion.getInfoTributaria().getSecuencial();
+                    LiquidacionReporte liquidacionReporte = new LiquidacionReporte(liquidacion);
+                    pdfBytes = reporteUtil.generarReporte(urlReporte, liquidacionReporte, numAut, fechaAut);
+                    razonSocialComprador = liquidacion.getInfoLiquidacionCompra().getRazonSocialProveedor();
+                    nombreComercial = liquidacion.getInfoTributaria().getNombreComercial();
+                    ruc = liquidacion.getInfoTributaria().getRuc();
                 } else if (key instanceof NotaCredito) {
                     nombreComprobante = "Nota de Crédito";
                     NotaCredito notaCredito = (NotaCredito) key;

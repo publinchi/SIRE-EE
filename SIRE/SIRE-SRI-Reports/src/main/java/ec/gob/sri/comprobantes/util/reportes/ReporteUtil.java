@@ -6,18 +6,11 @@ import ec.gob.sri.comprobantes.modelo.InfoTributaria;
 import ec.gob.sri.comprobantes.modelo.factura.Factura;
 import ec.gob.sri.comprobantes.modelo.factura.Impuesto;
 import ec.gob.sri.comprobantes.modelo.guia.GuiaRemision;
+import ec.gob.sri.comprobantes.modelo.liquidacion.Liquidacion;
 import ec.gob.sri.comprobantes.modelo.notacredito.NotaCredito;
 import ec.gob.sri.comprobantes.modelo.notadebito.NotaDebito;
 import ec.gob.sri.comprobantes.modelo.rentencion.ComprobanteRetencion;
-import ec.gob.sri.comprobantes.modelo.reportes.ComprobanteRetencionReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.DetallesAdicionalesReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.FacturaReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.GuiaRemisionReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.InformacionAdicional;
-import ec.gob.sri.comprobantes.modelo.reportes.IvaDiferenteCeroReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.NotaCreditoReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.NotaDebitoReporte;
-import ec.gob.sri.comprobantes.modelo.reportes.TotalComprobante;
+import ec.gob.sri.comprobantes.modelo.reportes.*;
 import ec.gob.sri.comprobantes.sql.EmisorSQL;
 import ec.gob.sri.comprobantes.sql.ImpuestoValorSQL;
 import ec.gob.sri.comprobantes.util.StringUtil;
@@ -79,6 +72,44 @@ public class ReporteUtil {
             JRDataSource dataSource = new JRBeanCollectionDataSource(fact.getDetallesAdiciones());
             is = new FileInputStream(urlReporte);
             JasperPrint reporteView = JasperFillManager.fillReport(is, obtenerMapaParametrosReportes(obtenerParametrosInfoTriobutaria(fact.getFactura().getInfoTributaria(), numAut, fechaAut), obtenerInfoFactura(fact.getFactura().getInfoFactura(), fact)), dataSource);
+            JasperExportManager.exportReportToPdfStream(reporteView, outputStream);
+            if("true".equals(System.getProperty("isTest")))
+                showReport(reporteView);
+            return outputStream.toByteArray();
+        } catch (FileNotFoundException | JRException ex) {
+            log.error(ex);
+            return null;
+        } finally {
+            //clean off
+            if (null != outputStream) {
+                try {
+                    outputStream.close();
+                    outputStream = null;
+                } catch (IOException ex) {
+                }
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException ex) {
+                log.error(ex);
+            }
+        }
+    }
+
+    public byte[] generarReporte(String urlReporte, LiquidacionReporte liquidacionReporte, String numAut, String fechaAut)
+            throws SQLException, ClassNotFoundException, IOException {
+        FileInputStream is = null;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            JRDataSource dataSource = new JRBeanCollectionDataSource(liquidacionReporte.getDetallesAdiciones());
+            is = new FileInputStream(urlReporte);
+            JasperPrint reporteView = JasperFillManager.fillReport(is,
+                    obtenerMapaParametrosReportes(obtenerParametrosInfoTriobutaria(liquidacionReporte.getLiquidacion()
+                                    .getInfoTributaria(), numAut, fechaAut),
+                            obtenerInfoLiquidacion(liquidacionReporte.getLiquidacion().getInfoLiquidacionCompra(),
+                                    liquidacionReporte)), dataSource);
             JasperExportManager.exportReportToPdfStream(reporteView, outputStream);
             if("true".equals(System.getProperty("isTest")))
                 showReport(reporteView);
@@ -499,6 +530,39 @@ public class ReporteUtil {
         return param;
     }
 
+    private Map<String, Object> obtenerInfoLiquidacion(Liquidacion.InfoLiquidacionCompra infoLiquidacionCompra,
+                                                       LiquidacionReporte liquidacionReporte) {
+        BigDecimal TotalSinSubsidio = BigDecimal.ZERO;
+        BigDecimal TotalSinDescuento = BigDecimal.ZERO;
+        BigDecimal TotalSubsidio = BigDecimal.ZERO;
+        Map<String, Object> param = new HashMap();
+        param.put("DIR_SUCURSAL", infoLiquidacionCompra.getDirEstablecimiento());
+        param.put("CONT_ESPECIAL", infoLiquidacionCompra.getContribuyenteEspecial());
+        param.put("LLEVA_CONTABILIDAD", infoLiquidacionCompra.getObligadoContabilidad());
+        param.put("RS_COMPRADOR", infoLiquidacionCompra.getRazonSocialProveedor());
+        param.put("RUC_COMPRADOR", infoLiquidacionCompra.getIdentificacionProveedor());
+        //param.put("DIRECCION_CLIENTE", infoLiquidacionCompra.getIDireccionComprador());
+        param.put("FECHA_EMISION", infoLiquidacionCompra.getFechaEmision());
+        param.put("GUIA", infoLiquidacionCompra.getGuiaRemision());
+        //param.put("PLACA", infoLiquidacionCompra.getPlaca());
+        /*TotalComprobante tc = getTotales(infoLiquidacionCompra);
+        if (infoLiquidacionCompra.getTotalSubsidio() != null) {
+            TotalSinSubsidio = obtenerTotalSinSubsidio(liquidacionReporte);
+            TotalSinDescuento = obtenerTotalSinDescuento(liquidacionReporte);
+            TotalSubsidio = TotalSinSubsidio.subtract(TotalSinDescuento).setScale(2, RoundingMode.UP);
+            if (Double.valueOf(tc.getTotalIRBPNR().toString()).doubleValue() < 0.0D) {
+                TotalSinSubsidio = TotalSinSubsidio.add(tc.getTotalIRBPNR());
+            }
+            if (infoLiquidacionCompra.getPropina() != null) {
+                TotalSinSubsidio = TotalSinSubsidio.add(infoLiquidacionCompra.getPropina());
+            }
+        }
+        param.put("TOTAL_SIN_SUBSIDIO", TotalSinSubsidio.setScale(2, RoundingMode.UP));
+        param.put("AHORRO_POR_SUBSIDIO", TotalSubsidio.setScale(2, RoundingMode.UP));*/
+
+        return param;
+    }
+
     private String obtenerPorcentajeIvaVigente(Date fechaEmision) {
         try {
             ImpuestoValorSQL impvalorSQL = new ImpuestoValorSQL();
@@ -516,7 +580,8 @@ public class ReporteUtil {
     private String obtenerPorcentajeIvaVigente(String cod) {
         try {
             ImpuestoValorSQL impvalorSQL = new ImpuestoValorSQL();
-            BigDecimal porcentaje = BigDecimal.valueOf(((ImpuestoValor) impvalorSQL.obtenerDatosIvaCodigoPorcentaje(cod).get(0)).getPorcentaje().doubleValue());
+            BigDecimal porcentaje = BigDecimal.valueOf(impvalorSQL.obtenerDatosIvaCodigoPorcentaje(cod).get(0)
+                    .getPorcentaje().doubleValue());
             return porcentaje.setScale(0).toString() + "%";
         } catch (SQLException ex) {
             log.error(ex);

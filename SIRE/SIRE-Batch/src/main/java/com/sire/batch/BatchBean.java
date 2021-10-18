@@ -344,9 +344,6 @@ public class BatchBean {
                 logger.error(e);
             }
         }
-
-        logger.info("************** TIMER CREATING **************");
-        logger.info("Timer {} Created.", timerName);
     }
 
     private static Properties getProperties() {
