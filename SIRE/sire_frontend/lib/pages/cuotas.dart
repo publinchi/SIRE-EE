@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:animations/animations.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -20,6 +21,7 @@ import 'package:sire_frontend/layout/text_scale.dart';
 import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 import 'package:sire_frontend/main.dart';
 import 'package:sire_frontend/pages/camara.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CuotasView extends StatelessWidget {
 
@@ -29,6 +31,8 @@ class CuotasView extends StatelessWidget {
     this.wholeAmount,
     this.segments,
     this.financialEntityCards,
+    this.totalAbonos,
+    this.valorCuota,
   }) : assert(segments.length == financialEntityCards.length);
 
   /// The amounts to assign each item.
@@ -37,6 +41,8 @@ class CuotasView extends StatelessWidget {
   final double heroAmount;
   final double wholeAmount;
   final List<EntityCuotasView> financialEntityCards;
+  final double totalAbonos;
+  final double valorCuota;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +65,8 @@ class CuotasView extends StatelessWidget {
               heroAmount: heroAmount,
               wholeAmount: wholeAmount,
               segments: segments,
+              totalAbonos: totalAbonos,
+              valorCuota: valorCuota,
             ),
           ),
           const SizedBox(height: 24),
@@ -293,7 +301,9 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                             in snapshot.data)
                               _DetailedCuotasCard(
                                 fechaCuota: detailedEventData.fechaCuota,
-                                valorCuota: detailedEventData.valorCuota,
+                                saldoCuota: detailedEventData.saldoCuota,
+                                valorAbono: detailedEventData.valorAbono,
+                                //valorCuota: detailedEventData.valorCuota,
                                 actualizoPor: detailedEventData.actualizoPor,
                                 codCliente: detailedEventData.codCliente,
                                 numContrato: numContrato,
@@ -320,16 +330,20 @@ class _DetailedCuotasCard extends StatelessWidget {
     @required this.numContrato,
     @required this.nroCuota,
     @required this.fechaCuota,
-    @required this.valorCuota,
+    @required this.saldoCuota,
     @required this.estadoCuota,
     @required this.actualizoPor,
+    //@required this.valorCuota,
+    @required this.valorAbono,
   });
 
   final String codCliente;
   final int numContrato;
   final int nroCuota;
   final DateTime fechaCuota;
-  final double valorCuota;
+  //final double valorCuota;
+  final double saldoCuota;
+  final double valorAbono;
   final String estadoCuota;
   final String actualizoPor;
 
@@ -343,7 +357,19 @@ class _DetailedCuotasCard extends StatelessWidget {
       ),
       onPressed: () => {
         if(estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO")
-          Navigator.push(
+          showDialog(
+              context: context,
+              builder: (_) => ImageDialog(
+                camera: firstCamera,
+                idCliente: codCliente,
+                idContrato: numContrato,
+                idCuota: nroCuota,
+                estadoCuota: estadoCuota,
+                saldoCuota: saldoCuota,
+                //valorCuota: valorCuota,
+              )
+          )
+        /*Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) =>
@@ -352,10 +378,10 @@ class _DetailedCuotasCard extends StatelessWidget {
                       idCliente: codCliente,
                       idContrato: numContrato,
                       idCuota: nroCuota,
-                      valorCuota: valorCuota,
+                      //valorCuota: valorCuota,
                     )
             ),
-          )
+          ),*/
       },
       child: Column(
         children: [
@@ -372,15 +398,26 @@ class _DetailedCuotasCard extends StatelessWidget {
                     estadoCuota: estadoCuota,
                   ),
                 ),
-                _EventCuotaDate(date: fechaCuota),
+                _EventCuotaDate(
+                    date: fechaCuota
+                ),
                 Expanded(
                   flex: 1,
                   child: Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: _EventCuotaAmount(
-                      amount: valorCuota,
-                      estadoCuota: estadoCuota,
-                    ),
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Wrap(
+                          spacing: 20,
+                          children: [
+                            _EventCuotaAmount(
+                              amount: valorAbono,
+                              estadoCuota: estadoCuota,
+                            ),
+                            _EventCuotaAmount(
+                              amount: saldoCuota,
+                              estadoCuota: estadoCuota,
+                            ),
+                          ]
+                      )
                   ),
                 ),
               ],
@@ -396,12 +433,23 @@ class _DetailedCuotasCard extends StatelessWidget {
                       title: nroCuota.toString(),
                       estadoCuota: estadoCuota,
                     ),
-                    _EventCuotaDate(date: fechaCuota),
+                    _EventCuotaDate(
+                        date: fechaCuota
+                    ),
                   ],
                 ),
-                _EventCuotaAmount(
-                  amount: valorCuota,
-                  estadoCuota: estadoCuota,
+                Wrap(
+                  spacing: 40,
+                  children: [
+                    _EventCuotaAmount(
+                      amount: valorAbono,
+                      estadoCuota: estadoCuota,
+                    ),
+                    _EventCuotaAmount(
+                      amount: saldoCuota,
+                      estadoCuota: estadoCuota,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -498,6 +546,109 @@ class _EventCuotaTitle extends StatelessWidget {
     return Text(
       title + " " + estadoCuota,
       style: textTheme.bodyText2.copyWith(fontSize: 16),
+    );
+  }
+}
+
+class ImageDialog extends StatelessWidget {
+  const ImageDialog({
+    Key key,
+    @required this.camera,
+    @required this.idCliente,
+    @required this.idContrato,
+    @required this.idCuota,
+    @required this.estadoCuota,
+    @required this.saldoCuota,
+  }) : super(key: key);
+
+  final CameraDescription camera;
+  final String idCliente;
+  final int idContrato;
+  final int idCuota;
+  final String estadoCuota;
+  final double saldoCuota;
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.black,
+      child: Wrap(
+        alignment: WrapAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Text("Cámara: "),
+              IconButton(
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: RallyColors.accountColors[0],
+                  ),
+                  iconSize: 45,
+                  alignment: Alignment.topRight,
+                  padding: EdgeInsets.zero,
+                  onPressed: () => {
+                    if(estadoCuota == "EN PLANILLA"
+                        || estadoCuota == "RECHAZADO")
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                TakePictureScreen(
+                                  camera: firstCamera,
+                                  idCliente: idCliente,
+                                  idContrato: idContrato,
+                                  idCuota: idCuota,
+                                  saldoCuota: saldoCuota,
+                                )
+                        ),
+                      )
+                  }
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Text("Galería: "),
+              IconButton(
+                icon: Icon(
+                  Icons.add_photo_alternate_outlined,
+                  color: RallyColors.accountColors[0],
+                ),
+                iconSize: 45,
+                alignment: Alignment.topRight,
+                padding: EdgeInsets.zero,
+                onPressed: () async {
+                  final ImagePicker _picker = ImagePicker();
+                  // Pick an image
+                  final XFile image = await _picker.pickImage(
+                      source: ImageSource.gallery
+                  );
+                  if(image != null)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DisplayPictureScreen(
+                                imagePath: image?.path,
+                                fechaReciboController:
+                                TextEditingController(),
+                                valorReciboController:
+                                TextEditingController(),
+                                nroDocumentController:
+                                TextEditingController(),
+                                idCliente: idCliente,
+                                idContrato: idContrato,
+                                idCuota: idCuota,
+                                saldoCuota: saldoCuota,
+                              )
+                      ),
+                    );
+                },
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

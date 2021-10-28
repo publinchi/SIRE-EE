@@ -138,7 +138,9 @@ class ContratoData {
       this.codCliente,
       this.numContrato,
       this.fechaContrato,
-      this.valorContrato});
+      this.valorContrato,
+      this.totalAbonos,
+      this.valorCuota,});
 
   final String codEmpresa;
 
@@ -150,6 +152,10 @@ class ContratoData {
 
   final double valorContrato;
 
+  final double totalAbonos;
+
+  final double valorCuota;
+
   factory ContratoData.fromJson(Map<String, dynamic> json) {
     return ContratoData(
       codEmpresa: json['cod_empresa'],
@@ -157,6 +163,8 @@ class ContratoData {
       numContrato: json['num_contrato'],
       fechaContrato: DateTime.parse(json['fecha_contrato']),
       valorContrato: json['valor_contrato'] * 1.0,
+      totalAbonos: json['total_abonos'] * 1.0,
+      valorCuota: json['valor_cuota'] * 1.0,
     );
   }
 }
@@ -168,8 +176,9 @@ class DetailedCuotaData {
     this.numContrato,
     this.nroCuota,
     this.fechaCuota,
-    this.valorCuota,
+    //this.valorCuota,
     this.saldoCuota,
+    this.valorAbono,
     this.tipoCuota,
     this.estado_cuota,
     this.fechaEstado,
@@ -182,7 +191,8 @@ class DetailedCuotaData {
   final int numContrato;
   final int nroCuota;
   final DateTime fechaCuota;
-  final double valorCuota;
+  //final double valorCuota;
+  final double valorAbono;
   final double saldoCuota;
   final String tipoCuota;
   final String estado_cuota;
@@ -197,7 +207,8 @@ class DetailedCuotaData {
       numContrato: json['num_contrato'],
       nroCuota: json['nro_cuota'],
       fechaCuota: DateTime.parse(json['fecha_cuota']),
-      valorCuota: json['valor_cuota'] * 1.0,
+      //valorCuota: json['valor_cuota'] * 1.0,
+      valorAbono: json['valor_abono'] * 1.0,
       saldoCuota: json['saldo_cuota'] * 1.0,
       tipoCuota: json['tipo_cuota'],
       estado_cuota: json['estado_cuota'],
@@ -414,7 +425,7 @@ class DummyDataService {
       //GalleryLocalizations.of(context).rallySettingsPersonalInformation,
       //GalleryLocalizations.of(context).rallySettingsPaperlessSettings,
       //GalleryLocalizations.of(context).rallySettingsFindAtms,
-      //GalleryLocalizations.of(context).rallySettingsHelp,
+      GalleryLocalizations.of(context).rallySettingsHelp,
       GalleryLocalizations.of(context).rallySettingsSignOut,
     ];
   }

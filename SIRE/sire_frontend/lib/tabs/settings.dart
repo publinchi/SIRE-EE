@@ -8,6 +8,7 @@ import 'package:sire_frontend/layout/adaptive.dart';
 import 'package:sire_frontend/routes.dart' as rally_route;
 import 'package:sire_frontend/colors.dart';
 import 'package:sire_frontend/data.dart';
+import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 
 class SettingsView extends StatefulWidget {
   @override
@@ -57,8 +58,49 @@ class _SettingsItem extends StatelessWidget {
         child: Text(title),
       ),
       onPressed: () {
-        Navigator.of(context).restorablePushNamed(rally_route.loginRoute);
+        if(title == GalleryLocalizations.of(context).rallySettingsHelp)
+          showDialog(
+              context: context,
+              builder: (_) => ImageDialog()
+          );
+        else
+          Navigator.of(context).restorablePushNamed(rally_route.loginRoute);
       },
+    );
+  }
+}
+
+class ImageDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: 300,
+              height: 300,
+              child: ExcludeSemantics(
+                child: Image.asset('images/semaforo.png'),
+              ),
+            ),
+            Positioned(
+              right: 0.0,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.of(context).pop();
+                },
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: CircleAvatar(
+                    radius: 14.0,
+                    backgroundColor: Colors.white,
+                    child: Icon(Icons.close, color: Colors.red),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )
     );
   }
 }

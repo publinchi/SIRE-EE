@@ -28,7 +28,7 @@ List<RallyPieChartSegment> buildSegmentsFromAccountItems(
     List<AccountData> items) {
   return List<RallyPieChartSegment>.generate(
     items.length,
-    (i) {
+        (i) {
       return RallyPieChartSegment(
         color: RallyColors.accountColor(i),
         value: items[i].primaryAmount,
@@ -40,7 +40,7 @@ List<RallyPieChartSegment> buildSegmentsFromAccountItems(
 List<RallyPieChartSegment> buildSegmentsFromBillItems(List<BillData> items) {
   return List<RallyPieChartSegment>.generate(
     items.length,
-    (i) {
+        (i) {
       return RallyPieChartSegment(
         color: RallyColors.billColor(i),
         value: items[i].primaryAmount,
@@ -53,7 +53,7 @@ List<RallyPieChartSegment> buildSegmentsFromBudgetItems(
     List<BudgetData> items) {
   return List<RallyPieChartSegment>.generate(
     items.length,
-    (i) {
+        (i) {
       return RallyPieChartSegment(
         color: RallyColors.budgetColor(i),
         value: items[i].primaryAmount - items[i].amountUsed,
@@ -79,12 +79,15 @@ List<RallyPieChartSegment> buildSegmentsFromContratoItems(
 /// have empty space.
 class RallyPieChart extends StatefulWidget {
   const RallyPieChart(
-      {this.heroLabel, this.heroAmount, this.wholeAmount, this.segments});
+      {this.heroLabel, this.heroAmount, this.wholeAmount, this.segments,
+      this.totalAbonos, this.valorCuota});
 
   final String heroLabel;
   final double heroAmount;
   final double wholeAmount;
   final List<RallyPieChartSegment> segments;
+  final double totalAbonos;
+  final double valorCuota;
 
   @override
   _RallyPieChartState createState() => _RallyPieChartState();
@@ -132,6 +135,8 @@ class _RallyPieChartState extends State<RallyPieChart>
         centerAmount: widget.heroAmount,
         total: widget.wholeAmount,
         segments: widget.segments,
+        totalAbonos: widget.totalAbonos,
+        valorCuota: widget.valorCuota,
       ),
     );
   }
@@ -145,6 +150,8 @@ class _AnimatedRallyPieChart extends AnimatedWidget {
     this.centerAmount,
     this.total,
     this.segments,
+    this.totalAbonos,
+    this.valorCuota,
   }) : super(key: key, listenable: animation);
 
   final Animation<double> animation;
@@ -152,6 +159,8 @@ class _AnimatedRallyPieChart extends AnimatedWidget {
   final double centerAmount;
   final double total;
   final List<RallyPieChartSegment> segments;
+  final double totalAbonos;
+  final double valorCuota;
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +201,24 @@ class _AnimatedRallyPieChart extends AnimatedWidget {
               ),
               Text(
                 usdWithSignFormat(context).format(centerAmount),
+                style: headlineStyle,
+              ),
+              Text(
+                "Total de Abonos",//centerLabel,
+                style: labelTextStyle,
+              ),
+              Text(
+                //usdWithSignFormat(context).format(centerAmount),
+                usdWithSignFormat(context).format(totalAbonos),
+                style: headlineStyle,
+              ),
+              Text(
+                "Valor de Cuota",//centerLabel,
+                style: labelTextStyle,
+              ),
+              Text(
+                //usdWithSignFormat(context).format(centerAmount),
+                usdWithSignFormat(context).format(valorCuota),
                 style: headlineStyle,
               ),
             ],
@@ -236,9 +263,9 @@ class _RallyPieChartOutlineBoxPainter extends BoxPainter {
     // inner bg arc.
     const strokeWidth = 4.0;
     final outerRadius = math.min(
-          configuration.size.width,
-          configuration.size.height,
-        ) /
+      configuration.size.width,
+      configuration.size.height,
+    ) /
         2;
     final outerRect = Rect.fromCircle(
       center: configuration.size.center(offset),
@@ -266,7 +293,7 @@ class _RallyPieChartOutlineBoxPainter extends BoxPainter {
     if (remaining > 0) {
       final paint = Paint()..color = Colors.black;
       final startAngle =
-          _calculateStartAngle(cumulativeTotal, spaceRadians * segments.length);
+      _calculateStartAngle(cumulativeTotal, spaceRadians * segments.length);
       final sweepAngle = _calculateSweepAngle(remaining, -spaceRadians);
       canvas.drawArc(outerRect, startAngle, sweepAngle, true, paint);
     }
