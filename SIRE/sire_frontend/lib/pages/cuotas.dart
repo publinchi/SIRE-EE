@@ -438,13 +438,20 @@ class _DetailedCuotasCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Wrap(
-                  spacing: 40,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    Text("Abono:"),
                     _EventCuotaAmount(
                       amount: valorAbono,
                       estadoCuota: estadoCuota,
                     ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text("Saldo:"),
                     _EventCuotaAmount(
                       amount: saldoCuota,
                       estadoCuota: estadoCuota,
