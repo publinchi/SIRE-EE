@@ -93,25 +93,4 @@
         </dependency>
     </dependencies>
     <name>SIRE-SRI-Signature</name>
-
-    <repositories>
-        <repository>
-            <id>default</id>
-            <url>
-                http://dev.fit-bank.com/nexus/content/groups/public
-            </url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>snapshots</id>
-            <url>
-                http://dev.fit-bank.com/nexus/content/groups/public-snapshots
-            </url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
 </project>
