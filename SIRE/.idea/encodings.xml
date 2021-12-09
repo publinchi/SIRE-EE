@@ -4,29 +4,44 @@
     <file url="file://$PROJECT_DIR$/SIRE-Batch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Batch/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Commons/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Crypt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Crypt/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-EE/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-EE/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Entities/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Entities/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-RS-Client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-RS-Client/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Rest/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Autorizacion/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Autorizacion/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Commons/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Recepcion/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Batch-Recepcion/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Entities/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-SRI-Entities/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Reports/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Reports/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-Signature/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-SRI-Signature/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-WSClient/src" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-SRI-WSClient/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-SRI-WSClient/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Services-API/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Services-API/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Services/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Services/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Soap" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Soap/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SIRE-Soap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-WS/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-WS/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SIRE-Web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>
 </project>
