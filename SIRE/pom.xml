@@ -8,17 +8,17 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Lib's Versions -->
-        <disruptor.version>3.4.2</disruptor.version>
+        <disruptor.version>3.4.4</disruptor.version>
         <javaee-api.version>8.0</javaee-api.version>
-        <liquibase-core.version>3.8.0</liquibase-core.version>
-        <log4j-slf4j-impl.version>2.11.2</log4j-slf4j-impl.version>
-        <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
-        <quartz.version>2.3.1</quartz.version>
-        <spring-boot-starter-batch.version>2.2.0.RELEASE</spring-boot-starter-batch.version>
-        <spring-context-support.version>5.2.0.RELEASE</spring-context-support.version>
+        <liquibase-core.version>4.6.2</liquibase-core.version>
+        <log4j-slf4j-impl.version>2.16.0</log4j-slf4j-impl.version>
+        <org.apache.logging.log4j.version>2.16.0</org.apache.logging.log4j.version>
+        <quartz.version>2.3.2</quartz.version>
+        <spring-boot-starter-batch.version>2.6.1</spring-boot-starter-batch.version>
+        <spring-context-support.version>5.3.13</spring-context-support.version>
         <xmlsec.version>1.4.2-ADSI</xmlsec.version>
         <!-- Module's Versions -->
-        <SIRE-Batch.version>1.8.0</SIRE-Batch.version>
+        <SIRE-Batch.version>1.9.0</SIRE-Batch.version>
         <SIRE-Commons.version>1.0.4</SIRE-Commons.version>
         <SIRE-Crypt.version>1.0.0</SIRE-Crypt.version>
         <SIRE-EE.version>2.0.0</SIRE-EE.version>
