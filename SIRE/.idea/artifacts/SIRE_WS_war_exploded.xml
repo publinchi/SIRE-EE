@@ -18,9 +18,9 @@
             <element id="module-output" name="SIRE-Entities" />
           </element>
           <element id="library" level="project" name="Maven: org.eclipse.persistence:eclipselink:2.5.2" />
-          <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0" />
           <element id="library" level="project" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" />
           <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.4" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0" />
           <element id="archive" name="SIRE-Commons-1.0.4.jar">
             <element id="module-output" name="SIRE-Commons" />
           </element>

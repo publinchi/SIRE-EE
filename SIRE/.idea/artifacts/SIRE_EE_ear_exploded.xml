@@ -22,8 +22,8 @@
           <element id="module-output" name="SIRE-Entities" />
         </element>
         <element id="library" level="project" name="Maven: org.eclipse.persistence:eclipselink:2.5.2" />
-        <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0" />
         <element id="library" level="project" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" />
+        <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0" />
         <element id="archive" name="SIRE-Services-API-1.1.0.jar">
           <element id="module-output" name="SIRE-Services-API" />
         </element>
@@ -31,6 +31,21 @@
         <element id="archive" name="SIRE-SRI-Signature-1.1.0.jar">
           <element id="module-output" name="SIRE-SRI-Signature" />
         </element>
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibTSA:1.1.7" />
+        <element id="library" level="project" name="Maven: commons-httpclient:commons-httpclient:3.0.1" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibTrust:1.1.7" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibOCSP:1.1.7" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibCrypt:1.1.7" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibCert:tests:1.1.7" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibCert:1.1.7" />
+        <element id="library" level="project" name="Maven: jss:jss:4.2.5" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:iaikPkcs11Wrapper:1.1.7" />
+        <element id="library" level="project" name="Maven: DNIeJCAProvider:DNIeJCAProvider:1.4" />
+        <element id="library" level="project" name="Maven: sunpkcs11:sunpkcs11:1.0" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibXADES:1.1.7" />
+        <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.4" />
+        <element id="library" level="project" name="Maven: xmlsec:xmlsec:1.1:1.4.2-ADSI" />
+        <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:MITyCLibAPI:1.1.7" />
         <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk16:1.45" />
         <element id="library" level="project" name="Maven: org.bouncycastle:bcmail-jdk16:1.45" />
         <element id="library" level="project" name="Maven: org.bouncycastle:bctsp-jdk16:1.45" />
@@ -121,24 +136,24 @@
         <element id="library" level="project" name="Maven: javax:javaee-api:8.0" />
         <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.0" />
         <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
-        <element id="library" level="project" name="Maven: com.lmax:disruptor:3.4.2" />
-        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-web:2.11.2" />
-        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.11.2" />
-        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.11.2" />
+        <element id="library" level="project" name="Maven: com.lmax:disruptor:3.4.4" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-web:2.16.0" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-api:2.16.0" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-core:2.16.0" />
         <element id="library" level="project" name="Maven: es.mityc.jumbo.adsi:xmlsec-1.4.2-ADSI:1.0" />
-        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.11.2" />
+        <element id="library" level="project" name="Maven: org.apache.logging.log4j:log4j-slf4j-impl:2.16.0" />
         <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-context:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-core:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.2.0.RELEASE" />
-        <element id="library" level="project" name="Maven: org.liquibase:liquibase-core:3.8.0" />
-        <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.23" />
-        <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.3.1" />
-        <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.3" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-context:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.13" />
+        <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.13" />
+        <element id="library" level="project" name="Maven: org.liquibase:liquibase-core:4.6.2" />
+        <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.3.0" />
+        <element id="library" level="project" name="Maven: org.quartz-scheduler:quartz:2.3.2" />
+        <element id="library" level="project" name="Maven: com.mchange:c3p0:0.9.5.4" />
         <element id="library" level="project" name="Maven: com.mchange:mchange-commons-java:0.2.15" />
         <element id="library" level="project" name="Maven: com.zaxxer:HikariCP-java7:2.4.13" />
         <element id="library" level="project" name="Maven: oracle:ojdbc6:11.2.0.3" />
