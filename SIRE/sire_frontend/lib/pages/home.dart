@@ -67,6 +67,7 @@ class _HomePageState extends State<HomePage>
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
+      print(json);
       Iterable l = json.decode(response.body)['items'];
       List<ContratoData> contratoDatas = List<ContratoData>.from(
           l.map((model) => ContratoData.fromJson(model)));

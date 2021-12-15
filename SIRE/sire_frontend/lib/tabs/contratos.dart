@@ -34,6 +34,8 @@ class ContratosView extends StatelessWidget {
           context,
           cuotas,
         ),
+        totalAbonos: items[0].totalAbonos,
+        valorCuota: items[0].valorCuota,
       ),
       sidebarItems: [
         for (UserDetailData item in detailItems)

@@ -20,7 +20,7 @@ class TakePictureScreen extends StatefulWidget {
   final String idCliente;
   final int idContrato;
   final int idCuota;
-  final double valorCuota;
+  final double saldoCuota;
 
   const TakePictureScreen({
     Key key,
@@ -28,7 +28,7 @@ class TakePictureScreen extends StatefulWidget {
     @required this.idCliente,
     @required this.idContrato,
     @required this.idCuota,
-    @required this.valorCuota,
+    @required this.saldoCuota,
   }) : super(key: key);
 
   @override
@@ -105,7 +105,6 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
               context,
               MaterialPageRoute(
                   builder: (context) => DisplayPictureScreen(
-                      cameraController: _controller,
                       imagePath: image?.path,
                       fechaReciboController: _fechaReciboController.value,
                       valorReciboController: _valorReciboController.value,
@@ -113,7 +112,7 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
                       idCliente: widget.idCliente,
                       idContrato: widget.idContrato,
                       idCuota: widget.idCuota,
-                      valorCuota: widget.valorCuota
+                      saldoCuota: widget.saldoCuota
                   )
               ),
             );
@@ -130,7 +129,6 @@ class DisplayPictureScreen extends StatelessWidget {
 
   const DisplayPictureScreen({
     Key key,
-    @required this.cameraController,
     @required this.imagePath,
     @required this.fechaReciboController,
     @required this.valorReciboController,
@@ -138,10 +136,9 @@ class DisplayPictureScreen extends StatelessWidget {
     @required this.idCliente,
     @required this.idContrato,
     @required this.idCuota,
-    @required this.valorCuota,
+    @required this.saldoCuota,
   }) : super(key: key);
 
-  final CameraController cameraController;
   final String imagePath;
   final TextEditingController fechaReciboController;
   final TextEditingController valorReciboController;
@@ -149,7 +146,7 @@ class DisplayPictureScreen extends StatelessWidget {
   final String idCliente;
   final int idContrato;
   final int idCuota;
-  final double valorCuota;
+  final double saldoCuota;
 
   Future<void> _showMyDialog(BuildContext context, String titulo, String mensaje) async {
     return showDialog<void>(
@@ -190,7 +187,7 @@ class DisplayPictureScreen extends StatelessWidget {
     double valorReciboFinal = double.parse(valorReciboController.value.text
         .replaceAll(",", ""));
 
-    if(valorCuota < valorReciboFinal) {
+    if(saldoCuota < valorReciboFinal) {
       _showMyDialog(context, 'Advertencia', 'Valor del Recibo incorrecto.');
       return;
     }
@@ -233,7 +230,7 @@ class DisplayPictureScreen extends StatelessWidget {
             'cod_forma_pago': "EFECTIVO",
             'nro_recibo_documento': nroDocumentController.text,
             "valor_recibo": valorReciboFinal,
-            "valor_cuota": valorCuota
+            "valor_cuota": saldoCuota
           }
       );
 
@@ -250,7 +247,7 @@ class DisplayPictureScreen extends StatelessWidget {
       print('cod_forma_pago -> ' + "EFECTIVO");
       print('nro_recibo_documento -> ' + nroDocumentController.text);
       print('valor_recibo -> ' + valorReciboController.value.text);
-      print('valor_cuota -> ' + valorCuota.toString());
+      print('valor_cuota -> ' + saldoCuota.toString());
 
       var response2 = await http.post(uri, body: body, headers: headers);
 
@@ -301,7 +298,7 @@ class DisplayPictureScreen extends StatelessWidget {
           idCliente: idCliente,
           idContrato: idContrato,
           idCuota: idCuota,
-          valorCuota: valorCuota,
+          valorCuota: saldoCuota,
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.send),

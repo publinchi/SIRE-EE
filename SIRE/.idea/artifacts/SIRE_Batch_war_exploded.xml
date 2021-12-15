@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="SIRE-Batch:war exploded">
-    <output-path>$PROJECT_DIR$/SIRE-Batch/target/SIRE-Batch-1.7.2</output-path>
+    <output-path>$PROJECT_DIR$/SIRE-Batch/target/SIRE-Batch-1.9.0</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -15,7 +15,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/SIRE-Batch/target/SIRE-Batch-1.7.2/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/SIRE-Batch/target/SIRE-Batch-1.9.0/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="SIRE-Batch/web/Web" />
     </root>

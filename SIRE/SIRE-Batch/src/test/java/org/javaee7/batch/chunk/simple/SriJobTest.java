@@ -3,7 +3,7 @@ package org.javaee7.batch.chunk.simple;
 import java.io.File;
 import static javax.batch.runtime.BatchRuntime.getJobOperator;
 import static javax.batch.runtime.BatchStatus.COMPLETED;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
@@ -16,14 +16,10 @@ import javax.batch.runtime.Metric;
 import javax.batch.runtime.StepExecution;
 
 import org.javaee7.util.BatchTestHelper;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * The Batch specification provides a Chunk Oriented processing style. This

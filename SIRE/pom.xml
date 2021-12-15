@@ -8,19 +8,20 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Lib's Versions -->
-        <disruptor.version>3.4.2</disruptor.version>
+        <disruptor.version>3.4.4</disruptor.version>
         <javaee-api.version>8.0</javaee-api.version>
-        <liquibase-core.version>3.8.0</liquibase-core.version>
-        <log4j-slf4j-impl.version>2.11.2</log4j-slf4j-impl.version>
-        <org.apache.logging.log4j.version>2.11.2</org.apache.logging.log4j.version>
-        <quartz.version>2.3.1</quartz.version>
-        <spring-boot-starter-batch.version>2.2.0.RELEASE</spring-boot-starter-batch.version>
-        <spring-context-support.version>5.2.0.RELEASE</spring-context-support.version>
+        <liquibase-core.version>4.6.2</liquibase-core.version>
+        <log4j-slf4j-impl.version>2.16.0</log4j-slf4j-impl.version>
+        <org.apache.logging.log4j.version>2.16.0</org.apache.logging.log4j.version>
+        <quartz.version>2.3.2</quartz.version>
+        <spring-boot-starter-batch.version>2.6.1</spring-boot-starter-batch.version>
+        <spring-context-support.version>5.3.13</spring-context-support.version>
         <xmlsec.version>1.4.2-ADSI</xmlsec.version>
         <!-- Module's Versions -->
-        <SIRE-Batch.version>1.8.0</SIRE-Batch.version>
+        <SIRE-Batch.version>1.9.0</SIRE-Batch.version>
         <SIRE-Commons.version>1.0.4</SIRE-Commons.version>
-        <SIRE-EE.version>1.9.0</SIRE-EE.version>
+        <SIRE-Crypt.version>1.0.0</SIRE-Crypt.version>
+        <SIRE-EE.version>2.0.0</SIRE-EE.version>
         <SIRE-Entities.version>1.1.1</SIRE-Entities.version>
         <SIRE-Rest.version>1.0.0</SIRE-Rest.version>
         <SIRE-RS-Client.version>1.0.0</SIRE-RS-Client.version>
@@ -31,8 +32,8 @@
         <SIRE-SRI-Batch-Commons.version>1.4.0</SIRE-SRI-Batch-Commons.version>
         <SIRE-SRI-Batch-Recepcion.version>1.3.0</SIRE-SRI-Batch-Recepcion.version>
         <SIRE-SRI-Entities.version>1.0.0</SIRE-SRI-Entities.version>
-        <SIRE-SRI-Reports.version>1.4.0</SIRE-SRI-Reports.version>
-        <SIRE-SRI-Signature.version>1.0.1.1</SIRE-SRI-Signature.version>
+        <SIRE-SRI-Reports.version>1.5.0</SIRE-SRI-Reports.version>
+        <SIRE-SRI-Signature.version>1.1.0</SIRE-SRI-Signature.version>
         <SIRE-SRI-WSClient.version>1.1.0</SIRE-SRI-WSClient.version>
         <SIRE-Web.version>1.0.1</SIRE-Web.version>
         <SIRE-WS.version>1.2.0</SIRE-WS.version>
@@ -58,19 +59,4 @@
         <module>SIRE-WS</module>
         <module>SIRE-EE</module>
     </modules>
-    <repositories>
-        <repository>
-            <id>Central Repository</id>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>dev.fit-bank.com</id>
-            <url>http://dev.fit-bank.com/nexus/content/groups/public-snapshots/</url>
-        </repository>
-        <repository>
-            <id>guillermo</id>
-            <name>guillermo-repo</name>
-            <url>http://maven.petalslink.com/repo</url>
-        </repository>
-    </repositories>
 </project>

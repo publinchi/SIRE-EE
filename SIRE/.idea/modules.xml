@@ -22,6 +22,7 @@
       <module fileurl="file://$PROJECT_DIR$/SIRE-Soap/SIRE-Soap.iml" filepath="$PROJECT_DIR$/SIRE-Soap/SIRE-Soap.iml" />
       <module fileurl="file://$PROJECT_DIR$/SIRE-WS/SIRE-WS.iml" filepath="$PROJECT_DIR$/SIRE-WS/SIRE-WS.iml" />
       <module fileurl="file://$PROJECT_DIR$/SIRE-Web/SIRE-Web.iml" filepath="$PROJECT_DIR$/SIRE-Web/SIRE-Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sire_frontend/sire_frontend.iml" filepath="$PROJECT_DIR$/sire_frontend/sire_frontend.iml" />
     </modules>
   </component>
 </project>
