@@ -46,6 +46,12 @@ public class Constant {
     public static final String DATE_FORMAT_2 = "dd-MM-yyyy HH:mm:ss";
     public static final String AUTORIZADO = "AUTORIZADO";
     public static final String EN_PROCESAMIENTO = "EN PROCESAMIENTO";
+    public static final String DIRECCION_CC = "Direccion";
+    public static final String TELEFONO_CC = "Telefono";
+    public static final String OBSERVACION_CC = "Observacion";
+    public static final String DD_MM_YYYY = "dd/MM/yyyy";
+    public static final String VERSION = "1.1.0";
+    public static final String DETALLE_SQL = "detalleSQL -> {}";
 
     // Tablas
     public static final String FAC_FACTURA_C = "FAC_FACTURA_C";

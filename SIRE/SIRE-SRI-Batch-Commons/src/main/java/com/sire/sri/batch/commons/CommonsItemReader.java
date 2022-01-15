@@ -48,6 +48,8 @@ public abstract class CommonsItemReader extends AbstractItemReader {
 
     private static final Logger log = LogManager.getLogger(CommonsItemReader.class);
     protected String codEmpresa;
+    private static IDatasourceService datasourceService;
+    private static String databaseProductName;
 
     protected void _buildFacturas(ResultSet rs, List comprobantes) throws SQLException,
             NamingException {
@@ -975,12 +977,11 @@ public abstract class CommonsItemReader extends AbstractItemReader {
     }
 
     protected IDatasourceService getDatasourceService() {
-        IDatasourceService datasourceService = null;
         try {
-            //    if (connection == null || (connection != null && connection.isClosed())) {
-            InitialContext ic = new InitialContext();
-            datasourceService = (IDatasourceService) ic.lookup("java:global/SIRE-EE/SIRE-Services/DatasourceService!com.sire.service.IDatasourceService");
-            //    }
+            if(Objects.isNull(datasourceService)) {
+                InitialContext ic = new InitialContext();
+                datasourceService = (IDatasourceService) ic.lookup("java:global/SIRE-EE/SIRE-Services/DatasourceService!com.sire.service.IDatasourceService");
+            }
         } catch (NamingException e) {
             log.log(Level.ERROR, e);
         }
@@ -988,13 +989,10 @@ public abstract class CommonsItemReader extends AbstractItemReader {
     }
 
     protected String getDatabaseProductName() {
-        String databaseProductName = null;
         try {
-            //    if (connection == null || (connection != null && connection.isClosed())) {
-            InitialContext ic = new InitialContext();
-            IDatasourceService datasourceService = (IDatasourceService) ic.lookup("java:global/SIRE-EE/SIRE-Services/DatasourceService!com.sire.service.IDatasourceService");
-            databaseProductName = datasourceService.getDatabaseProductName();
-            //    }
+            if(Objects.isNull(databaseProductName)) {
+                databaseProductName = getDatasourceService().getDatabaseProductName();
+            }
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
         }
