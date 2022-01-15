@@ -371,8 +371,8 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     .append(liquidacion.getInfoTributaria().getPtoEmi()).append(Constant.GUION)
                     .append(liquidacion.getInfoTributaria().getSecuencial());
             claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
-            nombreTablaComprobante = Constant.INV_MOVIMIENTO_CAB;
-            nombreSecuencial = Constant.NUM_SECUENCIAL;
+            nombreTablaComprobante = Constant.CXP_DOC_PAGAR;
+            nombreSecuencial = Constant.SECUENCIAL;
         } else if (((Map) item).get(Constant.COMPROBANTE) instanceof NotaCredito) {
             NotaCredito notaCredito = (NotaCredito) ((Map) item).get(Constant.COMPROBANTE);
             secuencial = new StringBuffer();

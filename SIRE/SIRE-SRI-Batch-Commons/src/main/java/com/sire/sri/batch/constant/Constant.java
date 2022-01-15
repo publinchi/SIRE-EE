@@ -54,6 +54,7 @@ public class Constant {
     public static final String PED_DESPACHO_C = "PED_DESPACHO_C";
     public static final String BAN_RETENCION_C = "BAN_RETENCION_C";
     public static final String CXC_DOC_COBRAR = "CXC_DOC_COBRAR";
+    public static final String CXP_DOC_PAGAR = "CXP_DOC_PAGAR";
 
     // Columnas
     public static final String SECUENCIAL = "SECUENCIAL";
