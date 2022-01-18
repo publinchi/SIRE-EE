@@ -149,6 +149,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             infoFactura.setPagos(pagos);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -219,6 +220,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(factura);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -335,6 +337,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             infoLiquidacionCompra.setPagos(pagos);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -405,6 +408,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(liquidacion);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -550,6 +554,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(notaCredito);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -645,6 +650,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             notaDebito.setInfoNotaDebito(infoNotaDebito);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -774,6 +780,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             }
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -846,6 +853,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(guiaRemision);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -960,6 +968,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(comprobanteRetencion);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
+            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }

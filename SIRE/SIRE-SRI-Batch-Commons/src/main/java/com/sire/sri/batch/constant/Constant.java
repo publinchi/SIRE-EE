@@ -33,7 +33,7 @@ public class Constant {
     public static final String PASS_SIGNATURE = "passSignature";
     public static final String URL_RECEPCION = "urlRecepcion";
     public static final String SOAP_MESSAGE = "soapMessage";
-    public static final String CLAVE_ACCESO = "claveAcceso";
+    public static final String CLAVE_ACCESO = "CLAVE_ACCESO";
     public static final String MENSAJES = "mensajes";
     public static final String IDENTIFICADOR = "identificador";
     public static final String MENSAJE = "mensaje";
@@ -46,6 +46,7 @@ public class Constant {
     public static final String DATE_FORMAT_2 = "dd-MM-yyyy HH:mm:ss";
     public static final String AUTORIZADO = "AUTORIZADO";
     public static final String EN_PROCESAMIENTO = "EN PROCESAMIENTO";
+    public static final String CLAVE_ACCESO_CC = "claveAcceso";
     public static final String DIRECCION_CC = "Direccion";
     public static final String TELEFONO_CC = "Telefono";
     public static final String OBSERVACION_CC = "Observacion";

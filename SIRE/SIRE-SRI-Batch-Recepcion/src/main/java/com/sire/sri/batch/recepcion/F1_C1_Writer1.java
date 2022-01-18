@@ -261,7 +261,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
             NodeList hijosComprobante = comprobanteNode.getChildNodes();
 
             for (int j = 0; j < hijosComprobante.getLength(); j++) {
-                if (hijosComprobante.item(j).getNodeName().equals(Constant.CLAVE_ACCESO)) {
+                if (hijosComprobante.item(j).getNodeName().equals(Constant.CLAVE_ACCESO_CC)) {
                     comprobante.setClaveAcceso(hijosComprobante.item(j).getTextContent());
                 } else if (hijosComprobante.item(j).getNodeName().equals(Constant.MENSAJES)) {
                     NodeList mensajesNodeList;
