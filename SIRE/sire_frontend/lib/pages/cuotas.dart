@@ -298,18 +298,151 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                           shrinkWrap: true,
                           children: [
                             for (DetailedCuotaData detailedEventData
-                            in snapshot.data)
-                              _DetailedCuotasCard(
-                                fechaCuota: detailedEventData.fechaCuota,
-                                saldoCuota: detailedEventData.saldoCuota,
-                                valorAbono: detailedEventData.valorAbono,
-                                //valorCuota: detailedEventData.valorCuota,
-                                actualizoPor: detailedEventData.actualizoPor,
-                                codCliente: detailedEventData.codCliente,
-                                numContrato: numContrato,
-                                nroCuota: detailedEventData.nroCuota,
-                                estadoCuota: detailedEventData.estado_cuota,
+                            in snapshot.data.sublist(0,2))
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _DetailedCuotasCard(
+                                      fechaCuota: detailedEventData.fechaCuota,
+                                      saldoCuota: detailedEventData.saldoCuota,
+                                      valorAbono: detailedEventData.valorAbono,
+                                      //valorCuota: detailedEventData.valorCuota,
+                                      actualizoPor: detailedEventData.actualizoPor,
+                                      codCliente: detailedEventData.codCliente,
+                                      numContrato: numContrato,
+                                      nroCuota: detailedEventData.nroCuota,
+                                      estadoCuota: detailedEventData.estado_cuota,
+                                    ),
+                                  ),
+                                  if (detailedEventData.abonoCapital != 0)
+                                    IconButton(
+                                      onPressed: () => {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            content:
+                                            Text("Abono Capital: " +
+                                                usdWithSignFormat(context)
+                                                    .format(
+                                                    detailedEventData.abonoCapital
+                                                ),
+                                              style: Theme.of(context)
+                                                  .textTheme.bodyText1.copyWith(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      },
+                                      icon: Icon(
+                                        Icons.add_box,
+                                        color: RallyColors.accountColors[0],
+                                      ),
+                                    ),
+                                ],
                               ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  onPressed: () => {
+                                    showDialog(
+                                      context: context,
+                                      builder: (_) => AlertDialog(
+                                        content: Text(
+                                          'Valores no reembolsables.',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  },
+                                  icon:  Icon(
+                                    Icons.warning_amber_outlined,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                _EventCuotaTitle(
+                                  //title: nroCuota.toString(),
+                                  estadoCuota: "TOTAL RESERVA: ",
+                                ),
+                                _EventCuotaAmount(amount: snapshot.data
+                                    .sublist(0, 2).map((detailedEventData) =>
+                                detailedEventData.valorAbono)
+                                    .fold(0, (prev, amount) => prev + amount)
+                                    , estadoCuota: "CANCELADO"
+                                ),
+                                Text(
+                                    "    "
+                                ),
+                              ],
+                            ),
+                            for (DetailedCuotaData detailedEventData
+                            in snapshot.data.sublist(2))
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: _DetailedCuotasCard(
+                                      fechaCuota: detailedEventData.fechaCuota,
+                                      saldoCuota: detailedEventData.saldoCuota,
+                                      valorAbono: detailedEventData.valorAbono,
+                                      //valorCuota: detailedEventData.valorCuota,
+                                      actualizoPor: detailedEventData.actualizoPor,
+                                      codCliente: detailedEventData.codCliente,
+                                      numContrato: numContrato,
+                                      nroCuota: detailedEventData.nroCuota,
+                                      estadoCuota: detailedEventData.estado_cuota,
+                                    ),
+                                  ),
+                                  if (detailedEventData.abonoCapital != 0)
+                                    IconButton(
+                                      onPressed: () => {
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            content:
+                                            Text("Abono Capital: " +
+                                                usdWithSignFormat(context)
+                                                    .format(
+                                                    detailedEventData.abonoCapital
+                                                ),
+                                              style: Theme.of(context)
+                                                  .textTheme.bodyText1.copyWith(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      },
+                                      icon: Icon(
+                                        Icons.warning_amber_outlined,
+                                        color: RallyColors.accountColors[0],
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                _EventCuotaTitle(
+                                  //title: nroCuota.toString(),
+                                  estadoCuota: "TOTAL: ",
+                                ),
+                                _EventCuotaAmount(amount: snapshot.data
+                                    .sublist(2).map((detailedEventData) =>
+                                detailedEventData.valorAbono)
+                                    .fold(0, (prev, amount) => prev + amount)
+                                    , estadoCuota: "CANCELADO"
+                                ),
+                                Text(
+                                    "    "
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -370,18 +503,18 @@ class _DetailedCuotasCard extends StatelessWidget {
               )
           )
         /*Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    TakePictureScreen(
-                      camera: firstCamera,
-                      idCliente: codCliente,
-                      idContrato: numContrato,
-                      idCuota: nroCuota,
-                      //valorCuota: valorCuota,
-                    )
-            ),
-          ),*/
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                TakePictureScreen(
+                  camera: firstCamera,
+                  idCliente: codCliente,
+                  idContrato: numContrato,
+                  idCuota: nroCuota,
+                  //valorCuota: valorCuota,
+                )
+        ),
+      ),*/
       },
       child: Column(
         children: [
@@ -394,7 +527,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: _EventCuotaTitle(
-                    title: nroCuota.toString(),
+                    //title: nroCuota.toString(),
                     estadoCuota: estadoCuota,
                   ),
                 ),
@@ -422,41 +555,50 @@ class _DetailedCuotasCard extends StatelessWidget {
                 ),
               ],
             )
-                : Wrap(
-              alignment: WrapAlignment.spaceBetween,
+                : Row(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _EventCuotaTitle(
-                      title: nroCuota.toString(),
-                      estadoCuota: estadoCuota,
-                    ),
-                    _EventCuotaDate(
-                        date: fechaCuota
-                    ),
-                  ],
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _EventCuotaTitle(
+                        estadoCuota: estadoCuota,
+                      ),
+                      _EventCuotaDate(
+                          date: fechaCuota
+                      ),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text("Abono:"),
-                    _EventCuotaAmount(
-                      amount: valorAbono,
-                      estadoCuota: estadoCuota,
-                    ),
-                  ],
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("Abono:"),
+                      _EventCuotaAmount(
+                        amount: valorAbono,
+                        estadoCuota: estadoCuota,
+                      ),
+                    ],
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text("Saldo:"),
-                    _EventCuotaAmount(
-                      amount: saldoCuota,
-                      estadoCuota: estadoCuota,
-                    ),
-                  ],
+                Expanded(
+                  flex: 3,
+                  child:  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text("Saldo:"),
+                      _EventCuotaAmount(
+                        amount: saldoCuota,
+                        estadoCuota: estadoCuota,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -540,18 +682,19 @@ class _EventCuotaDate extends StatelessWidget {
 class _EventCuotaTitle extends StatelessWidget {
   const _EventCuotaTitle({
     Key key,
-    @required this.title,
+    //@required this.title,
     @required this.estadoCuota,
   }) : super(key: key);
 
-  final String title;
+  //final String title;
   final String estadoCuota;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Text(
-      title + " " + estadoCuota,
+      //title + " " + estadoCuota,
+      estadoCuota,
       style: textTheme.bodyText2.copyWith(fontSize: 16),
     );
   }
