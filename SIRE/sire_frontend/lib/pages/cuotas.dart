@@ -297,51 +297,6 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                         child: ListView(
                           shrinkWrap: true,
                           children: [
-                            for (DetailedCuotaData detailedEventData
-                            in snapshot.data.sublist(0,2))
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: _DetailedCuotasCard(
-                                      fechaCuota: detailedEventData.fechaCuota,
-                                      saldoCuota: detailedEventData.saldoCuota,
-                                      valorAbono: detailedEventData.valorAbono,
-                                      //valorCuota: detailedEventData.valorCuota,
-                                      actualizoPor: detailedEventData.actualizoPor,
-                                      codCliente: detailedEventData.codCliente,
-                                      numContrato: numContrato,
-                                      nroCuota: detailedEventData.nroCuota,
-                                      estadoCuota: detailedEventData.estado_cuota,
-                                    ),
-                                  ),
-                                  if (detailedEventData.abonoCapital != 0)
-                                    IconButton(
-                                      onPressed: () => {
-                                        showDialog(
-                                          context: context,
-                                          builder: (_) => AlertDialog(
-                                            content:
-                                            Text("Abono Capital: " +
-                                                usdWithSignFormat(context)
-                                                    .format(
-                                                    detailedEventData.abonoCapital
-                                                ),
-                                              style: Theme.of(context)
-                                                  .textTheme.bodyText1.copyWith(
-                                                fontSize: 20,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      },
-                                      icon: Icon(
-                                        Icons.add_box,
-                                        color: RallyColors.accountColors[0],
-                                      ),
-                                    ),
-                                ],
-                              ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
@@ -351,11 +306,12 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                       context: context,
                                       builder: (_) => AlertDialog(
                                         content: Text(
-                                          'Valores no reembolsables.',
+                                          '"Valor Facturado".',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
@@ -414,6 +370,7 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                                 fontSize: 20,
                                                 color: Colors.black,
                                               ),
+                                              textAlign: TextAlign.center,
                                             ),
                                           ),
                                         ),
@@ -436,6 +393,10 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                     .sublist(2).map((detailedEventData) =>
                                 detailedEventData.valorAbono)
                                     .fold(0, (prev, amount) => prev + amount)
+                                    + snapshot.data
+                                        .sublist(2).map((detailedEventData) =>
+                                    detailedEventData.abonoCapital)
+                                        .fold(0, (prev, amount) => prev + amount)
                                     , estadoCuota: "CANCELADO"
                                 ),
                                 Text(
@@ -632,7 +593,7 @@ class _EventCuotaAmount extends StatelessWidget {
       return Text(
         usdWithSignFormat(context).format(amount),
         style: textTheme.bodyText1.copyWith(
-          fontSize: 20,
+          fontSize: 18,
           color: Colors.yellow,
         ),
       );
@@ -640,7 +601,7 @@ class _EventCuotaAmount extends StatelessWidget {
       return Text(
         usdWithSignFormat(context).format(amount),
         style: textTheme.bodyText1.copyWith(
-          fontSize: 20,
+          fontSize: 18,
           color: Colors.red,
         ),
       );
@@ -648,7 +609,7 @@ class _EventCuotaAmount extends StatelessWidget {
       return Text(
         usdWithSignFormat(context).format(amount),
         style: textTheme.bodyText1.copyWith(
-          fontSize: 20,
+          fontSize: 18,
           color: Colors.green,
         ),
       );
@@ -656,7 +617,7 @@ class _EventCuotaAmount extends StatelessWidget {
       return Text(
         usdWithSignFormat(context).format(amount),
         style: textTheme.bodyText1.copyWith(
-          fontSize: 20,
+          fontSize: 18,
           color: RallyColors.gray,
         ),
       );
