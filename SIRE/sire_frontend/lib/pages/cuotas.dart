@@ -353,9 +353,9 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                       estadoCuota: detailedEventData.estado_cuota,
                                     ),
                                   ),
-                                  if (detailedEventData.abonoCapital != 0)
-                                    IconButton(
-                                      onPressed: () => {
+                                  IconButton(
+                                    onPressed: () => {
+                                      if (detailedEventData.abonoCapital != 0)
                                         showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
@@ -374,12 +374,14 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                      },
-                                      icon: Icon(
-                                        Icons.warning_amber_outlined,
-                                        color: RallyColors.accountColors[0],
-                                      ),
+                                    },
+                                    icon: Icon(
+                                      Icons.warning_amber_outlined,
+                                      color: detailedEventData.abonoCapital != 0
+                                          ? RallyColors.accountColors[0]
+                                          : Colors.transparent,
                                     ),
+                                  ),
                                 ],
                               ),
                             Row(
