@@ -379,7 +379,7 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                       Icons.warning_amber_outlined,
                                       color: detailedEventData.abonoCapital != 0
                                           ? RallyColors.accountColors[0]
-                                          : Colors.transparent,
+                                          : Color(0xFF33333D),
                                     ),
                                   ),
                                 ],
@@ -521,7 +521,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                 : Row(
               children: [
                 Expanded(
-                  flex: 4,
+                  flex: 2,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -536,7 +536,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -550,7 +550,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child:  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -637,7 +637,10 @@ class _EventCuotaDate extends StatelessWidget {
     return Text(
       shortDateFormat(context).format(date), //TODO
       semanticsLabel: longDateFormat(context).format(date), //TODO
-      style: textTheme.bodyText2.copyWith(color: RallyColors.gray60),
+      style: textTheme.bodyText2.copyWith(
+          color: RallyColors.gray60,
+          fontSize: 10,
+      ),
     );
   }
 }
@@ -658,7 +661,7 @@ class _EventCuotaTitle extends StatelessWidget {
     return Text(
       //title + " " + estadoCuota,
       estadoCuota,
-      style: textTheme.bodyText2.copyWith(fontSize: 16),
+      style: textTheme.bodyText2.copyWith(fontSize: 10),
     );
   }
 }
