@@ -661,7 +661,7 @@ class _EventCuotaTitle extends StatelessWidget {
     return Text(
       //title + " " + estadoCuota,
       estadoCuota,
-      style: textTheme.bodyText2.copyWith(fontSize: 10),
+      style: textTheme.bodyText2.copyWith(fontSize: 9),
     );
   }
 }
