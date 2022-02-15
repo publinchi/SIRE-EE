@@ -639,7 +639,7 @@ class _EventCuotaDate extends StatelessWidget {
       semanticsLabel: longDateFormat(context).format(date), //TODO
       style: textTheme.bodyText2.copyWith(
           color: RallyColors.gray60,
-          fontSize: 10,
+          fontSize: 8,
       ),
     );
   }
