@@ -68,7 +68,8 @@ dev_dependencies:
   flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
-  image_path: 'images/Sire_Pagos.jpg'
+  image_path_android: 'images/playstore.png'
+  image_path_ios: 'images/appstore.png'
   android: true
   ios: true
 
@@ -169,7 +170,8 @@ flutter:
     - images/Sire_Pagos.png
     - images/rally_card.png
     - images/semaforo.png
-    - images/Sire_Pagos.jpg
+    - images/playstore.png
+    - images/appstore.png
 
   generate: true
   uses-material-design: true
