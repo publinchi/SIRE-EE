@@ -585,7 +585,7 @@ class _EventCuotaAmount extends StatelessWidget {
     @required this.estadoCuota,
   }) : super(key: key);
 
-  final double amount;
+  final num amount;
   final String estadoCuota;
 
   @override
