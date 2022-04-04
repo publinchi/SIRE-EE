@@ -387,7 +387,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
     }
 
     @Override
-    public JAXBContext getContextInstance(Class objectClass) {
+    public JAXBContext getContextInstance(Class objectClass) throws JAXBException {
         return SoapUtil.getContextInstance(objectClass);
     }
 }

@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class CommonsItemWriter extends AbstractItemWriter {
 
-    public abstract JAXBContext getContextInstance(Class objectClass);
+    public abstract JAXBContext getContextInstance(Class objectClass) throws JAXBException;
 
     private static final Logger log = LogManager.getLogger(CommonsItemWriter.class);
 

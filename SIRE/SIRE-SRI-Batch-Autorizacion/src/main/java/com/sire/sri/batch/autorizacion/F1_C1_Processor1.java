@@ -52,7 +52,6 @@ public class F1_C1_Processor1 implements ItemProcessor {
         Map mapCall = SoapUtil.call(
                 createSOAPMessage(claveAcceso),
                 new URL(urlAutorizacion),
-                null,
                 null);
 
         if(Objects.isNull(mapCall)) {

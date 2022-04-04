@@ -148,7 +148,6 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                 Map mapCall = SoapUtil.call(
                         createSOAPMessage(new String(Base64.getEncoder().encode(doc2bytes(xml2document(loteXml))))),
                         new URL(urlRecepcion),
-                        null,
                         null);
                 SOAPMessage soapMessage = (SOAPMessage) mapCall.get(Constant.SOAP_MESSAGE);
 
@@ -488,7 +487,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
     }
 
     @Override
-    public JAXBContext getContextInstance(Class objectClass) {
+    public JAXBContext getContextInstance(Class objectClass) throws JAXBException {
         return SoapUtil.getContextInstance(objectClass);
     }
 }
