@@ -52,6 +52,7 @@ dependencies:
   currency_text_input_formatter: ^2.0.0
   datetime_picker_formfield: ^2.0.0
   image_picker: ^0.8.4+1
+  rename: ^2.0.1
 
 dev_dependencies:
   flutter_test:
