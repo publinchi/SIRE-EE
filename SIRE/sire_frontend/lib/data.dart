@@ -17,9 +17,9 @@ double sumBillDataPrimaryAmount(List<BillData> items) =>
 
 /// Calculates the sum of the primary amounts of a list of [BillData].
 double sumBillDataPaidAmount(List<BillData> items) => sumOf<BillData>(
-      items.where((item) => item.isPaid).toList(),
+  items.where((item) => item.isPaid).toList(),
       (item) => item.primaryAmount,
-    );
+);
 
 /// Calculates the sum of the primary amounts of a list of [BudgetData].
 double sumBudgetDataPrimaryAmount(List<BudgetData> items) =>
@@ -133,14 +133,15 @@ class UserDetailData {
 
 /// A data model for an contrato.
 class ContratoData {
-  ContratoData(
-      {this.codEmpresa,
-      this.codCliente,
-      this.numContrato,
-      this.fechaContrato,
-      this.valorContrato,
-      this.totalAbonos,
-      this.valorCuota,});
+  ContratoData({
+    this.codEmpresa,
+    this.codCliente,
+    this.numContrato,
+    this.fechaContrato,
+    this.valorContrato,
+    this.totalAbonos,
+    this.valorCuota,
+  });
 
   final String codEmpresa;
 
@@ -184,6 +185,7 @@ class DetailedCuotaData {
     this.fechaEstado,
     this.actualizoPor,
     this.fechaActualizacion,
+    this.abonoCapital,
   });
 
   final String codEmpresa;
@@ -199,6 +201,7 @@ class DetailedCuotaData {
   final String fechaEstado;
   final String actualizoPor;
   final String fechaActualizacion;
+  final double abonoCapital;
 
   factory DetailedCuotaData.fromJson(Map<String, dynamic> json) {
     return DetailedCuotaData(
@@ -215,6 +218,7 @@ class DetailedCuotaData {
       fechaEstado: json['fecha_estado'],
       actualizoPor: json['actualizo_por'],
       fechaActualizacion: json['fecha_actualizacion'],
+      abonoCapital: json['abono_capital'] * 1.0,
     );
   }
 }
@@ -257,12 +261,12 @@ class DummyDataService {
       ),
       UserDetailData(
         title:
-            GalleryLocalizations.of(context).rallyAccountDetailDataInterestRate,
+        GalleryLocalizations.of(context).rallyAccountDetailDataInterestRate,
         value: usdWithSignFormat(context).format(1676.14),
       ),
       UserDetailData(
         title:
-            GalleryLocalizations.of(context).rallyAccountDetailDataInterestYtd,
+        GalleryLocalizations.of(context).rallyAccountDetailDataInterestYtd,
         value: usdWithSignFormat(context).format(81.45),
       ),
       UserDetailData(
@@ -277,7 +281,7 @@ class DummyDataService {
       ),
       UserDetailData(
         title:
-            GalleryLocalizations.of(context).rallyAccountDetailDataAccountOwner,
+        GalleryLocalizations.of(context).rallyAccountDetailDataAccountOwner,
         value: 'Philip Cao',
       ),
     ];
@@ -435,13 +439,13 @@ class DummyDataService {
       AlertData(
         message: GalleryLocalizations.of(context)
             .rallyAlertsMessageHeadsUpShopping(
-                percentFormat(context, decimalDigits: 0).format(0.9)),
+            percentFormat(context, decimalDigits: 0).format(0.9)),
         iconData: Icons.sort,
       ),
       AlertData(
         message: GalleryLocalizations.of(context)
             .rallyAlertsMessageSpentOnRestaurants(
-                usdWithSignFormat(context, decimalDigits: 0).format(120)),
+            usdWithSignFormat(context, decimalDigits: 0).format(120)),
         iconData: Icons.sort,
       ),
       AlertData(
@@ -452,7 +456,7 @@ class DummyDataService {
       AlertData(
         message: GalleryLocalizations.of(context)
             .rallyAlertsMessageCheckingAccount(
-                percentFormat(context, decimalDigits: 0).format(0.04)),
+            percentFormat(context, decimalDigits: 0).format(0.04)),
         iconData: Icons.attach_money,
       ),
       AlertData(
