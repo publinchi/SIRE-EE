@@ -177,6 +177,7 @@ class DetailedCuotaData {
     this.numContrato,
     this.nroCuota,
     this.fechaCuota,
+    this.fechaUltimaAbono,
     //this.valorCuota,
     this.saldoCuota,
     this.valorAbono,
@@ -193,6 +194,7 @@ class DetailedCuotaData {
   final int numContrato;
   final int nroCuota;
   final DateTime fechaCuota;
+  final DateTime fechaUltimaAbono;
   //final double valorCuota;
   final double valorAbono;
   final double saldoCuota;
@@ -210,6 +212,9 @@ class DetailedCuotaData {
       numContrato: json['num_contrato'],
       nroCuota: json['nro_cuota'],
       fechaCuota: DateTime.parse(json['fecha_cuota']),
+      fechaUltimaAbono: DateTime.parse(json['fecha_ultima_abono'] == null
+          ? DateTime.now().toString()
+          : json['fecha_ultima_abono']),
       //valorCuota: json['valor_cuota'] * 1.0,
       valorAbono: json['valor_abono'] * 1.0,
       saldoCuota: json['saldo_cuota'] * 1.0,

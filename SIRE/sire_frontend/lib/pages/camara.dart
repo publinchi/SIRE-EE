@@ -187,10 +187,10 @@ class DisplayPictureScreen extends StatelessWidget {
     double valorReciboFinal = double.parse(valorReciboController.value.text
         .replaceAll(",", ""));
 
-    if(saldoCuota < valorReciboFinal) {
+    /*if(saldoCuota < valorReciboFinal) {
       _showMyDialog(context, 'Advertencia', 'Valor del Recibo incorrecto.');
       return;
-    }
+    }*/
 
     var domain = 'sire.bmcmotors.com.ec';
     var port = '8000';
@@ -212,6 +212,7 @@ class DisplayPictureScreen extends StatelessWidget {
     );
 
     print('response.statusCode -> ' + response.statusCode.toString());
+    print('response.statusCode -> ' + response.body);
 
     if(response.statusCode == 201) {
       int id = json.decode(response.body)['id'];

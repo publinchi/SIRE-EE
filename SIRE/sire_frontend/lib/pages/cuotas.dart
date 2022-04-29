@@ -270,6 +270,17 @@ class EntityCuotasDetailsPage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
               }
+
+              var estado = "RECIBIDO";
+
+              if (snapshot.data.first.estado_cuota == "EN PLANILLA"
+                  || snapshot.data.elementAt(1).estado_cuota == "EN PLANILLA") {
+                estado = "EN PLANILLA";
+              } else if (snapshot.data.first.estado_cuota == "RECHAZADO"
+                  || snapshot.data.elementAt(1).estado_cuota == "RECHAZADO") {
+                estado = "RECHAZADO";
+              }
+
               return Scaffold(
                 appBar: AppBar(
                   elevation: 0,
@@ -300,15 +311,70 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
+                                Expanded(
+                                  child: _DetailedCuotasCard(
+                                    fechaCuota: snapshot.data.first.fechaCuota,
+                                    saldoCuota: snapshot.data
+                                        .sublist(0, 2).map((detailedEventData) =>
+                                    detailedEventData.saldoCuota)
+                                        .fold(0, (prev, amount) => prev + amount),
+                                    valorAbono: snapshot.data
+                                        .sublist(0, 2).map((detailedEventData) =>
+                                    detailedEventData.valorAbono)
+                                        .fold(0, (prev, amount) => prev + amount),
+                                    //valorCuota: detailedEventData.valorCuota,
+                                    actualizoPor: snapshot.data.first.actualizoPor,
+                                    codCliente: snapshot.data.first.codCliente,
+                                    numContrato: snapshot.data.first.numContrato,
+                                    nroCuota: snapshot.data.first.nroCuota,
+                                    estadoCuota: estado,
+                                  ),
+                                ),
+                                /*TextButton(
+                                    onPressed: () => {
+                                      if((snapshot.data.first.estado_cuota == "EN PLANILLA" || snapshot.data.elementAt(1).estado_cuota == "EN PLANILLA")
+                                          || snapshot.data.first.estado_cuota == "RECHAZADO" || snapshot.data.elementAt(1).estado_cuota == "RECHAZADO")
+                                        showDialog(
+                                            context: context,
+                                            builder: (_) => ImageDialog(
+                                              camera: firstCamera,
+                                              idCliente: snapshot.data.first.codCliente,
+                                              idContrato: numContrato,
+                                              idCuota: snapshot.data.first.nroCuota,
+                                              estadoCuota: snapshot.data.first.estado_cuota,
+                                              saldoCuota: snapshot.data
+                                                  .sublist(0, 2).map((detailedEventData) =>
+                                              detailedEventData.saldoCuota)
+                                                  .fold(0, (prev, amount) => prev + amount),
+                                              //valorCuota: valorCuota,
+                                            )
+                                        )
+                                    },
+                                    child: Column(
+                                      children: [
+                                        _EventCuotaTitle(
+                                          //title: nroCuota.toString(),
+                                          estadoCuota: "TOTAL RESERVA: ",
+                                        ),
+                                        _EventCuotaAmount(amount: snapshot.data
+                                            .sublist(0, 2).map((detailedEventData) =>
+                                        detailedEventData.valorAbono)
+                                            .fold(0, (prev, amount) => prev + amount)
+                                            , estadoCuota: "CANCELADO"
+                                        ),
+                                      ],
+                                    )
+                                ),*/
                                 IconButton(
                                   onPressed: () => {
                                     showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
                                         content: Text(
-                                          '"Valor Facturado".',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
+                                          "Valor Facturado.",
+                                          style: Theme.of(context)
+                                              .textTheme.bodyText1.copyWith(
+                                            fontSize: 20,
                                             color: Colors.black,
                                           ),
                                           textAlign: TextAlign.center,
@@ -320,19 +386,6 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                     Icons.warning_amber_outlined,
                                     color: Colors.red,
                                   ),
-                                ),
-                                _EventCuotaTitle(
-                                  //title: nroCuota.toString(),
-                                  estadoCuota: "TOTAL RESERVA: ",
-                                ),
-                                _EventCuotaAmount(amount: snapshot.data
-                                    .sublist(0, 2).map((detailedEventData) =>
-                                detailedEventData.valorAbono)
-                                    .fold(0, (prev, amount) => prev + amount)
-                                    , estadoCuota: "CANCELADO"
-                                ),
-                                Text(
-                                    "    "
                                 ),
                               ],
                             ),
@@ -354,13 +407,12 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                     ),
                                   ),
                                   IconButton(
-                                    onPressed: () => {
+                                    onPressed: hasWarnings(detailedEventData) ? () => {
                                       if (detailedEventData.abonoCapital != 0)
                                         showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
-                                            content:
-                                            Text("Abono Capital: " +
+                                            content: Text("Abono Capital: " +
                                                 usdWithSignFormat(context)
                                                     .format(
                                                     detailedEventData.abonoCapital
@@ -374,10 +426,25 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                    },
+                                      if (detailedEventData.fechaUltimaAbono.isAfter(detailedEventData.fechaCuota))
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            content: Text("Pago Fuera de Fecha.",
+                                              style: Theme.of(context)
+                                                  .textTheme.bodyText1.copyWith(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
+                                    }
+                                        : null,
                                     icon: Icon(
                                       Icons.warning_amber_outlined,
-                                      color: detailedEventData.abonoCapital != 0
+                                      color: hasWarnings(detailedEventData)
                                           ? RallyColors.accountColors[0]
                                           : Color(0xFF33333D),
                                     ),
@@ -417,6 +484,11 @@ class EntityCuotasDetailsPage extends StatelessWidget {
         )
     );
   }
+
+  hasWarnings(DetailedCuotaData detailedEventData) {
+    return detailedEventData.abonoCapital != 0
+        || detailedEventData.fechaUltimaAbono.isAfter(detailedEventData.fechaCuota);
+  }
 }
 
 class _DetailedCuotasCard extends StatelessWidget {
@@ -451,20 +523,19 @@ class _DetailedCuotasCard extends StatelessWidget {
         primary: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
-      onPressed: () => {
-        if(estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO")
-          showDialog(
-              context: context,
-              builder: (_) => ImageDialog(
-                camera: firstCamera,
-                idCliente: codCliente,
-                idContrato: numContrato,
-                idCuota: nroCuota,
-                estadoCuota: estadoCuota,
-                saldoCuota: saldoCuota,
-                //valorCuota: valorCuota,
-              )
-          )
+      onPressed: (estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO") ? () => {
+        showDialog(
+            context: context,
+            builder: (_) => ImageDialog(
+              camera: firstCamera,
+              idCliente: codCliente,
+              idContrato: numContrato,
+              idCuota: nroCuota,
+              estadoCuota: estadoCuota,
+              saldoCuota: saldoCuota,
+              //valorCuota: valorCuota,
+            )
+        )
         /*Navigator.push(
         context,
         MaterialPageRoute(
@@ -478,7 +549,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                 )
         ),
       ),*/
-      },
+      } : null,
       child: Column(
         children: [
           Container(
@@ -638,8 +709,8 @@ class _EventCuotaDate extends StatelessWidget {
       shortDateFormat(context).format(date), //TODO
       semanticsLabel: longDateFormat(context).format(date), //TODO
       style: textTheme.bodyText2.copyWith(
-          color: RallyColors.gray60,
-          fontSize: 8,
+        color: RallyColors.gray60,
+        fontSize: 8,
       ),
     );
   }
