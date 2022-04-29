@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.sire.sri</groupId>
     <artifactId>SIRE-SRI-Batch-Autorizacion</artifactId>
-    <version>${SIRE-SRI-Batch-Autorizacion.version}</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -18,7 +18,7 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>SIRE-Soap</artifactId>
             <version>${SIRE-Soap.version}</version>
             <type>jar</type>
@@ -36,7 +36,7 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>${parent.groupId}</groupId>
+            <groupId>${project.parent.groupId}</groupId>
             <artifactId>SIRE-Commons</artifactId>
             <version>${SIRE-Commons.version}</version>
             <type>jar</type>

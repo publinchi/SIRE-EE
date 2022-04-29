@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.sire.sri</groupId>
     <artifactId>SIRE-SRI-Signature</artifactId>
-    <version>${SIRE-SRI-Signature.version}</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
