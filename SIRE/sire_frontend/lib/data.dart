@@ -213,7 +213,7 @@ class DetailedCuotaData {
       nroCuota: json['nro_cuota'],
       fechaCuota: DateTime.parse(json['fecha_cuota']),
       fechaUltimaAbono: DateTime.parse(json['fecha_ultima_abono'] == null
-          ? DateTime.now().toString()
+          ? DateTime.utc(1900).toString()
           : json['fecha_ultima_abono']),
       //valorCuota: json['valor_cuota'] * 1.0,
       valorAbono: json['valor_abono'] * 1.0,

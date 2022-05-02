@@ -44,7 +44,10 @@ class _LoginPageState extends State<LoginPage> with RestorationMixin {
   Widget build(BuildContext context) {
     return ApplyTextOptions(
       child: Scaffold(
-        appBar: AppBar(automaticallyImplyLeading: false),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.transparent,
+        ),
         body: SafeArea(
           child: _MainView(
             usernameController: _usernameController.value,
@@ -75,9 +78,9 @@ class _MainView extends StatelessWidget {
 
   Future<void> _login(BuildContext context) async {
     var domain = 'sire.bmcmotors.com.ec';
-    var port = '8000';
+    var port = '8443';
     var path = '/logins/';
-    var uri = Uri.http('$domain:$port', path);
+    var uri = Uri.https('$domain:$port', path);
     var body = json.encode(
         {
           'alias_usuario': usernameController.text,
@@ -114,6 +117,7 @@ class _MainView extends StatelessWidget {
     if (isDesktop) {
       final desktopMaxWidth = 400.0 + 100.0 * (cappedTextScale(context) - 1);
       listViewChildren = [
+        const _SmallLogo(),
         _UsernameInput(
           maxWidth: desktopMaxWidth,
           usernameController: usernameController,

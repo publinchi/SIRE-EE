@@ -8,7 +8,7 @@ import 'package:sire_frontend/data/options.dart';
 import 'package:sire_frontend/layout/adaptive.dart';
 import 'package:sire_frontend/layout/text_scale.dart';
 
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as https;
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -21,14 +21,18 @@ class TakePictureScreen extends StatefulWidget {
   final int idContrato;
   final int idCuota;
   final double saldoCuota;
+  final bool isPhoto;
+  final String imagePath;
 
   const TakePictureScreen({
     Key key,
-    @required this.camera,
+    this.camera,
     @required this.idCliente,
     @required this.idContrato,
     @required this.idCuota,
     @required this.saldoCuota,
+    @required this.isPhoto,
+    this.imagePath,
   }) : super(key: key);
 
   @override
@@ -63,7 +67,8 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
       ResolutionPreset.medium,
     );
 
-    _initializeControllerFuture = _controller.initialize();
+    if (widget.isPhoto == true)
+      _initializeControllerFuture = _controller.initialize();
   }
 
   @override
@@ -74,6 +79,18 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isPhoto == false)
+      return DisplayPictureScreen(
+        imagePath: widget.imagePath,
+        fechaReciboController: _fechaReciboController.value,
+        valorReciboController: _valorReciboController.value,
+        nroDocumentController: _nroDocumentController.value,
+        idCliente: widget.idCliente,
+        idContrato: widget.idContrato,
+        idCuota: widget.idCuota,
+        saldoCuota: widget.saldoCuota,
+      );
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -90,11 +107,16 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
           future: _initializeControllerFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              return CameraPreview(_controller);
+              return CameraPreview(
+                _controller,
+              );
             } else {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
-          }),
+          }
+      ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera_alt),
         onPressed: () async {
@@ -105,14 +127,14 @@ class TakePictureScreenState extends State<TakePictureScreen> with RestorationMi
               context,
               MaterialPageRoute(
                   builder: (context) => DisplayPictureScreen(
-                      imagePath: image?.path,
-                      fechaReciboController: _fechaReciboController.value,
-                      valorReciboController: _valorReciboController.value,
-                      nroDocumentController: _nroDocumentController.value,
-                      idCliente: widget.idCliente,
-                      idContrato: widget.idContrato,
-                      idCuota: widget.idCuota,
-                      saldoCuota: widget.saldoCuota
+                    imagePath: image?.path,
+                    fechaReciboController: _fechaReciboController.value,
+                    valorReciboController: _valorReciboController.value,
+                    nroDocumentController: _nroDocumentController.value,
+                    idCliente: widget.idCliente,
+                    idContrato: widget.idContrato,
+                    idCuota: widget.idCuota,
+                    saldoCuota: widget.saldoCuota,
                   )
               ),
             );
@@ -178,8 +200,8 @@ class DisplayPictureScreen extends StatelessWidget {
 
   Future<void> _send(BuildContext context) async {
     if(valorReciboController.value.text.isEmpty ||
-        fechaReciboController.text.isEmpty ||
-        nroDocumentController.text.isEmpty) {
+        fechaReciboController.value.text.isEmpty ||
+        nroDocumentController.value.text.isEmpty) {
       _showMyDialog(context, 'Advertencia', 'Deber llenar todos los campos.');
       return;
     }
@@ -193,9 +215,9 @@ class DisplayPictureScreen extends StatelessWidget {
     }*/
 
     var domain = 'sire.bmcmotors.com.ec';
-    var port = '8000';
+    var port = '8443';
     var path = '/medias/';
-    var uri = Uri.http('$domain:$port', path);
+    var uri = Uri.https('$domain:$port', path);
 
     var headers = <String,String>{
       'Content-type' : 'application/json',
@@ -205,7 +227,7 @@ class DisplayPictureScreen extends StatelessWidget {
       'file_type': 'image/jpeg'
     };
 
-    var response = await http.post(
+    var response = await https.post(
         uri,
         body: File(this.imagePath).readAsBytesSync(),
         headers: headers
@@ -219,7 +241,7 @@ class DisplayPictureScreen extends StatelessWidget {
       print('id -> ' + id.toString());
 
       path = '/recibos/';
-      uri = Uri.http('$domain:$port', path);
+      uri = Uri.https('$domain:$port', path);
 
       var body = json.encode(
           {
@@ -250,13 +272,16 @@ class DisplayPictureScreen extends StatelessWidget {
       print('valor_recibo -> ' + valorReciboController.value.text);
       print('valor_cuota -> ' + saldoCuota.toString());
 
-      var response2 = await http.post(uri, body: body, headers: headers);
+      var response2 = await https.post(uri, body: body, headers: headers);
+
+      print('response2.statusCode -> ' + response2.statusCode.toString());
+      print('response2.body -> ' + response2.body);
 
       if(response2.statusCode == 201) {
-        print('OK');
+        _showMyDialog(context, 'Envío Exitoso', 'Recibo Enviado Exitosamente.');
+      } else {
+        _showMyDialog(context, 'Envío Fallido', 'Contáctese con BMC.');
       }
-
-      _showMyDialog(context, 'Envío Exitoso', 'Recibo Enviado Exitosamente.');
 
       Navigator.push(
           context,
@@ -267,8 +292,7 @@ class DisplayPictureScreen extends StatelessWidget {
           )
       );
     } else {
-      //fechaCuotaController.clear();
-      //valorCuotaController.clear();
+      _showMyDialog(context, 'Envío Fallido', 'Contáctese con BMC.');
     }
   }
 
@@ -494,4 +518,3 @@ class _NroDocumentCuotaInput extends StatelessWidget {
     );
   }
 }
-

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'dart:math' as math;
 
 import 'package:animations/animations.dart';
@@ -22,6 +21,8 @@ import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
 import 'package:sire_frontend/main.dart';
 import 'package:sire_frontend/pages/camara.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:http/http.dart' as https;
 
 class CuotasView extends StatelessWidget {
 
@@ -129,7 +130,6 @@ class EntityCuotasView extends StatelessWidget {
         openBuilder: (context, openContainer) =>
             EntityCuotasDetailsPage(
               numContrato: int.parse(title),
-              cuotas: cuotas,
             ),
         openColor: RallyColors.primaryBackground,
         closedColor: RallyColors.primaryBackground,
@@ -252,20 +252,20 @@ List<EntityCuotasView> buildContratoDataListViews(
 
 class EntityCuotasDetailsPage extends StatelessWidget {
 
-  EntityCuotasDetailsPage({this.numContrato, this.cuotas});
+  EntityCuotasDetailsPage({this.numContrato,});
 
   final List<DetailedEventData> items =
   DummyDataService.getDetailedEventItems();
   final int numContrato;
-  final Future<List<DetailedCuotaData>> cuotas;
 
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayDesktop(context);
+    Future<List<DetailedCuotaData>> _cuotas = getDetailedCuotaItems(numContrato);
 
     return ApplyTextOptions(
         child: FutureBuilder<List<DetailedCuotaData>>(
-            future: cuotas,
+            future: _cuotas,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Center(child: CircularProgressIndicator());
@@ -279,6 +279,12 @@ class EntityCuotasDetailsPage extends StatelessWidget {
               } else if (snapshot.data.first.estado_cuota == "RECHAZADO"
                   || snapshot.data.elementAt(1).estado_cuota == "RECHAZADO") {
                 estado = "RECHAZADO";
+              } else if (snapshot.data.first.estado_cuota == "CANCELADO"
+                  && snapshot.data.elementAt(1).estado_cuota == "CANCELADO") {
+                estado = "CANCELADO";
+              } else if (snapshot.data.first.estado_cuota == "FACTURADO"
+                  && snapshot.data.elementAt(1).estado_cuota == "FACTURADO") {
+                estado = "CANCELADO";
               }
 
               return Scaffold(
@@ -426,7 +432,7 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                      if (detailedEventData.fechaUltimaAbono.isAfter(detailedEventData.fechaCuota))
+                                      if (isNotBetween(detailedEventData))
                                         showDialog(
                                           context: context,
                                           builder: (_) => AlertDialog(
@@ -487,7 +493,38 @@ class EntityCuotasDetailsPage extends StatelessWidget {
 
   hasWarnings(DetailedCuotaData detailedEventData) {
     return detailedEventData.abonoCapital != 0
-        || detailedEventData.fechaUltimaAbono.isAfter(detailedEventData.fechaCuota);
+        || isNotBetween(detailedEventData);
+  }
+
+  isNotBetween(DetailedCuotaData detailedEventData) {
+    DateTime ini = detailedEventData.fechaCuota;
+    DateTime fin = detailedEventData.fechaCuota.add(Duration(days: 1));
+
+    return detailedEventData.fechaUltimaAbono
+        .isAfter(DateTime.utc(1900))
+        && (detailedEventData.fechaUltimaAbono.isBefore(ini)
+            || detailedEventData.fechaUltimaAbono.isAfter(fin));
+  }
+
+  Future<List<DetailedCuotaData>> getDetailedCuotaItems(int numContrato) async {
+    var domain = 'sire.bmcmotors.com.ec';
+    var port = '8443';
+    var path = '/cuotas/' + numContrato.toString();
+    var uri = Uri.https('$domain:$port', path);
+    final response = await https.get(uri);
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      Iterable l = json.decode(response.body)['items'];
+      List<DetailedCuotaData> detailedCuotaDatas = List<DetailedCuotaData>.from(
+          l.map((model) => DetailedCuotaData.fromJson(model)));
+      return detailedCuotaDatas;
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Falla al cargar cuotas');
+    }
   }
 }
 
@@ -501,7 +538,6 @@ class _DetailedCuotasCard extends StatelessWidget {
     @required this.saldoCuota,
     @required this.estadoCuota,
     @required this.actualizoPor,
-    //@required this.valorCuota,
     @required this.valorAbono,
   });
 
@@ -509,7 +545,6 @@ class _DetailedCuotasCard extends StatelessWidget {
   final int numContrato;
   final int nroCuota;
   final DateTime fechaCuota;
-  //final double valorCuota;
   final double saldoCuota;
   final double valorAbono;
   final String estadoCuota;
@@ -518,37 +553,40 @@ class _DetailedCuotasCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayDesktop(context);
+    bool isPhoto;
     return TextButton(
       style: TextButton.styleFrom(
         primary: Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 16),
       ),
-      onPressed: (estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO") ? () => {
+      onPressed: (estadoCuota == "EN PLANILLA" || estadoCuota == "RECHAZADO")
+          ? () => {
         showDialog(
-            context: context,
-            builder: (_) => ImageDialog(
-              camera: firstCamera,
-              idCliente: codCliente,
-              idContrato: numContrato,
-              idCuota: nroCuota,
-              estadoCuota: estadoCuota,
-              saldoCuota: saldoCuota,
-              //valorCuota: valorCuota,
-            )
-        )
-        /*Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                TakePictureScreen(
-                  camera: firstCamera,
-                  idCliente: codCliente,
-                  idContrato: numContrato,
-                  idCuota: nroCuota,
-                  //valorCuota: valorCuota,
-                )
-        ),
-      ),*/
+          context: context,
+          builder: (_) => _ImageDialog(),
+        ).then((value) => {
+          isPhoto = value,
+          if (isPhoto == true) {
+            if(estadoCuota == "EN PLANILLA"
+                || estadoCuota == "RECHAZADO")
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        TakePictureScreen(
+                          isPhoto: true,
+                          camera: firstCamera,
+                          idCliente: codCliente,
+                          idContrato: numContrato,
+                          idCuota: nroCuota,
+                          saldoCuota: saldoCuota,
+                        )
+                ),
+              ),
+          } else if (isPhoto == false) {
+            openGallery(context, codCliente, numContrato, nroCuota),
+          }
+        }),
       } : null,
       child: Column(
         children: [
@@ -647,6 +685,30 @@ class _DetailedCuotasCard extends StatelessWidget {
       ),
     );
   }
+
+  openGallery(BuildContext context, String idCliente, int idContrato
+      , int idCuota) async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    final XFile image = await _picker.pickImage(
+        source: ImageSource.gallery
+    );
+    if (image != null)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                TakePictureScreen(
+                  isPhoto: false,
+                  imagePath: image?.path,
+                  idCliente: codCliente,
+                  idContrato: numContrato,
+                  idCuota: nroCuota,
+                  saldoCuota: saldoCuota,
+                )
+        ),
+      );
+  }
 }
 
 class _EventCuotaAmount extends StatelessWidget {
@@ -737,23 +799,10 @@ class _EventCuotaTitle extends StatelessWidget {
   }
 }
 
-class ImageDialog extends StatelessWidget {
-  const ImageDialog({
+class _ImageDialog extends StatelessWidget {
+  const _ImageDialog({
     Key key,
-    @required this.camera,
-    @required this.idCliente,
-    @required this.idContrato,
-    @required this.idCuota,
-    @required this.estadoCuota,
-    @required this.saldoCuota,
   }) : super(key: key);
-
-  final CameraDescription camera;
-  final String idCliente;
-  final int idContrato;
-  final int idCuota;
-  final String estadoCuota;
-  final double saldoCuota;
 
   @override
   Widget build(BuildContext context) {
@@ -766,30 +815,16 @@ class ImageDialog extends StatelessWidget {
             children: [
               Text("Cámara: "),
               IconButton(
-                  icon: Icon(
-                    Icons.add_a_photo_outlined,
-                    color: RallyColors.accountColors[0],
-                  ),
-                  iconSize: 45,
-                  alignment: Alignment.topRight,
-                  padding: EdgeInsets.zero,
-                  onPressed: () => {
-                    if(estadoCuota == "EN PLANILLA"
-                        || estadoCuota == "RECHAZADO")
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                TakePictureScreen(
-                                  camera: firstCamera,
-                                  idCliente: idCliente,
-                                  idContrato: idContrato,
-                                  idCuota: idCuota,
-                                  saldoCuota: saldoCuota,
-                                )
-                        ),
-                      )
-                  }
+                icon: Icon(
+                  Icons.add_a_photo_outlined,
+                  color: RallyColors.accountColors[0],
+                ),
+                iconSize: 45,
+                alignment: Alignment.topRight,
+                padding: EdgeInsets.zero,
+                onPressed: () => {
+                  Navigator.pop(context, true),
+                },
               ),
             ],
           ),
@@ -804,32 +839,8 @@ class ImageDialog extends StatelessWidget {
                 iconSize: 45,
                 alignment: Alignment.topRight,
                 padding: EdgeInsets.zero,
-                onPressed: () async {
-                  final ImagePicker _picker = ImagePicker();
-                  // Pick an image
-                  final XFile image = await _picker.pickImage(
-                      source: ImageSource.gallery
-                  );
-                  if(image != null)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              DisplayPictureScreen(
-                                imagePath: image?.path,
-                                fechaReciboController:
-                                TextEditingController(),
-                                valorReciboController:
-                                TextEditingController(),
-                                nroDocumentController:
-                                TextEditingController(),
-                                idCliente: idCliente,
-                                idContrato: idContrato,
-                                idCuota: idCuota,
-                                saldoCuota: saldoCuota,
-                              )
-                      ),
-                    );
+                onPressed: () => {
+                  Navigator.pop(context, false),
                 },
               ),
             ],
