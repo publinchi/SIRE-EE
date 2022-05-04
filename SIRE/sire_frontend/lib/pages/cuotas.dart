@@ -331,7 +331,7 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                     //valorCuota: detailedEventData.valorCuota,
                                     actualizoPor: snapshot.data.first.actualizoPor,
                                     codCliente: snapshot.data.first.codCliente,
-                                    numContrato: snapshot.data.first.numContrato,
+                                    numContrato: numContrato,
                                     nroCuota: snapshot.data.first.nroCuota,
                                     estadoCuota: estado,
                                   ),
@@ -584,7 +584,7 @@ class _DetailedCuotasCard extends StatelessWidget {
                 ),
               ),
           } else if (isPhoto == false) {
-            openGallery(context, codCliente, numContrato, nroCuota),
+            openGallery(context, codCliente, numContrato, nroCuota, saldoCuota),
           }
         }),
       } : null,
@@ -687,7 +687,7 @@ class _DetailedCuotasCard extends StatelessWidget {
   }
 
   openGallery(BuildContext context, String idCliente, int idContrato
-      , int idCuota) async {
+      , int idCuota, double saldoCuota) async {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     final XFile image = await _picker.pickImage(
@@ -701,9 +701,9 @@ class _DetailedCuotasCard extends StatelessWidget {
                 TakePictureScreen(
                   isPhoto: false,
                   imagePath: image?.path,
-                  idCliente: codCliente,
-                  idContrato: numContrato,
-                  idCuota: nroCuota,
+                  idCliente: idCliente,
+                  idContrato: idContrato,
+                  idCuota: idCuota,
                   saldoCuota: saldoCuota,
                 )
         ),
