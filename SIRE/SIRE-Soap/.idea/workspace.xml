@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4f1dfbc3-f2cf-4a83-88fa-c4efe35910f3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Reader1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Reader1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/artifacts/SIRE_EE_ear_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/artifacts/SIRE_EE_ear_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Batch/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Batch/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Commons/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Commons/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Crypt/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Crypt/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-EE/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-EE/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Entities/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Entities/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-RS-Client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-RS-Client/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Rest/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Rest/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Processor1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Processor1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Writer1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Autorizacion/src/main/java/com/sire/sri/batch/autorizacion/F1_C1_Writer1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/src/main/java/com/sire/sri/batch/commons/CommonsItemReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/src/main/java/com/sire/sri/batch/commons/CommonsItemReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/src/main/java/com/sire/sri/batch/commons/CommonsItemWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Commons/src/main/java/com/sire/sri/batch/commons/CommonsItemWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/src/main/java/com/sire/sri/batch/recepcion/F1_C1_Reader1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/src/main/java/com/sire/sri/batch/recepcion/F1_C1_Reader1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/src/main/java/com/sire/sri/batch/recepcion/F1_C1_Writer1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Batch-Recepcion/src/main/java/com/sire/sri/batch/recepcion/F1_C1_Writer1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Entities/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Entities/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Reports/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Reports/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-Signature/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-Signature/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-SRI-WSClient/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-SRI-WSClient/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Services-API/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Services-API/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Services/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Services/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sire/soap/util/SoapUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sire/soap/util/SoapUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sire/soap/util/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sire/soap/util/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-WS/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-WS/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SIRE-Web/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SIRE-Web/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +57,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenRunner">
     <option name="skipTests" value="true" />
@@ -55,14 +88,23 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Apache/openwire-c" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
   </component>
@@ -76,11 +118,14 @@
       <workItem from="1558130559966" duration="1323000" />
       <workItem from="1558405529832" duration="2071000" />
       <workItem from="1584115346764" duration="190000" />
+      <workItem from="1645548350512" duration="1559000" />
+      <workItem from="1645565428861" duration="1298000" />
+      <workItem from="1645575308076" duration="272000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="masterDetails">
     <states>

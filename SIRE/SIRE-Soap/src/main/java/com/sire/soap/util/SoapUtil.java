@@ -5,40 +5,37 @@
  */
 package com.sire.soap.util;
 
+import com.sire.exception.SireRuntimeException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 
 import java.io.*;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.X509Certificate;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+import javax.xml.XMLConstants;
 import javax.xml.bind.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.soap.*;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 /**
  *
@@ -46,27 +43,20 @@ import javax.xml.transform.stream.StreamSource;
  */
 public class SoapUtil {
 
-    static {
-        disableSslVerification();
-    }
+    private SoapUtil() {}
 
-    private static final Map<Class, JAXBContext> contextStore = new ConcurrentHashMap();
-
-    public static Map<Object, Object> call(SOAPMessage soapMsg, URL url,
-                                           Class aClass) throws SOAPException, TransformerException {
-        return call(soapMsg,url,null, aClass);
-    }
+    private static final Map<Class<?>, JAXBContext> contextStore = new ConcurrentHashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(SoapUtil.class.getName());
 
     /**
-     *
-     * @param soapMsg
-     * @param url
-     * @param returnObjectName
-     * @param aClass
-     * @return
+     * Invoca servicio soap, envía un mensaje tipo SOAPMessage y recibe un mapa de objetos como respuesta
+     * @param soapMsg Mensaje Soap
+     * @param url URL servicio externo
+     * @param aClass Tipo de clase para objeto de respuesta
+     * @return Mapa con objetos de respuesta, ejemplo claves: soapMessage, object
      */
-    public static Map<Object, Object> call(SOAPMessage soapMsg, URL url, String returnObjectName,
-                                           Class aClass) throws SOAPException, TransformerException {
+    public static Map<Object, Object> call(SOAPMessage soapMsg, URL url, Class<?> aClass)
+            throws SOAPException, TransformerException {
         SOAPConnection soapConnection = null;
         String cookie;
         try {
@@ -74,34 +64,31 @@ public class SoapUtil {
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             soapConnection = soapConnectionFactory.createConnection();
 
-//            printHeaders(soapMsg);
             // Send SOAP Message to SOAP Server
             SOAPMessage soapMessage;
             try {
                 soapMessage = soapConnection.call(soapMsg, url);
             } catch(Exception ex) {
-                Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
+                LOGGER.log(Level.SEVERE, null, ex);
+                return new HashMap<>();
             }
 
             MimeHeaders session = soapMessage.getMimeHeaders();
             String[] cookies = session.getHeader("Set-Cookie");
 
-//            printHeaders(soapMessage);
-            Map<Object, Object> map = new HashMap();
+            Map<Object, Object> map = new HashMap<>();
 
             if (cookies != null && cookies.length == 1) {
                 cookie = cookies[0];
                 map.put("cookie", cookie);
             }
 
-//            Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO,
-//                    "Response SOAP Message cookie: {0}", cookie);
-//
             map.put("soapMessage", clone(soapMessage));
             if (aClass != null) {
                 Object object = SoapUtil.getObjectFromSoapMessage(soapMessage, aClass);
-                if(object != null)
+                if (Objects.isNull(object))
+                    object = SoapUtil.getObjectFromNode(soapMessage.getSOAPBody().getFirstChild(), aClass);
+                if (object != null)
                     map.put("object", object);
             }
 
@@ -111,52 +98,48 @@ public class SoapUtil {
                 try {
                     soapConnection.close();
                 } catch (SOAPException ex) {
-                    Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
 
-    protected static Object getObjectFromSoapMessage(SOAPMessage soapResponse, Class aClass) {
-        Object object = null;
+    protected static Object getObjectFromSoapMessage(SOAPMessage soapResponse, Class<?> aClass) {
         try {
             JAXBContext jaxbContext = getContextInstance(aClass);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-            Document document = soapResponse.getSOAPBody().extractContentAsDocument();
+            Document document = extractContentAsDocument(soapResponse);
 
-            JAXBElement root = unmarshaller.unmarshal(document, aClass);
+            JAXBElement<?> root = unmarshaller.unmarshal(document, aClass);
 
-            object = root.getValue();
+            Object object = root.getValue();
 
-            if(object != null) {
+            if (object != null) {
                 return object;
             }
 
-            if(soapResponse.getSOAPBody().hasFault()){
-                Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, soapResponse.getSOAPBody().getFault()
-                        .getFaultString());
-                object = unmarshaller.unmarshal(soapResponse.getSOAPBody().getFault());
+            if (soapResponse.getSOAPBody().hasFault()) {
+                object = soapResponse.getSOAPBody().getFault();
             } else {
                 object = unmarshaller.unmarshal(document);
             }
-        } catch (SOAPException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JAXBException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
+            return object;
+        } catch (SOAPException | JAXBException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return null;
         }
-        return object;
     }
 
-    public static JAXBContext getContextInstance(Class objectClass) {
+    public static JAXBContext getContextInstance(Class<?> objectClass) throws JAXBException {
         JAXBContext context = contextStore.get(objectClass);
         if (context==null){
             try {
                 context = JAXBContext.newInstance(objectClass);
+                contextStore.put(objectClass, context);
             } catch (JAXBException e) {
-                Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, e);
+                throw new JAXBException(e);
             }
-            contextStore.put(objectClass, context);
         }
         return context;
     }
@@ -169,243 +152,188 @@ public class SoapUtil {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             sr.setOutputStream(out);
 
-            Transformer trans = TransformerFactory.newInstance().newTransformer();
-            trans.setOutputProperty(OutputKeys.INDENT, "yes");
-            trans.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            trans.transform(sourceContent, sr);
+            Transformer transformer = createTransformer();
 
-            //Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, "Transform: {0}", out);
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            transformer.setOutputProperty("standalone", "no");
+            transformer.transform(sourceContent, sr);
 
             return out.toString();
-        } catch (TransformerException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SOAPException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TransformerException | SOAPException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return null;
         }
-
-        return null;
     }
 
     public static String getStringFromObject(Object object) {
-        String result = null;
         try {
             StringWriter stringWriter = new StringWriter();
             JAXBContext jaxbContext = getContextInstance(object.getClass());
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
             // format the XML output
-            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,
-                    true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
-            Annotation annotation = object.getClass().getDeclaredAnnotation(javax.xml.bind.annotation.XmlType.class);
+            XmlType xmlType = object.getClass().getDeclaredAnnotation(XmlType.class);
+
+            XmlRootElement xmlRootElement = object.getClass().getDeclaredAnnotation(XmlRootElement.class);
 
             QName qName = new QName(object.getClass().getPackage().getName(),
-                    ((javax.xml.bind.annotation.XmlType)annotation).name());
-            JAXBElement root = new JAXBElement(qName, object.getClass(), object);
+                    (Objects.nonNull(xmlRootElement) && !Objects.equals(xmlRootElement.name(), "##default"))
+                            ? xmlRootElement.name() : xmlType.name());
+
+            JAXBElement<?> root = new JAXBElement<>(qName, (Class<? super Object>) object.getClass(), object);
 
             jaxbMarshaller.marshal(root, stringWriter);
 
-            result = stringWriter.toString();
-            //Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, result);
+            return stringWriter.toString();
         } catch (JAXBException e) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return null;
         }
-        return result;
     }
 
-    public static Object getObjectFromString(String xml, Class aClass) {
-        Object object = null;
+    public static Object getObjectFromString(String xml, Class<?> aClass) {
         try {
             JAXBContext jaxbContext = getContextInstance(aClass);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            JAXBElement root = jaxbUnmarshaller.unmarshal(new StreamSource(new StringReader(xml)), aClass);
-            object = root.getValue();
 
-            //Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, object.toString());
-        } catch (JAXBException e) {
-            e.printStackTrace();
+            //Do unmarshall operation
+            Source xmlSource = new SAXSource(createSAXParserFactory().newSAXParser().getXMLReader()
+                    , new InputSource(new StringReader(xml)));
+
+            JAXBElement<?> root = jaxbUnmarshaller.unmarshal(xmlSource, aClass);
+            return root.getValue();
+
+        } catch (JAXBException | ParserConfigurationException | SAXException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return null;
         }
-        return object;
     }
 
     public static SOAPMessage getSoapMessageFromString(String xml) {
-        MessageFactory factory;
-        SOAPMessage message = null;
         try {
-            factory = MessageFactory.newInstance();
-            message = factory.createMessage(new MimeHeaders(), new ByteArrayInputStream(xml.getBytes(Charset
-                    .forName("UTF-8"))));
-        } catch (IOException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SOAPException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
+            MessageFactory factory = MessageFactory.newInstance();
+            return factory.createMessage(new MimeHeaders(),
+                    new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+        } catch (IOException | SOAPException ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+            return null;
         }
-        return message;
     }
 
     public static String object2xml(Object item) throws JAXBException {
         JAXBContext jaxbContext = getContextInstance(item.getClass());
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         StringWriter sw = new StringWriter();
         jaxbMarshaller.marshal(item, sw);
 
         return sw.toString();
     }
 
-    public static Object getObjectFromInputStream(InputStream inputStream, Class aClass) {
-        Object object = null;
+    /**
+     * Convierte el mensaje xml (tipo InputStream) a Objeto de negocio
+     * @param inputStream InputStream
+     * @param aClass Class
+     * @return Object
+     */
+    public static Object getObjectFromInputStream(InputStream inputStream, Class<?> aClass) {
         try {
             JAXBContext jaxbContext = getContextInstance(aClass);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            JAXBElement root = jaxbUnmarshaller.unmarshal(new StreamSource(inputStream), aClass);
-            object = root.getValue();
 
-            //Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, object.toString());
-        } catch (JAXBException e) {
-            e.printStackTrace();
+            //Do unmarshall operation
+            Source xmlSource = new SAXSource(createSAXParserFactory().newSAXParser().getXMLReader()
+                    , new InputSource(inputStream));
+
+            JAXBElement<?> root = jaxbUnmarshaller.unmarshal(xmlSource, aClass);
+            return root.getValue();
+        } catch (JAXBException | ParserConfigurationException | SAXException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage(), e);
+            return null;
         }
-        return object;
     }
 
-    public static Object getObjectFromNode(Node node, Class aClass) {
-        Object object = null;
+    /**
+     * Convierte el contenido del SOAPMessage (tipo Node) a Objeto de negocio
+     * @param node Node
+     * @param aClass Class
+     * @return Object
+     */
+    public static Object getObjectFromNode(Node node, Class<?> aClass) {
         try {
             JAXBContext jaxbContext = getContextInstance(aClass);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            JAXBElement root = jaxbUnmarshaller.unmarshal(node, aClass);
-            object = root.getValue();
-        } catch (JAXBException e) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, e);
+
+            JAXBElement<?> root = jaxbUnmarshaller.unmarshal(cloneNode(node), aClass);
+
+            return root.getValue();
+        } catch (JAXBException | IOException | ParserConfigurationException | TransformerException | SAXException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            return null;
         }
-        return object;
     }
 
-    public static Object getObjectFromElement(SOAPMessage soapMessage, String elementName, Class aClass) {
-        Object object = null;
+    /**
+     * Convierte el contenido xml de un elemento y lo transforma a objeto de negocio
+     * @param soapMessage SOAPMessage
+     * @param elementName String
+     * @param aClass Class
+     * @return Object
+     */
+    public static Object getObjectFromElement(SOAPMessage soapMessage, String elementName, Class<?> aClass) {
         try {
-            if(soapMessage.getSOAPBody().hasFault()){
-                Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO, soapMessage.getSOAPBody().getFault()
+            if (soapMessage.getSOAPBody().hasFault()){
+                LOGGER.log(Level.INFO, soapMessage.getSOAPBody().getFault()
                         .getFaultString());
-                object = soapMessage.getSOAPBody().getFault();
+                return soapMessage.getSOAPBody().getFault();
             } else {
                 String xml = soapMessage.getSOAPBody().extractContentAsDocument().getElementsByTagName(elementName)
                         .item(0).getTextContent();
-                object = SoapUtil.getObjectFromString(xml, aClass);
+                return SoapUtil.getObjectFromString(xml, aClass);
             }
-
         } catch (SOAPException e) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, e);
+            LOGGER.log(Level.SEVERE, null, e);
+            return null;
         }
-        return object;
     }
 
-    public static List getDataSetFromSoapMessage(SOAPMessage soapResponse, Class aClass) {
-        return getDataSetFromSoapMessage(soapResponse, aClass, false);
-    }
-
-    public static List getDataSetFromSoapMessage(SOAPMessage soapResponse, Class aClass, boolean reflection) {
+    @SuppressWarnings("unused")
+    public static List<Object> getDataSetFromSoapMessage(SOAPMessage soapResponse, Class<?> aClass) {
         try {
-            Annotation annotation = aClass.getDeclaredAnnotation(javax.xml.bind.annotation.XmlType.class);
-            String type = ((javax.xml.bind.annotation.XmlType)annotation).name();
-            if(Objects.isNull(type) || Objects.equals("", type))
+            XmlType annotation = aClass.getDeclaredAnnotation(XmlType.class);
+            String type = annotation.name();
+            if (Objects.isNull(type) || Objects.equals("", type))
                 type = aClass.getSimpleName();
 
-            Document document = soapResponse.getSOAPBody().extractContentAsDocument();
+            Document document = extractContentAsDocument(soapResponse);
             org.w3c.dom.Element root = document.getDocumentElement();
             NodeList dataSets = root.getElementsByTagName(type);
 
             JAXBContext jaxbContext = getContextInstance(aClass);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-            List list = new ArrayList<>();
+            List<Object> list = new ArrayList<>();
 
             for (int i = 0; i < dataSets.getLength() ; i++) {
-                org.w3c.dom.Node node = dataSets.item(i);
+                Node node = dataSets.item(i);
 
-                Object object;
+                JAXBElement<?> r = jaxbUnmarshaller.unmarshal(cloneNode(node), aClass);
 
-                if(reflection){
-                    NodeList children = node.getChildNodes();
-                    object = aClass.newInstance();
-
-                    for (int j = 0; j < children.getLength(); j++) {
-                        org.w3c.dom.Node childNode = children.item(j);
-                        String nodeName = childNode.getNodeName();
-                        Field field = aClass.getDeclaredField(nodeName.substring(0, 1).toLowerCase()
-                                + nodeName.substring(1));
-                        field.setAccessible(true);
-                        field.set(object, childNode.getTextContent());
-                        field.setAccessible(false);
-                    }
-                } else {
-                    JAXBElement r = jaxbUnmarshaller.unmarshal(node, aClass);
-                    object = r.getValue();
-                }
-
-                list.add(object);
+                list.add(r.getValue());
             }
             return list;
-        } catch (SOAPException | JAXBException | IllegalAccessException | InstantiationException | NoSuchFieldException
-                ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
-    private static void disableSslVerification() {
-        try {
-            // Create a trust manager that does not validate certificate chains
-            TrustManager[] trustAllCerts = new TrustManager[]{
-                    new X509TrustManager() {
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return null;
-                        }
-
-                        @Override
-                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                        }
-
-                        @Override
-                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                        }
-                    }
-            };
-
-            // Install the all-trusting trust manager
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-
-            // Create all-trusting host name verifier
-            // TODO Cambiar a expresion lambda
-            // HostnameVerifier allHostsValid = (String hostname, SSLSession session) -> true;
-            HostnameVerifier allHostsValid = new HostnameVerifier() {
-                @Override public boolean verify(String s, SSLSession session) {
-                    return true;
-                }
-            };
-
-            // Install the all-trusting host verifier
-            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (KeyManagementException ex) {
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private static void printHeaders(SOAPMessage soapMessage) {
-        MimeHeaders mimeHeaders = soapMessage.getMimeHeaders();
-        Iterator<MimeHeader> it = mimeHeaders.getAllHeaders();
-        while (it.hasNext()) {
-            MimeHeader mime = it.next();
-            Logger.getLogger(SoapUtil.class.getName()).log(Level.INFO,
-                    "Name: {0} Value: {1}", new Object[]{mime.getName(), mime.getValue()});
+        } catch (SOAPException | JAXBException | ParserConfigurationException | TransformerException | SAXException
+                | IOException e) {
+            LOGGER.log(Level.SEVERE, null, e);
+            return new ArrayList<>();
         }
     }
 
@@ -414,30 +342,107 @@ public class SoapUtil {
     }
 
     private static SOAPMessage toSOAPMessage(Document doc) {
-        return toSOAPMessage(doc, SOAPConstants.DEFAULT_SOAP_PROTOCOL);
-    }
-
-    private static SOAPMessage toSOAPMessage(Document doc, String protocol) {
-        DOMSource domSource;
-        SOAPMessage retorno;
-        MessageFactory messageFactory;
         try {
-            domSource = new DOMSource(doc);
-            messageFactory = MessageFactory.newInstance(protocol);
-            retorno = messageFactory.createMessage();
+            DOMSource domSource = new DOMSource(doc);
+            MessageFactory messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
+            SOAPMessage retorno = messageFactory.createMessage();
             retorno.getSOAPPart().setContent(domSource);
             return retorno;
         } catch (SOAPException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new SireRuntimeException(e.getMessage(), e);
         }
     }
 
     private static Document toDocument(SOAPMessage soapMSG) throws TransformerException, SOAPException {
         Source source = soapMSG.getSOAPPart().getContent();
-        TransformerFactory factoryTransform = TransformerFactory.newInstance();
-        Transformer transform = factoryTransform.newTransformer();
+
         DOMResult retorno = new DOMResult();
-        transform.transform(source, retorno);
+        createTransformer().transform(source, retorno);
         return (Document) retorno.getNode();
+    }
+
+    private static Document extractContentAsDocument(SOAPMessage soapResponse) throws SOAPException {
+
+        Iterator<?> iterator = soapResponse.getSOAPBody().getChildElements();
+        javax.xml.soap.Node firstBodyElement = null;
+
+        while (iterator.hasNext() && !(firstBodyElement instanceof SOAPElement))
+            firstBodyElement = (javax.xml.soap.Node) iterator.next();
+
+        boolean exactlyOneChildElement = true;
+        if (firstBodyElement == null)
+            exactlyOneChildElement = false;
+        else {
+            for (Node node = firstBodyElement.getNextSibling(); node != null; node = node.getNextSibling()) {
+                if (node instanceof org.w3c.dom.Element) {
+                    exactlyOneChildElement = false;
+                    break;
+                }
+            }
+        }
+
+        if (!exactlyOneChildElement) {
+            LOGGER.log(Level.SEVERE,"SAAJ0250.impl.body.should.have.exactly.one.child");
+            throw new SOAPException("Cannot extract Document from body");
+        }
+
+        Document document;
+        try {
+            DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.newDocument();
+
+            org.w3c.dom.Element rootElement = (org.w3c.dom.Element) document.importNode(firstBodyElement,true);
+
+            document.appendChild(rootElement);
+
+        } catch(Exception e) {
+            LOGGER.log(Level.SEVERE,"SAAJ0251.impl.cannot.extract.document.from.body");
+            throw new SOAPException("Unable to extract Document from body", e);
+        }
+
+        firstBodyElement.detachNode();
+
+        return document;
+    }
+
+    private static Node cloneNode(Node node) throws TransformerException, ParserConfigurationException, IOException
+            , SAXException {
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        Source xmlSource = new DOMSource(node);
+        Result outputTarget = new StreamResult(outputStream);
+
+        createTransformer().transform(xmlSource, outputTarget);
+
+        DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        factory.setNamespaceAware(true);
+
+        InputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+
+        return factory.newDocumentBuilder().parse(is);
+    }
+
+    private static Transformer createTransformer() throws TransformerConfigurationException {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+
+        return transformerFactory.newTransformer();
+    }
+
+    private static SAXParserFactory createSAXParserFactory() throws SAXNotSupportedException, SAXNotRecognizedException
+            , ParserConfigurationException {
+        //Disable XXE
+        SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+        saxParserFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        saxParserFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        saxParserFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",false);
+        return saxParserFactory;
     }
 }

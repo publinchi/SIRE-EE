@@ -148,7 +148,6 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                 Map mapCall = SoapUtil.call(
                         createSOAPMessage(new String(Base64.getEncoder().encode(doc2bytes(xml2document(loteXml))))),
                         new URL(urlRecepcion),
-                        null,
                         null);
                 SOAPMessage soapMessage = (SOAPMessage) mapCall.get(Constant.SOAP_MESSAGE);
 
@@ -261,7 +260,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
             NodeList hijosComprobante = comprobanteNode.getChildNodes();
 
             for (int j = 0; j < hijosComprobante.getLength(); j++) {
-                if (hijosComprobante.item(j).getNodeName().equals(Constant.CLAVE_ACCESO)) {
+                if (hijosComprobante.item(j).getNodeName().equals(Constant.CLAVE_ACCESO_CC)) {
                     comprobante.setClaveAcceso(hijosComprobante.item(j).getTextContent());
                 } else if (hijosComprobante.item(j).getNodeName().equals(Constant.MENSAJES)) {
                     NodeList mensajesNodeList;
@@ -371,8 +370,8 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     .append(liquidacion.getInfoTributaria().getPtoEmi()).append(Constant.GUION)
                     .append(liquidacion.getInfoTributaria().getSecuencial());
             claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
-            nombreTablaComprobante = Constant.INV_MOVIMIENTO_CAB;
-            nombreSecuencial = Constant.NUM_SECUENCIAL;
+            nombreTablaComprobante = Constant.CXP_DOC_PAGAR;
+            nombreSecuencial = Constant.SECUENCIAL;
         } else if (((Map) item).get(Constant.COMPROBANTE) instanceof NotaCredito) {
             NotaCredito notaCredito = (NotaCredito) ((Map) item).get(Constant.COMPROBANTE);
             secuencial = new StringBuffer();
@@ -488,7 +487,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
     }
 
     @Override
-    public JAXBContext getContextInstance(Class objectClass) {
+    public JAXBContext getContextInstance(Class objectClass) throws JAXBException {
         return SoapUtil.getContextInstance(objectClass);
     }
 }

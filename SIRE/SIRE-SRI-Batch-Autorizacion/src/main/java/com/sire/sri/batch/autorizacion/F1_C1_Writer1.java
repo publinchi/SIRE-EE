@@ -84,8 +84,8 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                         Liquidacion liquidacion = (Liquidacion) comprobante;
                         secuencial = liquidacion.getInfoTributaria().getEstab() + "-" + liquidacion.getInfoTributaria().getPtoEmi() + "-" + liquidacion.getInfoTributaria().getSecuencial();
                         claveAcceso = liquidacion.getInfoTributaria().getClaveAcceso();
-                        nombreTablaComprobante = Constant.INV_MOVIMIENTO_CAB;
-                        nombreSecuencial = Constant.NUM_SECUENCIAL;
+                        nombreTablaComprobante = Constant.CXP_DOC_PAGAR;
+                        nombreSecuencial = Constant.SECUENCIAL;
                     } else if (comprobante instanceof NotaCredito) {
                         NotaCredito notaCredito = (NotaCredito) comprobante;
                         secuencial = notaCredito.getInfoTributaria().getEstab() + "-" + notaCredito.getInfoTributaria().getPtoEmi() + "-" + notaCredito.getInfoTributaria().getSecuencial();
@@ -387,7 +387,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
     }
 
     @Override
-    public JAXBContext getContextInstance(Class objectClass) {
+    public JAXBContext getContextInstance(Class objectClass) throws JAXBException {
         return SoapUtil.getContextInstance(objectClass);
     }
 }

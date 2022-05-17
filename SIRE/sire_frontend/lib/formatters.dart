@@ -16,6 +16,7 @@ NumberFormat usdWithSignFormat(BuildContext context, {int decimalDigits = 2}) {
     locale: locale(context),
     name: '\$',
     decimalDigits: decimalDigits,
+    customPattern: '\$###,###.##',
   );
 }
 

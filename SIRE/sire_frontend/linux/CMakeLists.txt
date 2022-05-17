@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "sire_frontend")
+set(BINARY_NAME "BMC")
 set(APPLICATION_ID "com.sire.sire_frontend")
 
 cmake_policy(SET CMP0063 NEW)
