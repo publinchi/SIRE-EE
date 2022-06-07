@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a90b5cc6-9a35-48d7-a2d0-ef67a99b13b8">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="178"/>
+	<property name="ireport.y" value="466"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -486,7 +486,7 @@
 			<line>
 				<reportElement mode="Opaque" x="78" y="0" width="1" height="50" uuid="1c5116f9-6453-4a5a-b58e-6042a7f3979b"/>
 			</line>
-			<textField pattern="#,##0.00" isBlankWhenNull="true">
+			<textField pattern="#,##0.0000" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="385" y="0" width="55" height="48" uuid="132f28bb-28e5-4f55-b209-f1e1cd448f49"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="7"/>

@@ -72,7 +72,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         observacion.setNombre(Constant.OBSERVACION_CC);
         CampoAdicional placa = new CampoAdicional();
         placa.setValue(rs.getString(Constant.PLACA));
-        placa.setNombre("Placa");
+        placa.setNombre("Guía de Remisión");
 
         addCampoAdicional(infoAdicional, direccion);
         addCampoAdicional(infoAdicional, telefono);
