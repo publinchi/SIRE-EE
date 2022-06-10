@@ -12,6 +12,7 @@ import 'package:http/http.dart' as https;
 
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:async_button_builder/async_button_builder.dart';
 
 import 'home.dart';
 
@@ -325,10 +326,16 @@ class DisplayPictureScreen extends StatelessWidget {
           idCuota: idCuota,
           valorCuota: saldoCuota,
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: AsyncButtonBuilder(
           child: Icon(Icons.send),
-          onPressed: () {
-            _send(context);
+          onPressed: () async {
+            await _send(context);
+          },
+          builder: (context, child, callback, _) {
+            return FloatingActionButton(
+              child: child,
+              onPressed: callback,
+            );
           },
         ),
       ),
