@@ -300,7 +300,7 @@ class _PasswordInput extends StatelessWidget {
       child: Container(
         constraints: BoxConstraints(maxWidth: maxWidth ?? double.infinity),
         child: TextField(
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
           controller: passwordController,
           decoration: InputDecoration(
             labelText: ('Clave de Usuario'),//GalleryLocalizations.of(context).rallyLoginPassword,
