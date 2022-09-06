@@ -69,10 +69,11 @@ public class F1_C1_Reader1 extends CommonsItemReader {
             subString = "SUBSTRING";
 
         if(Constant.MYSQL.equals(databaseProductName))
-            loteSQL.append("SELECT TOP 1 COD_EMPRESA, SECUENCIAL, COD_DOCUMENTO, ")
+            loteSQL.append("SELECT COD_EMPRESA, SECUENCIAL, COD_DOCUMENTO, ")
                     .append("CLAVE_ACCESO, ESTADO_SRI, FECHA_ESTADO ")
                     .append("FROM CEL_LOTE_AUTORIZADO WHERE COD_EMPRESA = ? AND ESTADO_SRI = 'RECIBIDA' ")
-                    .append("AND ").append(subString).append("(CLAVE_ACCESO,9,2) = ?");
+                    .append("AND ").append(subString).append("(CLAVE_ACCESO,9,2) = ? ")
+                    .append("LIMIT 1");
         else if(Constant.ORACLE.equals(databaseProductName))
             loteSQL.append("SELECT COD_EMPRESA, SECUENCIAL, COD_DOCUMENTO, ")
                     .append("CLAVE_ACCESO, ESTADO_SRI, FECHA_ESTADO ")

@@ -83,7 +83,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         factura.setInfoAdicional(infoAdicional);
 
         InfoFactura infoFactura = new InfoFactura();
-        infoFactura.setContribuyenteEspecial(rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
+        String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+        if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+            infoFactura.setContribuyenteEspecial(contribuyenteEspecial);
         infoFactura.setDireccionComprador(rs.getString(Constant.DIRECCION_COMPRADOR));
         infoFactura.setDirEstablecimiento(rs.getString(Constant.DIRECCION_ESTABLECIMIENTO));
         String oldDate = rs.getString(Constant.FECHA_FACTURA);
@@ -168,7 +170,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoTributaria.setRuc(rs.getString(Constant.RUC_EMPRESA));
         infoTributaria.setSecuencial(rs.getString("SECUENCIAL"));
         infoTributaria.setTipoEmision("1");
-        infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+        String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+        if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+            infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
         infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
         factura.setInfoTributaria(infoTributaria);
 
@@ -277,7 +281,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         liquidacion.setInfoAdicional(infoAdicional);
 
         Liquidacion.InfoLiquidacionCompra infoLiquidacionCompra = new Liquidacion.InfoLiquidacionCompra();
-        infoLiquidacionCompra.setContribuyenteEspecial(rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
+        String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+        if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+            infoLiquidacionCompra.setContribuyenteEspecial(contribuyenteEspecial);
         infoLiquidacionCompra.setDireccionProveedor(rs.getString(Constant.DIRECCION_PROVEEDOR));
         infoLiquidacionCompra.setDirEstablecimiento(rs.getString(Constant.DIRECCION_ESTABLECIMIENTO));
         String oldDate = rs.getString(Constant.FECHA_FACTURA);
@@ -356,7 +362,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoTributaria.setRuc(rs.getString(Constant.RUC_EMPRESA));
         infoTributaria.setSecuencial(rs.getString("SECUENCIAL"));
         infoTributaria.setTipoEmision("1");
-        infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+        String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+        if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+            infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
         infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
         liquidacion.setInfoTributaria(infoTributaria);
 
@@ -461,7 +469,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
                 rs.getString(Constant.TIPO_IDENTIFICACION_COMPRADOR));
         infoNotaCredito.setRazonSocialComprador(rs.getString(Constant.RAZON_SOCIAL_COMPRADOR));
         infoNotaCredito.setIdentificacionComprador(rs.getString(Constant.IDENTIFICACION_COMPRADOR));
-        infoNotaCredito.setContribuyenteEspecial(rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
+        String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+        if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+            infoNotaCredito.setContribuyenteEspecial(contribuyenteEspecial);
         infoNotaCredito.setObligadoContabilidad(rs.getString(Constant.LLEVA_CONTABILIDAD));
         infoNotaCredito.setRise(rs.getString(Constant.RISE));
         infoNotaCredito.setCodDocModificado(rs.getString(Constant.COD_DOC_MODIFICADO));
@@ -499,7 +509,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoTributaria.setRuc(rs.getString(Constant.RUC_EMPRESA));
         infoTributaria.setSecuencial(rs.getString(Constant.SECUENCIAL));
         infoTributaria.setTipoEmision("1");
-        infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+        String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+        if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+            infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
         infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
         notaCredito.setInfoTributaria(infoTributaria);
 
@@ -582,7 +594,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoTributaria.setPtoEmi(rs.getString(Constant.PUNTO_EMISION));
         infoTributaria.setSecuencial(rs.getString(Constant.SECUENCIAL));
         infoTributaria.setDirMatriz(rs.getString(Constant.DIRECCION_MATRIZ));
-        infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+        String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+        if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+            infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
         infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
         notaDebito.setInfoTributaria(infoTributaria);
 
@@ -597,7 +611,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
                 rs.getString(Constant.TIPO_IDENTIFICACION_COMPRADOR));
         infoNotaDebito.setRazonSocialComprador(rs.getString(Constant.RAZON_SOCIAL_COMPRADOR));
         infoNotaDebito.setIdentificacionComprador(rs.getString(Constant.IDENTIFICACION_COMPRADOR));
-        infoNotaDebito.setContribuyenteEspecial(rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
+        String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+        if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+            infoNotaDebito.setContribuyenteEspecial(contribuyenteEspecial);
         infoNotaDebito.setObligadoContabilidad(rs.getString(Constant.LLEVA_CONTABILIDAD));
         infoNotaDebito.setCodDocModificado(rs.getString(Constant.COD_DOC_MODIFICADO));
         infoNotaDebito.setNumDocModificado(rs.getString(Constant.NUM_DOC_MODIFICADO));
@@ -716,7 +732,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoTributaria.setPtoEmi(rs.getString(Constant.PUNTO_EMISION));
         infoTributaria.setSecuencial(rs.getString(Constant.SECUENCIAL));
         infoTributaria.setDirMatriz(rs.getString(Constant.DIRECCION_MATRIZ));
-        infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+        String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+        if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+            infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
         infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
         guiaRemision.setInfoTributaria(infoTributaria);
 
@@ -731,8 +749,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoGuiaRemision.setRucTransportista(rs.getString(Constant.RUC_TRANSPORTISTA));
         infoGuiaRemision.setRise(rs.getString(Constant.RISE));
         infoGuiaRemision.setObligadoContabilidad(rs.getString(Constant.LLEVA_CONTABILIDAD));
-        infoGuiaRemision.setContribuyenteEspecial(rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
-
+        String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+        if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+            infoGuiaRemision.setContribuyenteEspecial(contribuyenteEspecial);
         String oldDate = rs.getString(Constant.FECHA_INICIO_TRANSPORTE);
         LocalDateTime datetime = transformDate(oldDate);
         String newDate = datetime.format(DateTimeFormatter.ofPattern(Constant.DD_MM_YYYY));
@@ -928,24 +947,20 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             }
             comprobanteRetencion.setInfoAdicional(infoAdicional);
 
-            ComprobanteRetencion.InfoCompRetencion infoCompRetencion =
-                    new ComprobanteRetencion.InfoCompRetencion();
-            infoCompRetencion.setContribuyenteEspecial(
-                    rs.getString(Constant.CONTRIBUYENTE_ESPECIAL));
-            infoCompRetencion.setDirEstablecimiento(
-                    rs.getString(Constant.DIRECCION_ESTABLECIMIENTO));
+            ComprobanteRetencion.InfoCompRetencion infoCompRetencion = new ComprobanteRetencion.InfoCompRetencion();
+            String contribuyenteEspecial = rs.getString(Constant.CONTRIBUYENTE_ESPECIAL);
+            if(Objects.nonNull(contribuyenteEspecial) && !contribuyenteEspecial.isEmpty())
+                infoCompRetencion.setContribuyenteEspecial(contribuyenteEspecial);
+            infoCompRetencion.setDirEstablecimiento( rs.getString(Constant.DIRECCION_ESTABLECIMIENTO));
             String oldDate = rs.getString(Constant.FECHA_RETENCION);
             LocalDateTime datetime = transformDate(oldDate);
             String newDate = datetime.format(DateTimeFormatter.ofPattern(Constant.DD_MM_YYYY));
             infoCompRetencion.setFechaEmision(newDate);
-            infoCompRetencion.setIdentificacionSujetoRetenido(
-                    rs.getString(Constant.IDENTIFICACION_SUJETO_RETENIDO));
+            infoCompRetencion.setIdentificacionSujetoRetenido(rs.getString(Constant.IDENTIFICACION_SUJETO_RETENIDO));
             infoCompRetencion.setObligadoContabilidad(rs.getString(Constant.LLEVA_CONTABILIDAD));
             infoCompRetencion.setPeriodoFiscal(rs.getString(Constant.PERIODO_FISCAL));
-            infoCompRetencion.setRazonSocialSujetoRetenido(
-                    rs.getString(Constant.RAZON_SOCIAL_SUJETO_RETENIDO));
-            infoCompRetencion.setTipoIdentificacionSujetoRetenido(
-                    rs.getString(Constant.TIPO_IDENT_SUJETO_RETENIDO));
+            infoCompRetencion.setRazonSocialSujetoRetenido(rs.getString(Constant.RAZON_SOCIAL_SUJETO_RETENIDO));
+            infoCompRetencion.setTipoIdentificacionSujetoRetenido(rs.getString(Constant.TIPO_IDENT_SUJETO_RETENIDO));
             comprobanteRetencion.setInfoCompRetencion(infoCompRetencion);
 
             InfoTributaria infoTributaria = new InfoTributaria();
@@ -960,7 +975,9 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             infoTributaria.setRuc(rs.getString(Constant.RUC_EMPRESA));
             infoTributaria.setSecuencial(rs.getString(Constant.SECUENCIAL));
             infoTributaria.setTipoEmision("1");
-            infoTributaria.setRegimenMicroempresas(rs.getString(Constant.REGIMEN_MICROEMPRESAS));
+            String regimenMicroempresas = rs.getString(Constant.REGIMEN_MICROEMPRESAS);
+            if(Objects.nonNull(regimenMicroempresas) && !regimenMicroempresas.isEmpty())
+                infoTributaria.setRegimenMicroempresas(regimenMicroempresas);
             infoTributaria.setAgenteRetencion(rs.getString(Constant.AGENTE_RETENCION));
             comprobanteRetencion.setInfoTributaria(infoTributaria);
             comprobanteRetencion.setVersion("1.0.0");
