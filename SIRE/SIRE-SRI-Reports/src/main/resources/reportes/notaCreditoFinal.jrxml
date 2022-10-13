@@ -32,6 +32,7 @@
 	<parameter name="RAZON_MODIF" class="java.lang.String"/>
 	<parameter name="NOM_COMERCIAL" class="java.lang.String"/>
 	<parameter name="REGIMEN_MICROEMPRESAS" class="java.lang.String"/>
+	<parameter name="CONTRIBUYENTE_RIMPE" class="java.lang.String"/>
 	<parameter name="AGENTE_RETENCION" class="java.lang.String"/>
 	<field name="codigoPrincipal" class="java.lang.String"/>
 	<field name="codigoAuxiliar" class="java.lang.String"/>
@@ -49,10 +50,10 @@
 	<title>
 		<band height="454" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="0" y="172" width="285" height="160" uuid="31e740fa-5656-4600-8c5e-c9f7618cbfad"/>
+				<reportElement mode="Transparent" x="0" y="172" width="285" height="178" uuid="31e740fa-5656-4600-8c5e-c9f7618cbfad"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="295" y="0" width="260" height="332" uuid="f45578e8-75d8-4e55-a6c1-e74c15e99fce"/>
+				<reportElement mode="Transparent" x="295" y="0" width="260" height="350" uuid="f45578e8-75d8-4e55-a6c1-e74c15e99fce"/>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Transparent" x="301" y="11" width="65" height="20" uuid="b4f8b8fe-8896-40db-b444-293988337b9e"/>
@@ -338,6 +339,13 @@
 					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{AGENTE_RETENCION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="10" y="328" width="269" height="14" uuid="952a22a7-ee40-4cae-9d4d-a87f9162b5f9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CONTRIBUYENTE_RIMPE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

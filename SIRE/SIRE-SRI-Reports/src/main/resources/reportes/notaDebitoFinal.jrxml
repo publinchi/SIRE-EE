@@ -40,6 +40,7 @@
 	<parameter name="EXENTO_IVA" class="java.math.BigDecimal"/>
 	<parameter name="PORCENTAJE_IVA" class="java.lang.String"/>
 	<parameter name="REGIMEN_MICROEMPRESAS" class="java.lang.String"/>
+	<parameter name="CONTRIBUYENTE_RIMPE" class="java.lang.String"/>
 	<parameter name="AGENTE_RETENCION" class="java.lang.String"/>
 	<field name="razonModificacion" class="java.lang.String"/>
 	<field name="valorModificacion" class="java.lang.String"/>
@@ -50,10 +51,10 @@
 	<title>
 		<band height="445" splitType="Stretch">
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="0" y="170" width="285" height="162" uuid="62aaba67-fd8a-47c0-afee-a04bc33417c9"/>
+				<reportElement mode="Transparent" x="0" y="170" width="285" height="175" uuid="62aaba67-fd8a-47c0-afee-a04bc33417c9"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="295" y="0" width="260" height="332" uuid="5d96e38a-a850-4d8b-ae6e-65be3e48d80a"/>
+				<reportElement mode="Transparent" x="295" y="0" width="260" height="344" uuid="5d96e38a-a850-4d8b-ae6e-65be3e48d80a"/>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Opaque" x="301" y="11" width="65" height="20" uuid="a195a5f3-9e7b-414b-be1d-326a7a478594"/>
@@ -328,6 +329,13 @@
 					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{AGENTE_RETENCION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="8" y="326" width="269" height="14" uuid="3d1759a9-4857-4974-bacf-928f233d44e8"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CONTRIBUYENTE_RIMPE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
