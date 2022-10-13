@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="comprobanteRetencion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c3eaa0e8-2300-4d0d-bb98-ea16c8d01451">
 	<property name="ireport.zoom" value="1.2418426461183107"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="51"/>
 	<parameter name="RUC" class="java.lang.String"/>
 	<parameter name="NUM_AUT" class="java.lang.String"/>
 	<parameter name="FECHA_AUT" class="java.lang.String"/>
@@ -27,6 +27,7 @@
 	<parameter name="AMBIENTE" class="java.lang.String"/>
 	<parameter name="NOM_COMERCIAL" class="java.lang.String"/>
 	<parameter name="REGIMEN_MICROEMPRESAS" class="java.lang.String"/>
+	<parameter name="CONTRIBUYENTE_RIMPE" class="java.lang.String"/>
 	<parameter name="AGENTE_RETENCION" class="java.lang.String"/>
 	<field name="infoAdicional" class="java.util.Collection"/>
 	<field name="baseImponible" class="java.lang.String"/>
@@ -43,7 +44,7 @@
 				<reportElement mode="Transparent" x="0" y="346" width="557" height="41" uuid="17747c8c-c03b-4e54-969d-eea1d07c39ad"/>
 			</rectangle>
 			<rectangle radius="10">
-				<reportElement x="295" y="0" width="260" height="332" uuid="0fbb1eda-d2af-440c-9d41-7c5691e1cbb7"/>
+				<reportElement x="295" y="0" width="260" height="346" uuid="0fbb1eda-d2af-440c-9d41-7c5691e1cbb7"/>
 			</rectangle>
 			<staticText>
 				<reportElement mode="Transparent" x="301" y="11" width="65" height="20" uuid="21867966-8d25-432f-a854-851322a78ee1"/>
@@ -91,7 +92,7 @@
 				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 			<rectangle radius="10">
-				<reportElement mode="Transparent" x="0" y="169" width="290" height="165" uuid="56a35a33-f1d8-4b9e-a264-8a30ff9fe9d9"/>
+				<reportElement mode="Transparent" x="0" y="169" width="290" height="177" uuid="56a35a33-f1d8-4b9e-a264-8a30ff9fe9d9"/>
 			</rectangle>
 			<textField>
 				<reportElement mode="Transparent" x="301" y="115" width="253" height="25" uuid="21f91fd0-ee8f-4123-835f-7cff0bd5583a"/>
@@ -287,6 +288,13 @@
 					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{AGENTE_RETENCION}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="328" width="269" height="14" uuid="097a96fb-c7c3-4cba-8632-4402ceaf9cb5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CONTRIBUYENTE_RIMPE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
