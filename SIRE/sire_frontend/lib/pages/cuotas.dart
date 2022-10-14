@@ -414,6 +414,21 @@ class EntityCuotasDetailsPage extends StatelessWidget {
                                   ),
                                   IconButton(
                                     onPressed: hasWarnings(detailedEventData) ? () => {
+                                      if (detailedEventData.nroCuota == 999)
+                                        showDialog(
+                                          context: context,
+                                          builder: (_) => AlertDialog(
+                                            content: Text(
+                                              "Valor de Reserva.",
+                                              style: Theme.of(context)
+                                                  .textTheme.bodyText1.copyWith(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ),
                                       if (detailedEventData.abonoCapital != 0)
                                         showDialog(
                                           context: context,
@@ -493,7 +508,7 @@ class EntityCuotasDetailsPage extends StatelessWidget {
 
   hasWarnings(DetailedCuotaData detailedEventData) {
     return detailedEventData.abonoCapital != 0
-        || isNotBetween(detailedEventData);
+        || isNotBetween(detailedEventData) || detailedEventData.nroCuota == 999;
   }
 
   isNotBetween(DetailedCuotaData detailedEventData) {
