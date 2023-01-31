@@ -34,6 +34,36 @@
             <artifactId>SIRE-SRI-Batch-Commons</artifactId>
             <version>${SIRE-SRI-Batch-Commons.version}</version>
             <type>jar</type>
+            <exclusions>
+                <exclusion>
+                    <artifactId>groovy-all</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-json</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-console</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-datetime</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-docgenerator</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-groovydoc</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-groovysh</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -71,6 +101,24 @@
             <artifactId>SIRE-SRI-Reports</artifactId>
             <version>${SIRE-SRI-Reports.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>groovy-all</artifactId>
+                    <groupId>org.codehaus.groovy</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>4.0.6</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>

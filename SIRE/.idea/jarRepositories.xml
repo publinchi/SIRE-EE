@@ -17,14 +17,14 @@
       <option name="url" value="http://repolib.cobiscorp.com:8081/nexus/content/groups/cobis-base-mvn-dev" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="PrimeFaces-maven-lib" />
-      <option name="name" value="Repository for library PrimeFaces-maven-lib" />
-      <option name="url" value="http://repository.primefaces.org/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Repository Switchboard" />
       <option name="url" value="http://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="PrimeFaces-maven-lib" />
+      <option name="name" value="Repository for library PrimeFaces-maven-lib" />
+      <option name="url" value="http://repository.primefaces.org/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="sourceforge" />
@@ -92,14 +92,14 @@
       <option name="url" value="http://ibkey.sourceforge.net/maven" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="snapshots" />
-      <option name="name" value="snapshots" />
-      <option name="url" value="http://dev.fit-bank.com/nexus/content/groups/public-snapshots" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="jaspersoft-third-party" />
       <option name="name" value="jaspersoft-third-party" />
       <option name="url" value="http://jaspersoft.artifactoryonline.com/jaspersoft/third-party-ce-artifacts/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="snapshots" />
+      <option name="name" value="snapshots" />
+      <option name="url" value="http://dev.fit-bank.com/nexus/content/groups/public-snapshots" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="snapshots" />

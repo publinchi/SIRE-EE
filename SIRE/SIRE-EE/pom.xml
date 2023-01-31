@@ -9,7 +9,7 @@
 
     <groupId>com.sire</groupId>
     <artifactId>SIRE-EE</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
     <packaging>ear</packaging>
 
     <name>SIRE-EE</name>
@@ -51,7 +51,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
     </build>
     <dependencies>
         <!-- Opcionales -->

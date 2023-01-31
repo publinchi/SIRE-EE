@@ -9,11 +9,11 @@
       </options>
     </properties>
     <root id="root">
-      <element id="javaee-facet-resources" facet="SIRE-Services/ejb/EJB" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/SIRE-Services/target/SIRE-Services/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="SIRE-Services" />
+      <element id="javaee-facet-resources" facet="SIRE-Services/ejb/EJB" />
     </root>
   </artifact>
 </component>

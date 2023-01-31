@@ -184,7 +184,8 @@ public class SoapUtil {
                     (Objects.nonNull(xmlRootElement) && !Objects.equals(xmlRootElement.name(), "##default"))
                             ? xmlRootElement.name() : xmlType.name());
 
-            JAXBElement<?> root = new JAXBElement<>(qName, (Class<? super Object>) object.getClass(), object);
+            @SuppressWarnings("unchecked") JAXBElement<?> root =
+                    new JAXBElement<>(qName, (Class<? super Object>) object.getClass(), object);
 
             jaxbMarshaller.marshal(root, stringWriter);
 
@@ -291,7 +292,7 @@ public class SoapUtil {
     public static Object getObjectFromElement(SOAPMessage soapMessage, String elementName, Class<?> aClass) {
         try {
             if (soapMessage.getSOAPBody().hasFault()){
-                LOGGER.log(Level.INFO, soapMessage.getSOAPBody().getFault()
+                LOGGER.log(Level.SEVERE, soapMessage.getSOAPBody().getFault()
                         .getFaultString());
                 return soapMessage.getSOAPBody().getFault();
             } else {
@@ -305,7 +306,6 @@ public class SoapUtil {
         }
     }
 
-    @SuppressWarnings("unused")
     public static List<Object> getDataSetFromSoapMessage(SOAPMessage soapResponse, Class<?> aClass) {
         try {
             XmlType annotation = aClass.getDeclaredAnnotation(XmlType.class);
@@ -331,7 +331,7 @@ public class SoapUtil {
             }
             return list;
         } catch (SOAPException | JAXBException | ParserConfigurationException | TransformerException | SAXException
-                | IOException e) {
+                 | IOException e) {
             LOGGER.log(Level.SEVERE, null, e);
             return new ArrayList<>();
         }
@@ -362,32 +362,32 @@ public class SoapUtil {
     }
 
     private static Document extractContentAsDocument(SOAPMessage soapResponse) throws SOAPException {
-
-        Iterator<?> iterator = soapResponse.getSOAPBody().getChildElements();
         javax.xml.soap.Node firstBodyElement = null;
+        Document document;
 
-        while (iterator.hasNext() && !(firstBodyElement instanceof SOAPElement))
-            firstBodyElement = (javax.xml.soap.Node) iterator.next();
+        try {
+            Iterator<?> iterator = clone(soapResponse).getSOAPBody().getChildElements();
 
-        boolean exactlyOneChildElement = true;
-        if (firstBodyElement == null)
-            exactlyOneChildElement = false;
-        else {
-            for (Node node = firstBodyElement.getNextSibling(); node != null; node = node.getNextSibling()) {
-                if (node instanceof org.w3c.dom.Element) {
-                    exactlyOneChildElement = false;
-                    break;
+            while (iterator.hasNext() && !(firstBodyElement instanceof SOAPElement))
+                firstBodyElement = (javax.xml.soap.Node) iterator.next();
+
+            boolean exactlyOneChildElement = true;
+            if (firstBodyElement == null)
+                exactlyOneChildElement = false;
+            else {
+                for (Node node = firstBodyElement.getNextSibling(); node != null; node = node.getNextSibling()) {
+                    if (node instanceof org.w3c.dom.Element) {
+                        exactlyOneChildElement = false;
+                        break;
+                    }
                 }
             }
-        }
 
-        if (!exactlyOneChildElement) {
-            LOGGER.log(Level.SEVERE,"SAAJ0250.impl.body.should.have.exactly.one.child");
-            throw new SOAPException("Cannot extract Document from body");
-        }
+            if (!exactlyOneChildElement) {
+                LOGGER.log(Level.SEVERE,"SAAJ0250.impl.body.should.have.exactly.one.child");
+                throw new SOAPException("Cannot extract Document from body");
+            }
 
-        Document document;
-        try {
             DocumentBuilderFactory factory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
             factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
