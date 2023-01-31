@@ -34,7 +34,7 @@
       <module name="SIRE-Commons" target="1.8" />
       <module name="SIRE-Crypt" target="1.8" />
       <module name="SIRE-EE" target="1.8" />
-      <module name="SIRE-Entities" target="8" />
+      <module name="SIRE-Entities" target="1.8" />
       <module name="SIRE-Rest" target="1.8" />
       <module name="SIRE-RS-Client" target="1.7" />
       <module name="SIRE-Services" target="1.8" />
@@ -48,7 +48,7 @@
       <module name="SIRE-SRI-Signature" target="1.8" />
       <module name="SIRE-SRI-WSClient" target="1.8" />
       <module name="SIRE-Web" target="1.7" />
-      <module name="SIRE-WS" target="8" />
+      <module name="SIRE-WS" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

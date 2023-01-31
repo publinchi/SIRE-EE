@@ -7,7 +7,7 @@
         <packaging>ear</packaging>
       </options>
     </properties>
-    <root id="archive" name="SIRE-EE.ear">
+    <root id="archive" name="SIRE-EE-2.2.0.ear">
       <element id="artifact" artifact-name="SIRE-EE:ear exploded" />
     </root>
   </artifact>

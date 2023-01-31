@@ -48,6 +48,90 @@
                     <groupId>com.sire</groupId>
                     <artifactId>SIRE-Entities</artifactId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>groovy</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-all</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-ant</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-cli-picocli</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-console</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-xml</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-test-junit5</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-test</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-templates</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-swing</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-sql</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-servlet</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-nio</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-macro</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-jsr223</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-json</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-jmx</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-groovysh</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-groovydoc</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-docgenerator</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>groovy-datetime</artifactId>
+                    <groupId>org.apache.groovy</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -72,6 +156,12 @@
             <artifactId>SIRE-SRI-Reports</artifactId>
             <version>${SIRE-SRI-Reports.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>groovy-all</artifactId>
+                    <groupId>org.codehaus.groovy</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -84,6 +174,24 @@
             <artifactId>SIRE-Commons</artifactId>
             <version>${SIRE-Commons.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>4.0.6</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.4.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>

@@ -41,16 +41,21 @@ public class ComprobanteRetencionReporte {
 
     public List<DetallesAdicionalesReporte> getDetallesAdiciones() {
         this.detallesAdiciones = new ArrayList();
-        for (Impuesto im : this.comprobanteRetencion.getImpuestos().getImpuesto()) {
+
+        ComprobanteRetencion.DocsSustento.DocSustento docSustento = this.comprobanteRetencion.getDocsSustento()
+                .getDocSustento().get(0);
+
+        for (ComprobanteRetencion.DocsSustento.DocSustento.Retenciones.Retencion retencion
+                : docSustento.getRetenciones().getRetencion()) {
             DetallesAdicionalesReporte detAd = new DetallesAdicionalesReporte();
-            detAd.setBaseImponible(im.getBaseImponible().setScale(2).toString());
-            detAd.setPorcentajeRetener(im.getPorcentajeRetener().toString());
-            detAd.setValorRetenido(im.getValorRetenido().setScale(2).toString());
-            detAd.setNombreImpuesto(obtenerImpuestoDecripcion(im.getCodigo()));
+            detAd.setBaseImponible(retencion.getBaseImponible());
+            detAd.setPorcentajeRetener(retencion.getPorcentajeRetener());
+            detAd.setValorRetenido(retencion.getValorRetenido());
+            detAd.setNombreImpuesto(obtenerImpuestoDecripcion(retencion.getCodigo()));
             detAd.setInfoAdicional(getInfoAdicional());
-            detAd.setNumeroComprobante(im.getNumDocSustento());
-            detAd.setNombreComprobante(obtenerDecripcionComprobante(im.getCodDocSustento()));
-            detAd.setFechaEmisionCcompModificado(im.getFechaEmisionDocSustento());
+            detAd.setNumeroComprobante(docSustento.getNumDocSustento());
+            detAd.setNombreComprobante(obtenerDecripcionComprobante(docSustento.getCodDocSustento()));
+            detAd.setFechaEmisionCcompModificado(docSustento.getFechaEmisionDocSustento());
             this.detallesAdiciones.add(detAd);
         }
         return this.detallesAdiciones;
