@@ -198,6 +198,7 @@ public class Constant {
     public static final String CODIGO_PORCENTAJE_CERO = "CODIGO_PORCENTAJE_CERO";
     public static final String BASE_IMPONIBLE_CERO = "BASE_IMPONIBLE_CERO";
     public static final String VALOR_CERO = "VALOR_CERO";
+    public static final String NOMBRE = "NOMBRE";
 
     public static final String FACTURA_C_SQL = "SELECT COD_EMPRESA, RUC_EMPRESA, RAZON_SOCIAL_EMPRESA, "
             + "NOMBRE_COMERCIAL, COD_DOCUMENTO, NUM_FACTURA_INTERNO, ESTABLECIMIENTO, "
