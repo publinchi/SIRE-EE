@@ -103,13 +103,13 @@ public class FacturaReporte {
             if ((det.getDetallesAdicionales() != null) && (det.getDetallesAdicionales().getDetAdicional() != null) && (!det.getDetallesAdicionales().getDetAdicional().isEmpty())) {
                 for (Factura.Detalles.Detalle.DetallesAdicionales.DetAdicional detAdicional : det.getDetallesAdicionales().getDetAdicional()) {
                     if (i == 0) {
-                        detAd.setDetalle1(detAdicional.getNombre());
+                        detAd.setDetalle1(detAdicional.getValor());
                     }
                     if (i == 1) {
-                        detAd.setDetalle2(detAdicional.getNombre());
+                        detAd.setDetalle2(detAdicional.getValor());
                     }
                     if (i == 2) {
-                        detAd.setDetalle3(detAdicional.getNombre());
+                        detAd.setDetalle3(detAdicional.getValor());
                     }
                     i++;
                 }

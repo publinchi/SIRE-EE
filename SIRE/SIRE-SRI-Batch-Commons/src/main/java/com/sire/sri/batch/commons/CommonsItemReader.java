@@ -223,6 +223,49 @@ public abstract class CommonsItemReader extends AbstractItemReader {
                         .getBigDecimal(Constant.PRECIO_TOTAL_SIN_IMPUESTOS));
                 detalle.setPrecioUnitario(resultSet.getBigDecimal(Constant.PRECIO_UNITARIO));
                 detalle.setCodigoBarras(resultSet.getString(Constant.CODIGO_BARRAS));
+
+                Connection detallesAdicionalesConnection = null;
+                PreparedStatement detallesAdicionalesPreparedStatement = null;
+                ResultSet detallesAdicionalesResultSet = null;
+
+                String V_FACTURA_ELEC_ADICIONAL_SQL = "SELECT NOMBRE, VALOR FROM V_FACTURA_ELEC_ADICIONAL WHERE ";
+
+                String adicionalSQL = V_FACTURA_ELEC_ADICIONAL_SQL
+                        + "COD_EMPRESA = ? AND COD_DOCUMENTO = ? AND NUM_FACTURA_INTERNO = ?";
+
+                if (log.isTraceEnabled()) {
+                    log.trace("adicionalSQL -> {}", adicionalSQL);
+                }
+
+                try {
+                    detallesAdicionalesConnection = getDatasourceService().getConnection();
+                    detallesAdicionalesPreparedStatement = connection.prepareStatement(adicionalSQL);
+
+                    detallesAdicionalesPreparedStatement.setString(1, codEmpresa);
+                    detallesAdicionalesPreparedStatement.setString(2, Constant.CERO_UNO);
+                    detallesAdicionalesPreparedStatement.setString(3, numFacturaInterno);
+
+                    detallesAdicionalesResultSet = detallesAdicionalesPreparedStatement.executeQuery();
+
+                    Detalle.DetallesAdicionales detallesAdicionales = new Detalle.DetallesAdicionales();
+
+                    while (detallesAdicionalesResultSet.next()) {
+                        Detalle.DetallesAdicionales.DetAdicional detAdicional
+                                = new Detalle.DetallesAdicionales.DetAdicional();
+                        detAdicional.setNombre(detallesAdicionalesResultSet.getString(Constant.NOMBRE));
+                        detAdicional.setValor(detallesAdicionalesResultSet.getString(Constant.VALOR));
+                        detallesAdicionales.getDetAdicional().add(detAdicional);
+                    }
+
+                    if (!detallesAdicionales.getDetAdicional().isEmpty())
+                        detalle.setDetallesAdicionales(detallesAdicionales);
+                } catch (SQLException | NamingException e) {
+                    log.log(Level.ERROR, e);
+                } finally {
+                    closeConnections(detallesAdicionalesConnection, detallesAdicionalesPreparedStatement
+                            , detallesAdicionalesResultSet);
+                }
+
                 detalles.getDetalle().add(detalle);
             }
             factura.setDetalles(detalles);

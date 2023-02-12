@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.sire.sri</groupId>
     <artifactId>SIRE-SRI-Reports</artifactId>
-    <version>1.7.0</version>
+    <version>1.8.0</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
