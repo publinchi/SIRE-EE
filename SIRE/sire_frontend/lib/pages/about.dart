@@ -38,7 +38,7 @@ class _AboutDialog extends StatelessWidget {
     final legalese = '© 2021 The Flutter team'; // Don't need to localize.
     final repoText = GalleryLocalizations.of(context).githubRepo(name);
     final seeSource =
-        GalleryLocalizations.of(context).aboutDialogDescription(repoText);
+        GalleryLocalizations.of(context).aboutDialogDescription(repoText, null);
     final repoLinkIndex = seeSource.indexOf(repoText);
     final repoLinkIndexEnd = repoLinkIndex + repoText.length;
     final seeSourceFirst = seeSource.substring(0, repoLinkIndex);
