@@ -1139,7 +1139,8 @@ public abstract class CommonsItemReader extends AbstractItemReader {
                 infoCompRetencion.setRazonSocialSujetoRetenido(rs.getString(Constant.RAZON_SOCIAL_SUJETO_RETENIDO));
                 infoCompRetencion.setTipoIdentificacionSujetoRetenido(rs.getString(Constant.TIPO_IDENT_SUJETO_RETENIDO));
                 infoCompRetencion.setParteRel(rs.getString(Constant.PARTEREL));
-                if(infoCompRetencion.getTipoIdentificacionSujetoRetenido().equals("06"))
+                if(infoCompRetencion.getTipoIdentificacionSujetoRetenido().equals("06")
+                        || infoCompRetencion.getTipoIdentificacionSujetoRetenido().equals("08"))
                     infoCompRetencion.setTipoSujetoRetenido(rs.getString(Constant.TIPOSUJETORETENIDO));
                 comprobanteRetencion.setInfoCompRetencion(infoCompRetencion);
 
