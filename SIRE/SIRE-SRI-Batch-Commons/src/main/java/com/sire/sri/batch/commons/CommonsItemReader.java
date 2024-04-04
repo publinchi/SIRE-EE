@@ -106,22 +106,37 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         infoFactura.setTotalSubsidio(rs.getBigDecimal(Constant.TOTAL_SUBSIDIO));
         TotalConImpuestos totalConImpuestos = new TotalConImpuestos();
 
-        if (!Objects.equals(Constant.CODIGO_PORCENTAJE_TXT, rs.getString(Constant.CODIGO_PORCENTAJE))) {
+        BigDecimal baseImponible = rs.getBigDecimal(Constant.BASE_IMPONIBLE);
+        if (!Objects.equals(Constant.CODIGO_PORCENTAJE_TXT, rs.getString(Constant.CODIGO_PORCENTAJE))
+                && baseImponible.compareTo(BigDecimal.ZERO) > 0) {
             TotalImpuesto totalImpuesto1 = new TotalImpuesto();
-            totalImpuesto1.setBaseImponible(rs.getBigDecimal(Constant.BASE_IMPONIBLE));
+            totalImpuesto1.setBaseImponible(baseImponible);
             totalImpuesto1.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
             totalImpuesto1.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE));
             totalImpuesto1.setValor(rs.getBigDecimal(Constant.VALOR));
             totalConImpuestos.getTotalImpuesto().add(totalImpuesto1);
         }
 
-        TotalImpuesto totalImpuesto2 = new TotalImpuesto();
-        totalImpuesto2.setBaseImponible(rs.getBigDecimal(Constant.BASE_IMPONIBLE_SIN_IVA));
-        totalImpuesto2.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO_SIN_IVA));
-        totalImpuesto2.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE_SIN_IVA));
-        totalImpuesto2.setTarifa(rs.getBigDecimal(Constant.TARIFA_IVA_SIN_IVA));
-        totalImpuesto2.setValor(rs.getBigDecimal(Constant.VALOR_IVA_SIN_IVA));
-        totalConImpuestos.getTotalImpuesto().add(totalImpuesto2);
+        BigDecimal baseImponibleSinIva = rs.getBigDecimal(Constant.BASE_IMPONIBLE_SIN_IVA);
+        if (baseImponibleSinIva.compareTo(BigDecimal.ZERO) > 0) {
+            TotalImpuesto totalImpuesto2 = new TotalImpuesto();
+            totalImpuesto2.setBaseImponible(baseImponibleSinIva);
+            totalImpuesto2.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO_SIN_IVA));
+            totalImpuesto2.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE_SIN_IVA));
+            totalImpuesto2.setTarifa(rs.getBigDecimal(Constant.TARIFA_IVA_SIN_IVA));
+            totalImpuesto2.setValor(rs.getBigDecimal(Constant.VALOR_IVA_SIN_IVA));
+            totalConImpuestos.getTotalImpuesto().add(totalImpuesto2);
+        }
+
+        BigDecimal base5 = rs.getBigDecimal(Constant.BASE5);
+        if (base5.compareTo(BigDecimal.ZERO) > 0) {
+            TotalImpuesto totalImpuesto3 = new TotalImpuesto();
+            totalImpuesto3.setBaseImponible(base5);
+            totalImpuesto3.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
+            totalImpuesto3.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE5));
+            totalImpuesto3.setValor(rs.getBigDecimal(Constant.VALOR_IVA5));
+            totalConImpuestos.getTotalImpuesto().add(totalImpuesto3);
+        }
 
         infoFactura.setTotalConImpuestos(totalConImpuestos);
         infoFactura.setTotalDescuento(rs.getBigDecimal(Constant.TOTAL_DESCUENTOS));
@@ -273,7 +288,6 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(factura);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
-            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -349,11 +363,13 @@ public abstract class CommonsItemReader extends AbstractItemReader {
         Liquidacion.InfoLiquidacionCompra.TotalConImpuestos totalConImpuestos =
                 new Liquidacion.InfoLiquidacionCompra.TotalConImpuestos();
 
-        if (!Objects.equals(Constant.CODIGO_PORCENTAJE_TXT,
-                rs.getString(Constant.CODIGO_PORCENTAJE))) {
+        BigDecimal baseImponible = rs.getBigDecimal(Constant.BASE_IMPONIBLE);
+
+        if (!Objects.equals(Constant.CODIGO_PORCENTAJE_TXT, rs.getString(Constant.CODIGO_PORCENTAJE))
+                && baseImponible.compareTo(BigDecimal.ZERO) > 0) {
             Liquidacion.InfoLiquidacionCompra.TotalConImpuestos.TotalImpuesto totalImpuesto1 =
                     new Liquidacion.InfoLiquidacionCompra.TotalConImpuestos.TotalImpuesto();
-            totalImpuesto1.setBaseImponible(rs.getBigDecimal(Constant.BASE_IMPONIBLE));
+            totalImpuesto1.setBaseImponible(baseImponible);
             totalImpuesto1.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
             totalImpuesto1.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE));
             totalImpuesto1.setValor(rs.getBigDecimal(Constant.VALOR));
@@ -468,7 +484,6 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(liquidacion);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
-            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -536,24 +551,39 @@ public abstract class CommonsItemReader extends AbstractItemReader {
 
         ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos totalConImpuestos =
                 new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos();
-        ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto totalImpuesto1 =
-                new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto();
-        totalImpuesto1.setBaseImponible(rs.getBigDecimal(Constant.BASE_IMPONIBLE));
-        totalImpuesto1.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
-        totalImpuesto1.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE));
-        totalImpuesto1.setValor(rs.getBigDecimal(Constant.VALOR));
-        if (totalImpuesto1.getBaseImponible().compareTo(BigDecimal.ZERO) > 0)
+
+        BigDecimal baseImponible = rs.getBigDecimal(Constant.BASE_IMPONIBLE);
+        if (baseImponible.compareTo(BigDecimal.ZERO) > 0) {
+            ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto totalImpuesto1 =
+                    new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto();
+            totalImpuesto1.setBaseImponible(baseImponible);
+            totalImpuesto1.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
+            totalImpuesto1.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE));
+            totalImpuesto1.setValor(rs.getBigDecimal(Constant.VALOR));
             totalConImpuestos.getTotalImpuesto().add(totalImpuesto1);
+        }
 
-        ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto totalImpuesto2 =
-                new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto();
-
-        totalImpuesto2.setBaseImponible(rs.getBigDecimal(Constant.BASE_IMPONIBLE_CERO));
-        totalImpuesto2.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO_CERO));
-        totalImpuesto2.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE_CERO));
-        totalImpuesto2.setValor(rs.getBigDecimal(Constant.VALOR_CERO));
-        if (totalImpuesto2.getBaseImponible().compareTo(BigDecimal.ZERO) > 0)
+        BigDecimal baseImponibleCero = rs.getBigDecimal(Constant.BASE_IMPONIBLE_CERO);
+        if (baseImponibleCero.compareTo(BigDecimal.ZERO) > 0) {
+            ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto totalImpuesto2 =
+                    new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto();
+            totalImpuesto2.setBaseImponible(baseImponibleCero);
+            totalImpuesto2.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO_CERO));
+            totalImpuesto2.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE_CERO));
+            totalImpuesto2.setValor(rs.getBigDecimal(Constant.VALOR_CERO));
             totalConImpuestos.getTotalImpuesto().add(totalImpuesto2);
+        }
+
+        BigDecimal base5 = rs.getBigDecimal(Constant.BASE5);
+        if (base5.compareTo(BigDecimal.ZERO) > 0) {
+            ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto totalImpuesto3 =
+                    new ec.gob.sri.comprobantes.modelo.notacredito.TotalConImpuestos.TotalImpuesto();
+            totalImpuesto3.setBaseImponible(base5);
+            totalImpuesto3.setCodigo(rs.getString(Constant.CODIGO_IMPUESTO));
+            totalImpuesto3.setCodigoPorcentaje(rs.getString(Constant.CODIGO_PORCENTAJE5));
+            totalImpuesto3.setValor(rs.getBigDecimal(Constant.VALOR_IVA5));
+            totalConImpuestos.getTotalImpuesto().add(totalImpuesto3);
+        }
 
         infoNotaCredito.setTotalConImpuestos(totalConImpuestos);
 
@@ -633,7 +663,6 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(notaCredito);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
-            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
@@ -945,7 +974,6 @@ public abstract class CommonsItemReader extends AbstractItemReader {
             comprobantes.add(guiaRemision);
         } catch (SQLException | NamingException e) {
             log.log(Level.ERROR, e);
-            return;
         } finally {
             closeConnections(connection, preparedStatement, resultSet);
         }
