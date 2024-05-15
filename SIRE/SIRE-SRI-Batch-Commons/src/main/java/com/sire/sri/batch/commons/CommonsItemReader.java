@@ -222,6 +222,7 @@ public abstract class CommonsItemReader extends AbstractItemReader {
                 Detalle detalle = new Detalle();
                 detalle.setCantidad(resultSet.getBigDecimal(Constant.CANTIDAD));
                 detalle.setCodigoPrincipal(resultSet.getString(Constant.COD_ARTICULO));
+                detalle.setCodigoAuxiliar(resultSet.getString(Constant.COD_AUXILIAR));
                 detalle.setDescripcion(resultSet.getString(Constant.NOMBRE_ARTICULO));
                 detalle.setDescuento(resultSet.getBigDecimal(Constant.DESCUENTO));
                 Impuestos impuestos = new Impuestos();

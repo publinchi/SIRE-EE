@@ -110,6 +110,7 @@ public class Constant {
     public static final String RUC_EMPRESA = "RUC_EMPRESA";
     public static final String CANTIDAD = "CANTIDAD";
     public static final String COD_ARTICULO = "COD_ARTICULO";
+    public static final String COD_AUXILIAR = "COD_AUXILIAR";
     public static final String NOMBRE_ARTICULO = "NOMBRE_ARTICULO";
     public static final String DESCUENTO = "DESCUENTO";
     public static final String TARIFA = "TARIFA";
@@ -254,7 +255,7 @@ public class Constant {
             + "FROM ";
 
     public static final String FACTURA_D_SQL = "SELECT COD_EMPRESA, COD_DOCUMENTO, "
-            + "NUM_DOCUMENTO_INTERNO, COD_ARTICULO, NOMBRE_ARTICULO, CANTIDAD, "
+            + "NUM_DOCUMENTO_INTERNO, COD_ARTICULO, COD_AUXILIAR, NOMBRE_ARTICULO, CANTIDAD, "
             + "PRECIO_UNITARIO, DESCUENTO, CODIGO_IMPUESTO, CODIGO_PORCENTAJE, TARIFA, "
             + "BASE_IMPONIBLE, VALOR, PRECIO_TOTAL_SIN_IMPUESTOS, PRECIO_SIN_SUBSIDIO, CODIGO_BARRAS "
             + "FROM V_FACTURA_ELECTRONICA_D "

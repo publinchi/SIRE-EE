@@ -15,6 +15,9 @@ import com.sire.sri.batch.commons.CommonsItemWriter;
 import com.sire.sri.batch.constant.Constant;
 import ec.gob.sri.comprobantes.modelo.factura.Factura;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.FileSystems;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -363,7 +366,29 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     log.info("Secuencial de Comprobante a ser enviado por mail: " + secuencial);
                     getMailService().sendMail(event); //firing event!
                 }
-            } catch (NamingException | MessagingException | JAXBException | SQLException | ClassNotFoundException | IOException ex) {
+
+                String separator = FileSystems.getDefault().getSeparator();
+                String folderPath = System.getProperty("sire.home") + separator + "files" + separator
+                        + key.getClass().getSimpleName() + separator;
+
+                File folder = new File(folderPath);
+                if (!folder.exists()) {
+                    folder.mkdirs();
+                }
+
+                String filePath = folderPath + claveAcceso + ".pdf";
+
+                try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                    fos.write(pdfBytes);
+                }
+
+                filePath = folderPath + claveAcceso + ".xml";
+
+                try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                    fos.write(autorizacionXml.getBytes());
+                }
+            } catch (NamingException | MessagingException | JAXBException | SQLException | ClassNotFoundException
+                     | IOException ex) {
                 log.log(Level.ERROR, ex);
             }
         });
