@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.sire.sri</groupId>
     <artifactId>SIRE-SRI-Batch-Recepcion</artifactId>
-    <version>${SIRE-SRI-Batch-Recepcion.version}</version>
+    <version>1.2.6</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>

@@ -18,9 +18,8 @@
         <spring-context-support.version>5.2.0.RELEASE</spring-context-support.version>
         <xmlsec.version>1.4.2-ADSI</xmlsec.version>
         <!-- Module's Versions -->
-        <SIRE-Batch.version>1.7.1</SIRE-Batch.version>
         <SIRE-Commons.version>1.0.3</SIRE-Commons.version>
-        <SIRE-EE.version>1.5.0</SIRE-EE.version>
+        <SIRE-Batch.version>1.7.1</SIRE-Batch.version>
         <SIRE-Entities.version>1.1.1</SIRE-Entities.version>
         <SIRE-RS-Client.version>1.0.0</SIRE-RS-Client.version>
         <SIRE-Services.version>1.1.4</SIRE-Services.version>
@@ -35,39 +34,32 @@
         <SIRE-SRI-WSClient.version>1.1.0</SIRE-SRI-WSClient.version>
         <SIRE-Web.version>1.0.1</SIRE-Web.version>
         <SIRE-WS.version>1.2.0</SIRE-WS.version>
+        <SIRE-EE.version>1.5.1.1</SIRE-EE.version>
     </properties>
-    <modules>
-        <module>SIRE-Batch</module>
-        <module>SIRE-Commons</module>
-        <module>SIRE-Entities</module>
-        <module>SIRE-RS-Client</module>
-        <module>SIRE-Services</module>
-        <module>SIRE-Services-API</module>
-        <module>SIRE-Soap</module>
-        <module>SIRE-SRI-Batch-Autorizacion</module>
-        <module>SIRE-SRI-Batch-Commons</module>
-        <module>SIRE-SRI-Batch-Recepcion</module>
-        <module>SIRE-SRI-Entities</module>
-        <module>SIRE-SRI-Reports</module>
-        <module>SIRE-SRI-Signature</module>
-        <module>SIRE-SRI-WSClient</module>
-        <module>SIRE-Web</module>
-        <module>SIRE-WS</module>
-        <module>SIRE-EE</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>ci</id>
+            <modules>
+                <module>SIRE-Batch</module>
+                <module>SIRE-Commons</module>
+                <module>SIRE-Entities</module>
+                <module>SIRE-RS-Client</module>
+                <module>SIRE-Services</module>
+                <module>SIRE-Services-API</module>
+                <module>SIRE-Soap</module>
+                <module>SIRE-SRI-Batch-Autorizacion</module>
+                <module>SIRE-SRI-Batch-Commons</module>
+                <module>SIRE-SRI-Batch-Recepcion</module>
+                <module>SIRE-SRI-Entities</module>
+                <module>SIRE-SRI-Reports</module>
+                <module>SIRE-SRI-Signature</module>
+                <module>SIRE-SRI-WSClient</module>
+                <module>SIRE-Web</module>
+                <module>SIRE-WS</module>
+                <module>SIRE-EE</module>
+            </modules>
+        </profile>
+    </profiles>
     <repositories>
-        <repository>
-            <id>Central Repository</id>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
-            <id>dev.fit-bank.com</id>
-            <url>http://dev.fit-bank.com/nexus/content/groups/public-snapshots/</url>
-        </repository>
-        <repository>
-            <id>guillermo</id>
-            <name>guillermo-repo</name>
-            <url>http://maven.petalslink.com/repo</url>
-        </repository>
     </repositories>
 </project>

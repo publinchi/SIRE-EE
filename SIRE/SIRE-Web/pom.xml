@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>SIRE-Web</artifactId>
-    <version>${SIRE-Web.version}</version>
+    <version>1.0.1</version>
     <packaging>war</packaging>
 
     <name>SIRE-Web</name>

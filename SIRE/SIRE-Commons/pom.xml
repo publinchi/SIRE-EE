@@ -7,7 +7,7 @@
         <version>1.0.0</version>
     </parent>
     <artifactId>SIRE-Commons</artifactId>
-    <version>${SIRE-Commons.version}</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
