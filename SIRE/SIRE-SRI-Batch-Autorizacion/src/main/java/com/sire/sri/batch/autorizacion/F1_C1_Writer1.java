@@ -18,13 +18,11 @@ import ec.gob.sri.comprobantes.modelo.factura.Factura;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.FileSystems;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import javax.inject.Named;
 import ec.gob.sri.comprobantes.modelo.LoteXml;
 import ec.gob.sri.comprobantes.modelo.guia.GuiaRemision;
@@ -37,8 +35,7 @@ import com.sire.logger.LogManager;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.Date;
 import javax.batch.runtime.BatchRuntime;
 import javax.batch.runtime.context.JobContext;
 import javax.inject.Inject;
@@ -367,26 +364,7 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
                     getMailService().sendMail(event); //firing event!
                 }
 
-                String separator = FileSystems.getDefault().getSeparator();
-                String folderPath = System.getProperty("sire.home") + separator + "files" + separator
-                        + key.getClass().getSimpleName() + separator;
-
-                File folder = new File(folderPath);
-                if (!folder.exists()) {
-                    folder.mkdirs();
-                }
-
-                String filePath = folderPath + claveAcceso + ".pdf";
-
-                try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                    fos.write(pdfBytes);
-                }
-
-                filePath = folderPath + claveAcceso + ".xml";
-
-                try (FileOutputStream fos = new FileOutputStream(filePath)) {
-                    fos.write(autorizacionXml.getBytes());
-                }
+                processFiles(claveAcceso, pdfBytes, autorizacionXml, key);
             } catch (NamingException | MessagingException | JAXBException | SQLException | ClassNotFoundException
                      | IOException ex) {
                 log.log(Level.ERROR, ex);
@@ -414,5 +392,40 @@ public class F1_C1_Writer1 extends CommonsItemWriter {
     @Override
     public JAXBContext getContextInstance(Class objectClass) throws JAXBException {
         return SoapUtil.getContextInstance(objectClass);
+    }
+
+    public static void processFiles(String claveAcceso, byte[] pdfBytes, String autorizacionXml, Object key)
+            throws IOException {
+        if (Objects.nonNull(claveAcceso) && claveAcceso.length() >= 8) {
+            String month = claveAcceso.substring(2, 4);
+            String year = claveAcceso.substring(4, 8);
+
+            String separator = FileSystems.getDefault().getSeparator();
+            String formattedDate = String.join(separator, year, month);
+
+            String folderPath = Paths.get(System.getProperty(Constant.SIRE_HOME), "files",
+                    getClassName(key), formattedDate).toString();
+
+            File folder = new File(folderPath);
+            if (!folder.exists() && !folder.mkdirs()) {
+                throw new IOException("Failed to create directories: " + folderPath);
+            }
+
+            writeFile(folderPath, claveAcceso, ".pdf", pdfBytes);
+            writeFile(folderPath, claveAcceso, ".xml", autorizacionXml.getBytes());
+        }
+    }
+
+    private static String getClassName(Object key) {
+        return key.getClass().getSimpleName();
+    }
+
+    private static void writeFile(String folderPath, String fileName, String extension, byte[] content) {
+        String filePath = Paths.get(folderPath, fileName + extension).toString();
+        try (FileOutputStream fos = new FileOutputStream(filePath)) {
+            fos.write(content);
+        } catch (IOException ex) {
+            log.log(Level.ERROR, ex);
+        }
     }
 }
