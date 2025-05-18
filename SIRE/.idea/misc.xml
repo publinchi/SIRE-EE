@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="EntryPointsManager">
     <pattern value="com.sire.soap.util.SoapUtil" method="getObjectFromElement" />
@@ -7,6 +6,7 @@
     <pattern value="com.sire.soap.util.SoapUtil" method="getStringFromObject" />
     <pattern value="com.sire.soap.util.SoapUtil" method="SoapUtil" />
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="ejb" url="file://$PROJECT_DIR$/SIRE-Services" />
     <file type="javaeeApplication" url="file://$PROJECT_DIR$/SIRE-EE" />

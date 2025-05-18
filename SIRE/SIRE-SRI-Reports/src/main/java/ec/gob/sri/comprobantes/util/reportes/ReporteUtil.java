@@ -49,6 +49,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JRSaveContributor;
 import net.sf.jasperreports.view.save.JRPdfSaveContributor;
 import com.sire.logger.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 public class ReporteUtil {
 
@@ -56,7 +57,7 @@ public class ReporteUtil {
     private static final String CONT_ESPECIAL = "CONT_ESPECIAL";
     private static final String LLEVA_CONTABILIDAD = "LLEVA_CONTABILIDAD";
     String tarifaIva;
-    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(ReporteUtil.class);
+    private static final Logger log = LogManager.getLogger(ReporteUtil.class);
 
     private static Emisor obtenerEmisor()
             throws SQLException, ClassNotFoundException {
