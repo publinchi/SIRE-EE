@@ -1,8 +1,8 @@
 package com.sire.logger;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.*;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.Objects;
 
