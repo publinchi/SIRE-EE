@@ -67,14 +67,14 @@
       <option name="url" value="http://jasperreports.sourceforge.net/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="guillermo" />
-      <option name="name" value="guillermo-repo" />
-      <option name="url" value="http://maven.petalslink.com/repo" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="default" />
       <option name="name" value="default" />
       <option name="url" value="http://dev.fit-bank.com/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="guillermo" />
+      <option name="name" value="guillermo-repo" />
+      <option name="url" value="http://maven.petalslink.com/repo" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

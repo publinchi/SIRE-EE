@@ -47,7 +47,7 @@ public class BatchBean {
     private static StringBuffer configurationPropertiesPath;
     private static ThreadPoolExecutor threadPoolExecutor;
     private static int nThreads, queueCapacity;
-    private static List jobNames;
+    private static List<String> jobNames;
     private static Properties runtimeParameters;
     private Scheduler scheduler;
 
@@ -268,10 +268,10 @@ public class BatchBean {
         String year = runtimeParameters.getProperty(timerName + Constant.YEAR_SUFFIX);
         String timezone = runtimeParameters.getProperty(timerName + Constant.TIME_ZONE_SUFFIX);
 
-        HashMap hashMap = new HashMap<String, String>();
+        Map<String, String> hashMap = new HashMap<>();
 
         if (jobNames == null)
-            jobNames = new ArrayList();
+            jobNames = new ArrayList<>();
 
         for (String propertyName : runtimeParameters.stringPropertyNames()) {
             if (propertyName.startsWith(timerName + ".")) {
@@ -289,7 +289,7 @@ public class BatchBean {
 
             final TimerConfig timerConfig = new TimerConfig(timerName, persistent);
 
-            timerConfig.setInfo(hashMap);
+            timerConfig.setInfo((Serializable) hashMap);
 
             Collection<javax.ejb.Timer> timers = timerService.getTimers();
 
@@ -516,12 +516,12 @@ public class BatchBean {
     public void executeTask(String message){
         String[] params = message.split(Constant.AMPERSAND);
 
-        Map map = new HashMap();
+        Map<String, String> map = new HashMap<>();
 
         for (String param: params) {
             if(param.startsWith(Constant.NAME)){
                 String[] p = param.split(Constant.EQUAL);
-                map.put(Constant.JOB_NAME,p[1]);
+                map.put(Constant.JOB_NAME, p[1]);
             } else if(param.startsWith(Constant.PROPERTIES)) {
                 // TODO Implementar
             } else if(param.startsWith(Constant.ARGUMENTS)) {

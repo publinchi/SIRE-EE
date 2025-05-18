@@ -17,9 +17,9 @@
         <module name="SIRE-Services-API" />
         <module name="SIRE-SRI-Batch-Commons" />
         <module name="SIRE-SRI-Reports" />
-        <module name="SIRE-SRI-Batch-Recepcion" />
         <module name="SIRE-SRI-Signature" />
         <module name="SIRE-SRI-WSClient" />
+        <module name="SIRE-SRI-Batch-Recepcion" />
         <module name="SIRE-SRI-Batch-Autorizacion" />
         <module name="SIRE-WS" />
         <module name="SIRE-Crypt" />
@@ -31,10 +31,10 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="SIRE-Batch" options="-endorseddirs $PROJECT_DIR$/SIRE-Batch/target/endorsed" />
-      <module name="SIRE-Services" options="-endorseddirs $PROJECT_DIR$/SIRE-Services/target/endorsed" />
-      <module name="SIRE-WS" options="-endorseddirs $PROJECT_DIR$/SIRE-WS/target/endorsed" />
-      <module name="SIRE-Web" options="-endorseddirs $PROJECT_DIR$/SIRE-Web/target/endorsed" />
+      <module name="SIRE-Batch" options="-Xlint:unchecked -Xlint:deprecation" />
+      <module name="SIRE-Services" options="-Xlint:unchecked -Xlint:deprecation" />
+      <module name="SIRE-WS" options="-Xlint:unchecked -Xlint:deprecation" />
+      <module name="SIRE-Web" options="-Xlint:unchecked -Xlint:deprecation" />
     </option>
   </component>
 </project>

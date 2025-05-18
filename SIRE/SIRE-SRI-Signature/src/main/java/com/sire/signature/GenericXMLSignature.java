@@ -5,8 +5,6 @@
  */
 package com.sire.signature;
 
-import es.mityc.firmaJava.libreria.xades.DataToSign;
-import es.mityc.firmaJava.libreria.xades.FirmaXML;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,6 +32,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import xades4j.algorithms.EnvelopedSignatureTransform;
+import xades4j.production.DataObjectReference;
+import xades4j.production.SignedDataObjects;
+import xades4j.production.XadesBesSigningProfile;
+import xades4j.production.XadesSigner;
+import xades4j.properties.DataObjectDesc;
+import xades4j.properties.DataObjectFormatProperty;
+import xades4j.providers.KeyingDataProvider;
+import xades4j.providers.impl.DirectKeyingDataProvider;
+import xades4j.providers.impl.FileSystemKeyStoreKeyingDataProvider;
 
 /**
  *
@@ -84,7 +92,7 @@ public abstract class GenericXMLSignature {
         }
     }
 
-    protected abstract DataToSign createDataToSign();
+    protected abstract Document createDataToSign();
 
     protected abstract String getSignatureFileName();
 
@@ -197,16 +205,18 @@ public abstract class GenericXMLSignature {
             System.err.println("No existe clave privada para firmar.");
             System.err.println(e);
         }
-        Provider provider = keyStore.getProvider();
 
-        DataToSign dataToSign = createDataToSign();
-
-        FirmaXML firma = new FirmaXML();
+        Document dataToSign = createDataToSign();
 
         try {
-            Object[] res = firma.signFile(certificate, dataToSign, privateKey,
-                    provider);
-            docSigned = (Document) res[0];
+            KeyingDataProvider kp = new DirectKeyingDataProvider(certificate, privateKey);
+
+            DataObjectDesc obj = new DataObjectReference("")
+                    .withTransform(new EnvelopedSignatureTransform())
+                    .withDataObjectFormat(new DataObjectFormatProperty("text/xml"));
+            XadesSigner signer = new XadesBesSigningProfile(kp).newSigner();
+            signer.sign(new SignedDataObjects(obj), dataToSign);
+            docSigned = dataToSign;
         } catch (Exception ex) {
             System.err.println("Error realizando la firma: " + ex);
             return null;

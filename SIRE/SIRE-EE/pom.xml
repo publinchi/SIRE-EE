@@ -4,12 +4,11 @@
     <parent>
         <artifactId>SIRE</artifactId>
         <groupId>com.sire</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
 
-    <groupId>com.sire</groupId>
     <artifactId>SIRE-EE</artifactId>
-    <version>2.5.1</version>
+    <version>3.0.0</version>
     <packaging>ear</packaging>
 
     <name>SIRE-EE</name>
@@ -58,25 +57,25 @@
         <dependency>
             <groupId>com.sire</groupId>
             <artifactId>SIRE-Services</artifactId>
-            <version>${SIRE-Services.version}</version>
+            <version>2.0.0</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-Signature</artifactId>
-            <version>${SIRE-SRI-Signature.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.sire</groupId>
             <artifactId>SIRE-Soap</artifactId>
-            <version>${SIRE-Soap.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-WSClient</artifactId>
-            <version>${SIRE-SRI-WSClient.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
             <exclusions>
                 <exclusion>
@@ -90,33 +89,33 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>com.sire</groupId>
             <artifactId>SIRE-Commons</artifactId>
-            <version>${SIRE-Commons.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-Batch-Commons</artifactId>
-            <version>${SIRE-SRI-Batch-Commons.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-Batch-Autorizacion</artifactId>
-            <version>${SIRE-SRI-Batch-Autorizacion.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-Batch-Recepcion</artifactId>
-            <version>${SIRE-SRI-Batch-Recepcion.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.sire.sri</groupId>
             <artifactId>SIRE-SRI-Reports</artifactId>
-            <version>${SIRE-SRI-Reports.version}</version>
+            <version>2.0.0</version>
             <type>jar</type>
             <exclusions>
                 <exclusion>
@@ -161,7 +160,7 @@
         <dependency>
             <groupId>com.sire</groupId>
             <artifactId>SIRE-Batch</artifactId>
-            <version>${SIRE-Batch.version}</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency>
         <dependency>
@@ -185,17 +184,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring-context-support.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase-core.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>

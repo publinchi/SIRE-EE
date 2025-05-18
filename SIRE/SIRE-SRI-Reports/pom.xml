@@ -4,11 +4,11 @@
     <parent>
         <groupId>com.sire</groupId>
         <artifactId>SIRE</artifactId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <groupId>com.sire.sri</groupId>
     <artifactId>SIRE-SRI-Reports</artifactId>
-    <version>1.8.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
@@ -47,6 +47,10 @@
                     <artifactId>commons-logging</artifactId>
                     <groupId>commons-logging</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>ant-launcher</artifactId>
+                    <groupId>org.apache.ant</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -84,7 +88,7 @@
         <dependency>
             <groupId>com.sire</groupId>
             <artifactId>SIRE-Commons</artifactId>
-            <version>${SIRE-Commons.version}</version>
+            <version>2.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

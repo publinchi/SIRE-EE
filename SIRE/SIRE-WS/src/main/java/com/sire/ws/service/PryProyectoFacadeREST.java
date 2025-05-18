@@ -146,7 +146,7 @@ public class PryProyectoFacadeREST extends AbstractFacade<PryProyecto> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<PrySubproyecto> findSubByCodProyectoCodEmpresa(@PathParam("codProyecto") String codProyecto, @PathParam("codEmpresa") String codEmpresa) {
         Sql2o slSql2o = new Sql2o("jdbc/sire");
-        Map colMaps = new HashMap<>();
+        Map<String, String> colMaps = new HashMap<>();
         colMaps.put("COD_EMPRESA", "codEmpresa");
         colMaps.put("COD_PROYECTO", "codProyecto");
         colMaps.put("COD_SUBPROYECTO", "codSubproyecto");

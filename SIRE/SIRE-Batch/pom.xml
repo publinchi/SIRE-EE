@@ -4,11 +4,11 @@
     <parent>
         <artifactId>SIRE</artifactId>
         <groupId>com.sire</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <artifactId>SIRE-Batch</artifactId>
-    <version>1.9.0</version>
+    <version>2.0.0</version>
     <packaging>war</packaging>
 
     <name>SIRE-Batch</name>
@@ -46,22 +46,6 @@
             <artifactId>spring-context-support</artifactId>
             <version>${spring-context-support.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase-core.version}</version>
-            <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>snakeyaml</artifactId>
-                    <groupId>org.yaml</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -224,7 +208,7 @@
         <dependency>
             <groupId>com.sire</groupId>
             <artifactId>SIRE-Commons</artifactId>
-            <version>${SIRE-Commons.version}</version>
+            <version>2.0.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -235,9 +219,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
+                    <compilerArgs>
+                        <arg>-Xlint:unchecked</arg>
+                        <arg>-Xlint:deprecation</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>

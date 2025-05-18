@@ -5,11 +5,6 @@
  */
 package com.sire.signature;
 
-import es.mityc.firmaJava.libreria.xades.DataToSign;
-import es.mityc.firmaJava.libreria.xades.XAdESSchemas;
-import es.mityc.javasign.EnumFormatoFirma;
-import es.mityc.javasign.xml.refs.InternObjectToSign;
-import es.mityc.javasign.xml.refs.ObjectToSign;
 import java.io.File;
 import org.w3c.dom.Document;
 
@@ -55,17 +50,7 @@ public class XAdESBESSignature extends GenericXMLSignature {
         return signature.execute();
     }
 
-    protected DataToSign createDataToSign() {
-        DataToSign datosAFirmar = new DataToSign();
-
-        datosAFirmar.setXadesFormat(EnumFormatoFirma.XAdES_BES);
-
-        datosAFirmar.setEsquema(XAdESSchemas.XAdES_132);
-        datosAFirmar.setXMLEncoding("UTF-8");
-        datosAFirmar.setEnveloped(true);
-        datosAFirmar.addObject(new ObjectToSign(new InternObjectToSign("comprobante"), "contenido comprobante", null, "text/xml", null));
-        datosAFirmar.setParentSignNode("comprobante");
-
+    protected Document createDataToSign() {
         Document docToSign = null;
         if (this.document != null) {
             docToSign = this.document;
@@ -74,9 +59,7 @@ public class XAdESBESSignature extends GenericXMLSignature {
         } else if (this.fileToSign != null) {
             docToSign = getDocument(this.fileToSign);
         }
-        datosAFirmar.setDocument(docToSign);
-
-        return datosAFirmar;
+        return docToSign;
     }
 
     protected String getSignatureFileName() {
